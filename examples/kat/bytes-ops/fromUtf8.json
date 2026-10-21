@@ -1,0 +1,5 @@
+[
+  {"op":"fromUtf8","args":["abc"],"result":{"hex":"616263"}},
+  {"op":"fromUtf8","args":[""],"result":{"hex":""}},
+  {"op":"fromUtf8","args":["가"],"result":{"hex":"eab080"}}
+]

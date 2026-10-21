@@ -1,0 +1,7 @@
+{
+  "source": "Randomized (FIPS 203 ML-KEM-768 round trip); only the boolean verdict is compared",
+  "inputs": {},
+  "outputs": {
+    "SharedSecretsMatch": true
+  }
+}

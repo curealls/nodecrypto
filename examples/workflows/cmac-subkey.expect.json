@@ -1,0 +1,8 @@
+{
+  "source": "RFC 4493 §4 (Subkey Generation: K1, K2)",
+  "inputs": {},
+  "outputs": {
+    "node-1791034725445-1efh.k1": "fbeed618357133667c85e08f7236a8de",
+    "node-1791034725445-1efh.k2": "f7ddac306ae266ccf90bc11ee46d513b"
+  }
+}

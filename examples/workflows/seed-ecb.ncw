@@ -1,0 +1,243 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "seed-ecb",
+    "version": "",
+    "description": "SEED-128 encryption of a single block in ECB mode without padding.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "key",
+        "name": "Key",
+        "dataType": "bytes",
+        "spec": "16 B",
+        "required": true
+      },
+      {
+        "id": "pt",
+        "name": "Plaintext",
+        "dataType": "bytes",
+        "spec": "16 B",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "ct",
+        "name": "Ciphertext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-cf57b33a",
+    "name": "seed-ecb",
+    "description": "SEED-128 encryption of a single block in ECB mode without padding.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  16
+                ]
+              }
+            },
+            {
+              "id": "pt",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  16
+                ]
+              }
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "seed",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "seed",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-seed-encrypt",
+          "label": "SEED Encrypt",
+          "category": "symmetric",
+          "description": "KISA National Standard SEED 128/256-bit Block Cipher (RFC 4269)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "16/32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "SEED symmetric key (16/32B)."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted."
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "spec": "GCM/CCM",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data, used only in GCM/CCM mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "GCM/CCM",
+              "dataType": "bytes",
+              "description": "Authentication tag produced in GCM/CCM mode."
+            }
+          ],
+          "properties": {
+            "mode": "ECB",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          },
+          "note": "# SEED-128, ECB\n- Test vector: RFC 4269 appendix B.4 / KISA SEED 128 vectors (vector 4)\n- ECB with no padding: the input must be exactly 16 bytes. Use it only for known-answer tests."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "ct",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-key-seed-key",
+        "source": "in",
+        "sourceHandle": "key",
+        "target": "seed",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-pt-seed-plaintext",
+        "source": "in",
+        "sourceHandle": "pt",
+        "target": "seed",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-seed-ciphertext-out-ct",
+        "source": "seed",
+        "sourceHandle": "ciphertext",
+        "target": "out",
+        "targetHandle": "ct",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

@@ -1,0 +1,5 @@
+{
+  "source": "random key pairs: nothing deterministic to compare; the keys are checked by the did-auth-client and did-auth-server examples",
+  "inputs": {},
+  "outputs": {}
+}

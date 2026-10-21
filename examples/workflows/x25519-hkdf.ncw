@@ -1,0 +1,301 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "x25519-hkdf",
+    "version": "",
+    "description": "Derives a 32-byte session key: X25519 shared secret fed to HKDF-SHA-256 with a salt and context info.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "priv",
+        "name": "PrivateKey",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "peer",
+        "name": "PeerPublicKey",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "info",
+        "name": "Info",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "key",
+        "name": "SessionKey",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-38f618d7",
+    "name": "x25519-hkdf",
+    "description": "Derives a 32-byte session key: X25519 shared secret fed to HKDF-SHA-256 with a salt and context info.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "priv",
+              "name": "PrivateKey",
+              "dataType": "bytes"
+            },
+            {
+              "id": "peer",
+              "name": "PeerPublicKey",
+              "dataType": "bytes"
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes"
+            },
+            {
+              "id": "info",
+              "name": "Info",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "dh",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dh",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-x25519-ecdh",
+          "label": "X25519 Key Exchange (ECDH)",
+          "category": "asymmetric",
+          "description": "Montgomery-curve Diffie-Hellman shared secret (RFC 7748)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "My Private Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "peerPublicKey",
+              "name": "Peer Public Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Secret",
+              "spec": "32B",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {},
+          "note": "# X25519 shared secret\n- Test vector: RFC 7748 section 6.1\n- Raw output: do not use it directly as a key."
+        }
+      },
+      {
+        "id": "hkdf",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "hkdf",
+          "type": "cryptoNode",
+          "nodeType": "kdf-hkdf",
+          "label": "HKDF Key Derivation",
+          "category": "kdf",
+          "description": "HMAC-based Extract-and-Expand Key Derivation (RFC 5869)",
+          "inputs": [
+            {
+              "id": "ikm",
+              "name": "Input Keying Material",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes",
+              "required": false
+            },
+            {
+              "id": "info",
+              "name": "Context Info",
+              "dataType": "bytes",
+              "required": false
+            }
+          ],
+          "outputs": [
+            {
+              "id": "okm",
+              "name": "Output Key",
+              "spec": "OKM",
+              "dataType": "bytes",
+              "description": "Output Keying Material derived via HKDF-Expand."
+            }
+          ],
+          "properties": {
+            "keyLength": 32,
+            "hashAlgorithm": "SHA-256"
+          },
+          "note": "# Session key\nHKDF-SHA-256 turns the shared secret into a 32-byte key. No salt or info is given, so the RFC 5869 defaults apply."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1264,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "SessionKey",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-priv-dh-privateKey",
+        "source": "in",
+        "sourceHandle": "priv",
+        "target": "dh",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-peer-dh-peerPublicKey",
+        "source": "in",
+        "sourceHandle": "peer",
+        "target": "dh",
+        "targetHandle": "peerPublicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dh-sharedSecret-hkdf-ikm",
+        "source": "dh",
+        "sourceHandle": "sharedSecret",
+        "target": "hkdf",
+        "targetHandle": "ikm",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-salt-hkdf-salt",
+        "source": "in",
+        "sourceHandle": "salt",
+        "target": "hkdf",
+        "targetHandle": "salt",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-info-hkdf-info",
+        "source": "in",
+        "sourceHandle": "info",
+        "target": "hkdf",
+        "targetHandle": "info",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-hkdf-okm-out-key",
+        "source": "hkdf",
+        "sourceHandle": "okm",
+        "target": "out",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

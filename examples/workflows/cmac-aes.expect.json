@@ -1,0 +1,10 @@
+{
+  "source": "RFC 4493 §4 (Example 3, len = 40)",
+  "inputs": {
+    "Key": "2b7e151628aed2a6abf7158809cf4f3c",
+    "Message": "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411"
+  },
+  "outputs": {
+    "MAC": "dfa66747de9ae63030ca32611497c827"
+  }
+}

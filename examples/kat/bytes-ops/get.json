@@ -1,0 +1,9 @@
+[
+  {"op":"get","args":[{"hex":"01 02 ff"},"0"],"result":"1"},
+  {"op":"get","args":[{"hex":"01 02 ff"},"2"],"result":"255"},
+  {"op":"get","args":[{"hex":"01 02 ff"},"-1"],"result":"255"},
+  {"op":"get","args":[{"hex":"01 02 ff"},"-3"],"result":"1"},
+  {"op":"get","args":[{"hex":"01 02 ff"},"3"],"error":"BYTES_OUT_OF_RANGE"},
+  {"op":"get","args":[{"hex":"01 02 ff"},"-4"],"error":"BYTES_OUT_OF_RANGE"},
+  {"op":"get","args":[{"hex":""},"0"],"error":"BYTES_OUT_OF_RANGE"}
+]

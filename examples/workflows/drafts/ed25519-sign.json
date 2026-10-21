@@ -1,0 +1,53 @@
+{
+  "draft": 1,
+  "name": "ed25519-sign",
+  "description": "Ed25519 signature of a message with a 32-byte secret key.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "priv",
+          "dataType": "bytes",
+          "name": "PrivateKey"
+        },
+        {
+          "id": "msg",
+          "dataType": "bytes",
+          "name": "Message"
+        }
+      ]
+    },
+    {
+      "id": "sign",
+      "type": "asymmetric-ed25519-sign",
+      "note": "# Ed25519 signature\n- Test vector: RFC 8032 section 7.1, TEST 2 (message `72`)\n- Deterministic: Ed25519 has no per-signature randomness, so the signature can be compared directly."
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "sig",
+          "dataType": "bytes",
+          "name": "Signature"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.priv",
+      "to": "sign.privateKey"
+    },
+    {
+      "from": "in.msg",
+      "to": "sign.message"
+    },
+    {
+      "from": "sign.signature",
+      "to": "out.sig"
+    }
+  ]
+}

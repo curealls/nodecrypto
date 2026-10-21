@@ -1,0 +1,10 @@
+[
+  {"op":"compare","args":[{"hex":""},{"hex":""}],"result":"0"},
+  {"op":"compare","args":[{"hex":"01"},{"hex":"02"}],"result":"-1"},
+  {"op":"compare","args":[{"hex":"02"},{"hex":"01"}],"result":"1"},
+  {"op":"compare","args":[{"hex":"01 02"},{"hex":"01"}],"result":"1"},
+  {"op":"compare","args":[{"hex":"01"},{"hex":"01 02"}],"result":"-1"},
+  {"op":"compare","args":[{"hex":"ff"},{"hex":"00"}],"result":"1"},
+  {"op":"compare","args":[{"hex":"01 00"},{"hex":"00 ff"}],"result":"1"},
+  {"op":"compare","args":[{"hex":"ab cd"},{"hex":"ab cd"}],"result":"0"}
+]

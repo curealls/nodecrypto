@@ -1,0 +1,66 @@
+{
+  "draft": 1,
+  "name": "hkdf-sha256",
+  "description": "HKDF-SHA-256 extract-and-expand to 42 bytes.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "ikm",
+          "dataType": "bytes",
+          "name": "IKM"
+        },
+        {
+          "id": "salt",
+          "dataType": "bytes",
+          "name": "Salt"
+        },
+        {
+          "id": "info",
+          "dataType": "bytes",
+          "name": "Info"
+        }
+      ]
+    },
+    {
+      "id": "hkdf",
+      "type": "kdf-hkdf",
+      "note": "# HKDF-SHA-256, 42 bytes\n- Test vector: RFC 5869 appendix A.1 (test case 1)\n- Extract with `salt`, then expand with `info`; `keyLength` 42 matches L=42.",
+      "props": {
+        "keyLength": 42,
+        "hashAlgorithm": "SHA-256"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "okm",
+          "dataType": "bytes",
+          "name": "OKM"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.ikm",
+      "to": "hkdf.ikm"
+    },
+    {
+      "from": "in.salt",
+      "to": "hkdf.salt"
+    },
+    {
+      "from": "in.info",
+      "to": "hkdf.info"
+    },
+    {
+      "from": "hkdf.okm",
+      "to": "out.okm"
+    }
+  ]
+}

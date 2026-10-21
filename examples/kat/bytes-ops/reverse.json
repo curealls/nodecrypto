@@ -1,0 +1,5 @@
+[
+  {"op":"reverse","args":[{"hex":"01 02 03"}],"result":{"hex":"03 02 01"}},
+  {"op":"reverse","args":[{"hex":""}],"result":{"hex":""}},
+  {"op":"reverse","args":[{"hex":"aa"}],"result":{"hex":"aa"}}
+]

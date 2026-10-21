@@ -1,0 +1,5 @@
+{
+  "source": "independent implementation: Node crypto (reference/did-auth/did-auth.mjs); keys and nonce are random on every run, only the verdict is compared",
+  "inputs": {},
+  "outputs": { "Verified": true }
+}

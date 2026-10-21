@@ -1,0 +1,297 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "aes-gcm",
+    "version": "",
+    "description": "AES-128-GCM encryption with a 96-bit nonce and associated data. Outputs the ciphertext and the 128-bit tag.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "key",
+        "name": "Key",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "nonce",
+        "name": "Nonce",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "aad",
+        "name": "AAD",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "pt",
+        "name": "Plaintext",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "ct",
+        "name": "Ciphertext",
+        "dataType": "bytes"
+      },
+      {
+        "id": "tag",
+        "name": "Tag",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-96b6cb7c",
+    "name": "aes-gcm",
+    "description": "AES-128-GCM encryption with a 96-bit nonce and associated data. Outputs the ciphertext and the 128-bit tag.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "dataType": "bytes"
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "dataType": "bytes"
+            },
+            {
+              "id": "pt",
+              "name": "Plaintext",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "aes",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "aes",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-aes-encrypt",
+          "label": "AES Encrypt",
+          "category": "symmetric",
+          "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "16/24/32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "AES symmetric key. Length selects AES-128/192/256."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector/counter/tweak (16B). Defaults to 16 zero bytes if omitted."
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "spec": "GCM/CCM only",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data, used only in GCM/CCM mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "GCM/CCM",
+              "dataType": "bytes",
+              "description": "Authentication tag produced in GCM/CCM mode."
+            }
+          ],
+          "properties": {
+            "mode": "GCM",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          },
+          "note": "# AES-128-GCM\n- Test vector: RFC 7714 section 16.1.1 (SRTP packet)\n- 96-bit nonce, the size GCM is designed for. Never reuse a nonce under the same key.\n- `aad` is authenticated but not encrypted; `tag` is the 128-bit authentication tag (this port exists only because `mode` is `GCM`)."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "ct",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "tag",
+              "name": "Tag",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-key-aes-key",
+        "source": "in",
+        "sourceHandle": "key",
+        "target": "aes",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-nonce-aes-nonce",
+        "source": "in",
+        "sourceHandle": "nonce",
+        "target": "aes",
+        "targetHandle": "nonce",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-aad-aes-aad",
+        "source": "in",
+        "sourceHandle": "aad",
+        "target": "aes",
+        "targetHandle": "aad",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-pt-aes-plaintext",
+        "source": "in",
+        "sourceHandle": "pt",
+        "target": "aes",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-aes-ciphertext-out-ct",
+        "source": "aes",
+        "sourceHandle": "ciphertext",
+        "target": "out",
+        "targetHandle": "ct",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-aes-tag-out-tag",
+        "source": "aes",
+        "sourceHandle": "tag",
+        "target": "out",
+        "targetHandle": "tag",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

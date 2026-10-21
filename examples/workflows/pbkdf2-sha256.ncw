@@ -1,0 +1,197 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "pbkdf2-sha256",
+    "version": "",
+    "description": "PBKDF2-HMAC-SHA-256 with one iteration, 64 output bytes.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "password",
+        "name": "Password",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "dk",
+        "name": "DerivedKey",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-e33a9beb",
+    "name": "pbkdf2-sha256",
+    "description": "PBKDF2-HMAC-SHA-256 with one iteration, 64 output bytes.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "password",
+              "name": "Password",
+              "dataType": "bytes"
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "kdf",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "kdf",
+          "type": "cryptoNode",
+          "nodeType": "kdf-pbkdf2",
+          "label": "PBKDF2 Key Derivation",
+          "category": "kdf",
+          "description": "Password-Based Key Derivation Function 2 (RFC 8018)",
+          "inputs": [
+            {
+              "id": "password",
+              "name": "Password",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional salt; if omitted, defaults to 16 zero bytes (supply a random salt for real use)."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "derivedKey",
+              "name": "Derived Key",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "iterations": 1,
+            "keyLength": 64,
+            "hashAlgorithm": "SHA-256"
+          },
+          "note": "# PBKDF2-HMAC-SHA-256\n- Test vector: RFC 7914 section 11 (P=\"passwd\", S=\"salt\", c=1, dkLen=64)\n- `iterations` is 1 only because this is a published vector. Real password hashing needs far more."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "dk",
+              "name": "DerivedKey",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-password-kdf-password",
+        "source": "in",
+        "sourceHandle": "password",
+        "target": "kdf",
+        "targetHandle": "password",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-salt-kdf-salt",
+        "source": "in",
+        "sourceHandle": "salt",
+        "target": "kdf",
+        "targetHandle": "salt",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-kdf-derivedKey-out-dk",
+        "source": "kdf",
+        "sourceHandle": "derivedKey",
+        "target": "out",
+        "targetHandle": "dk",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

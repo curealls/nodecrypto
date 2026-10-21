@@ -1,0 +1,66 @@
+{
+  "draft": 1,
+  "name": "mlkem-768-decaps",
+  "description": "ML-KEM-768 decapsulation with the full-size (2400-byte) decapsulation key. Checked against an independent implementation's vector.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "dk",
+          "dataType": "bytes",
+          "name": "Decapsulation Key",
+          "constraint": {
+            "lengths": [
+              2400
+            ]
+          }
+        },
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext",
+          "constraint": {
+            "lengths": [
+              1088
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dec",
+      "type": "pqc-mlkem-decaps",
+      "note": "# ML-KEM-768 decapsulation\n- Secret key is the full 2400-byte decapsulation key\n- Vectors: C2SP CCTV `ML-KEM-768.txt` (dk, c, K); Decaps is unchanged between the draft and FIPS 203.",
+      "props": {
+        "variant": 768
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "ss",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.dk",
+      "to": "dec.secretKey"
+    },
+    {
+      "from": "in.ct",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "dec.sharedSecret",
+      "to": "out.ss"
+    }
+  ]
+}

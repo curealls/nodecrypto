@@ -1,0 +1,6 @@
+[
+  {"op":"fromInts","args":[["0","1","255"]],"result":{"hex":"00 01 ff"}},
+  {"op":"fromInts","args":[[]],"result":{"hex":""}},
+  {"op":"fromInts","args":[["256"]],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fromInts","args":[["-1"]],"error":"BYTES_INVALID_ARGUMENT"}
+]

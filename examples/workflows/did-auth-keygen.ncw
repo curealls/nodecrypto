@@ -1,0 +1,218 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "did-auth-keygen",
+    "version": "",
+    "description": "Generates the P-256 key pairs of the DID Auth demo: one for the server and one for the client. Public demo keys only.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "sprv",
+        "name": "Server Private Key",
+        "dataType": "bytes"
+      },
+      {
+        "id": "spub",
+        "name": "Server Public Key",
+        "dataType": "bytes"
+      },
+      {
+        "id": "cprv",
+        "name": "Client Private Key",
+        "dataType": "bytes"
+      },
+      {
+        "id": "cpub",
+        "name": "Client Public Key",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-6ba7e7e5",
+    "name": "did-auth-keygen",
+    "description": "Generates the P-256 key pairs of the DID Auth demo: one for the server and one for the client. Public demo keys only.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "server",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "server",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ecc-keygen",
+          "label": "Server Key Pair",
+          "category": "asymmetric",
+          "description": "Generates Elliptic Curve keypair (NIST P-256/384/521, secp256k1, Brainpool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "spec": "Uncompressed",
+              "dataType": "bytes",
+              "description": "Uncompressed EC point (0x04 prefix + X + Y coordinates)."
+            }
+          ],
+          "properties": {
+            "curve": "p256"
+          },
+          "note": "# Server key pair\n- P-256 (secp256r1), as in the DID Auth procedure\n- Public key: uncompressed point, 65 bytes starting with `04`\n- Random on every run. Copy the values you want to keep into the Workflow Input defaults of the client and server workflows."
+        }
+      },
+      {
+        "id": "client",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 384
+        },
+        "width": 304,
+        "data": {
+          "id": "client",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ecc-keygen",
+          "label": "Client Key Pair",
+          "category": "asymmetric",
+          "description": "Generates Elliptic Curve keypair (NIST P-256/384/521, secp256k1, Brainpool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "spec": "Uncompressed",
+              "dataType": "bytes",
+              "description": "Uncompressed EC point (0x04 prefix + X + Y coordinates)."
+            }
+          ],
+          "properties": {
+            "curve": "p256"
+          },
+          "note": "# Client key pair\nSame as the server key pair, generated independently."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "sprv",
+              "name": "Server Private Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "spub",
+              "name": "Server Public Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "cprv",
+              "name": "Client Private Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "cpub",
+              "name": "Client Public Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-server-privateKey-out-sprv",
+        "source": "server",
+        "sourceHandle": "privateKey",
+        "target": "out",
+        "targetHandle": "sprv",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-server-publicKey-out-spub",
+        "source": "server",
+        "sourceHandle": "publicKey",
+        "target": "out",
+        "targetHandle": "spub",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-client-privateKey-out-cprv",
+        "source": "client",
+        "sourceHandle": "privateKey",
+        "target": "out",
+        "targetHandle": "cprv",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-client-publicKey-out-cpub",
+        "source": "client",
+        "sourceHandle": "publicKey",
+        "target": "out",
+        "targetHandle": "cpub",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

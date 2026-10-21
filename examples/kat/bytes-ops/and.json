@@ -1,0 +1,6 @@
+[
+  {"op":"and","args":[{"hex":"f0 f0"},{"hex":"ff 00"}],"result":{"hex":"f0 00"}},
+  {"op":"and","args":[{"hex":""},{"hex":""}],"result":{"hex":""}},
+  {"op":"and","args":[{"hex":"00"},{"hex":"00 00"}],"error":"BYTES_LENGTH_MISMATCH"},
+  {"op":"and","args":[{"hex":"00 00"},{"hex":"00"}],"error":"BYTES_LENGTH_MISMATCH"}
+]

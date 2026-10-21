@@ -1,0 +1,216 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 2,
+  "protection": "public",
+  "manifest": {
+    "label": "variables-aes-ecb",
+    "version": "1",
+    "description": "FIPS-197 AES-128 example using variables: key $example.aes.key, plaintext $example.aes.plaintext. Ciphertext = 69c4e0d86a7b0430d8cdb78070b4c55a",
+    "category": "",
+    "inputs": [],
+    "outputs": []
+  },
+  "requires": [],
+  "workflow": {
+    "name": "variables-aes-ecb",
+    "description": "FIPS-197 AES-128 example using variables: key $example.aes.key, plaintext $example.aes.plaintext. Ciphertext = 69c4e0d86a7b0430d8cdb78070b4c55a",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "node-1791034725443-vjew",
+        "type": "cryptoNode",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "id": "node-1791034725443-vjew",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": {
+              "$var": "$example.aes.key"
+            },
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "selected": false
+      },
+      {
+        "id": "node-1791034725443-thzy",
+        "type": "cryptoNode",
+        "position": {
+          "x": 0,
+          "y": 224
+        },
+        "data": {
+          "id": "node-1791034725443-thzy",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": {
+              "$var": "$example.aes.plaintext"
+            },
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "selected": false
+      },
+      {
+        "id": "node-1791034725444-0rm7",
+        "type": "cryptoNode",
+        "position": {
+          "x": 336,
+          "y": 64
+        },
+        "data": {
+          "id": "node-1791034725444-0rm7",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-aes-encrypt",
+          "label": "AES-128-ECB",
+          "category": "symmetric",
+          "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
+          "inputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "16/24/32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "AES symmetric key. Length selects AES-128/192/256."
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector/counter/tweak (16B). Defaults to 16 zero bytes if omitted."
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "spec": "GCM/CCM only",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data, used only in GCM/CCM mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "GCM/CCM",
+              "dataType": "bytes",
+              "description": "Authentication tag produced in GCM/CCM mode."
+            }
+          ],
+          "properties": {
+            "mode": "ECB",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "source": "node-1791034725443-thzy",
+        "sourceHandle": "value",
+        "target": "node-1791034725444-0rm7",
+        "targetHandle": "plaintext",
+        "animated": true,
+        "style": {
+          "stroke": "#3b82f6",
+          "strokeWidth": 2
+        },
+        "id": "xy-edge__node-1791034725443-thzyvalue-node-1791034725444-0rm7plaintext"
+      },
+      {
+        "source": "node-1791034725443-vjew",
+        "sourceHandle": "value",
+        "target": "node-1791034725444-0rm7",
+        "targetHandle": "key",
+        "animated": true,
+        "style": {
+          "stroke": "#3b82f6",
+          "strokeWidth": 2
+        },
+        "id": "xy-edge__node-1791034725443-vjewvalue-node-1791034725444-0rm7key"
+      }
+    ]
+  },
+  "definitions": {},
+  "variables": {
+    "$example.aes.key": {
+      "name": "FIPS-197 AES-128 key",
+      "type": "bytes",
+      "default": "000102030405060708090a0b0c0d0e0f",
+      "description": "FIPS-197 Appendix C.1"
+    },
+    "$example.aes.plaintext": {
+      "name": "FIPS-197 plaintext",
+      "type": "bytes",
+      "default": "00112233445566778899aabbccddeeff",
+      "description": "FIPS-197 Appendix C.1"
+    }
+  }
+}

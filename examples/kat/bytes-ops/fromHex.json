@@ -1,0 +1,8 @@
+[
+  {"op":"fromHex","args":[""],"result":{"hex":""}},
+  {"op":"fromHex","args":["  \n"],"result":{"hex":""}},
+  {"op":"fromHex","args":["0A ff\n10"],"result":{"hex":"0aff10"}},
+  {"op":"fromHex","args":["abc"],"error":"BYTES_INVALID_HEX"},
+  {"op":"fromHex","args":["0x00"],"error":"BYTES_INVALID_HEX"},
+  {"op":"fromHex","args":["zz"],"error":"BYTES_INVALID_HEX"}
+]

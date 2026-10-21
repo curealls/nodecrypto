@@ -1,0 +1,8 @@
+[
+  {"op":"fill","args":["255","2"],"result":{"hex":"ff ff"}},
+  {"op":"fill","args":["0","0"],"result":{"hex":""}},
+  {"op":"fill","args":["256","1"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fill","args":["-1","1"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fill","args":["1","-1"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fill","args":["1","16777217"],"error":"BYTES_SIZE_LIMIT"}
+]

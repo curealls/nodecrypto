@@ -1,0 +1,195 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "ed25519-sign",
+    "version": "",
+    "description": "Ed25519 signature of a message with a 32-byte secret key.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "priv",
+        "name": "PrivateKey",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "msg",
+        "name": "Message",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "sig",
+        "name": "Signature",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-e0bfba6e",
+    "name": "ed25519-sign",
+    "description": "Ed25519 signature of a message with a 32-byte secret key.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "priv",
+              "name": "PrivateKey",
+              "dataType": "bytes"
+            },
+            {
+              "id": "msg",
+              "name": "Message",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "sign",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "sign",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ed25519-sign",
+          "label": "Ed25519 Sign",
+          "category": "asymmetric",
+          "description": "High-speed Edwards-curve digital signature (RFC 8032)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "signature",
+              "name": "Signature",
+              "spec": "64B",
+              "dataType": "bytes",
+              "description": "Ed25519 signature (R || S)."
+            }
+          ],
+          "properties": {},
+          "note": "# Ed25519 signature\n- Test vector: RFC 8032 section 7.1, TEST 2 (message `72`)\n- Deterministic: Ed25519 has no per-signature randomness, so the signature can be compared directly."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "sig",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-priv-sign-privateKey",
+        "source": "in",
+        "sourceHandle": "priv",
+        "target": "sign",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-msg-sign-message",
+        "source": "in",
+        "sourceHandle": "msg",
+        "target": "sign",
+        "targetHandle": "message",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sign-signature-out-sig",
+        "source": "sign",
+        "sourceHandle": "signature",
+        "target": "out",
+        "targetHandle": "sig",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

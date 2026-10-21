@@ -1,0 +1,10 @@
+{
+  "source": "RFC 4269 Appendix B.4 / KISA SEED 128 Algorithm Test Vectors (vector 4)",
+  "inputs": {
+    "Key": "28dbc3bc49ffd87dcfa509b11d422be7",
+    "Plaintext": "b41e6be2eba84a148e2eed84593c5ec7"
+  },
+  "outputs": {
+    "Ciphertext": "9b9b7bfcd1813cb95d0b3618f40f5122"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "pbkdf2-sha256",
+  "description": "PBKDF2-HMAC-SHA-256 with one iteration, 64 output bytes.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "password",
+          "dataType": "bytes",
+          "name": "Password"
+        },
+        {
+          "id": "salt",
+          "dataType": "bytes",
+          "name": "Salt"
+        }
+      ]
+    },
+    {
+      "id": "kdf",
+      "type": "kdf-pbkdf2",
+      "note": "# PBKDF2-HMAC-SHA-256\n- Test vector: RFC 7914 section 11 (P=\"passwd\", S=\"salt\", c=1, dkLen=64)\n- `iterations` is 1 only because this is a published vector. Real password hashing needs far more.",
+      "props": {
+        "iterations": 1,
+        "keyLength": 64,
+        "hashAlgorithm": "SHA-256"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "dk",
+          "dataType": "bytes",
+          "name": "DerivedKey"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.password",
+      "to": "kdf.password"
+    },
+    {
+      "from": "in.salt",
+      "to": "kdf.salt"
+    },
+    {
+      "from": "kdf.derivedKey",
+      "to": "out.dk"
+    }
+  ]
+}

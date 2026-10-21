@@ -1,0 +1,67 @@
+{
+  "draft": 1,
+  "name": "seed-ecb",
+  "description": "SEED-128 encryption of a single block in ECB mode without padding.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "Key",
+          "constraint": {
+            "lengths": [
+              16
+            ]
+          }
+        },
+        {
+          "id": "pt",
+          "dataType": "bytes",
+          "name": "Plaintext",
+          "constraint": {
+            "lengths": [
+              16
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "seed",
+      "type": "symmetric-seed-encrypt",
+      "note": "# SEED-128, ECB\n- Test vector: RFC 4269 appendix B.4 / KISA SEED 128 vectors (vector 4)\n- ECB with no padding: the input must be exactly 16 bytes. Use it only for known-answer tests.",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.key",
+      "to": "seed.key"
+    },
+    {
+      "from": "in.pt",
+      "to": "seed.plaintext"
+    },
+    {
+      "from": "seed.ciphertext",
+      "to": "out.ct"
+    }
+  ]
+}

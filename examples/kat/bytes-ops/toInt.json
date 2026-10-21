@@ -1,0 +1,14 @@
+[
+  {"op":"toInt","args":[{"hex":"ff"},"big",false],"result":"255"},
+  {"op":"toInt","args":[{"hex":"ff"},"big",true],"result":"-1"},
+  {"op":"toInt","args":[{"hex":"01 00"},"big",false],"result":"256"},
+  {"op":"toInt","args":[{"hex":"01 00"},"little",false],"result":"1"},
+  {"op":"toInt","args":[{"hex":"80"},"big",true],"result":"-128"},
+  {"op":"toInt","args":[{"hex":"7f"},"big",true],"result":"127"},
+  {"op":"toInt","args":[{"hex":""},"big",false],"result":"0"},
+  {"op":"toInt","args":[{"hex":""},"little",true],"result":"0"},
+  {"op":"toInt","args":[{"hex":"ff ff ff ff ff ff ff ff ff"},"big",false],"result":"4722366482869645213695"},
+  {"op":"toInt","args":[{"hex":"80 00 00 00 00 00 00 00 00"},"big",true],"result":"-2361183241434822606848"},
+  {"op":"toInt","args":[{"hex":"ff fe"},"little",true],"result":"-257"},
+  {"op":"toInt","args":[{"hex":"01"},"middle",false],"error":"BYTES_INVALID_ARGUMENT"}
+]

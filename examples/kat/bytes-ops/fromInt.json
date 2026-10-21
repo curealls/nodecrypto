@@ -1,0 +1,20 @@
+[
+  {"op":"fromInt","args":["255","1","big",false],"result":{"hex":"ff"}},
+  {"op":"fromInt","args":["-1","1","big",true],"result":{"hex":"ff"}},
+  {"op":"fromInt","args":["256","2","big",false],"result":{"hex":"01 00"}},
+  {"op":"fromInt","args":["256","2","little",false],"result":{"hex":"00 01"}},
+  {"op":"fromInt","args":["-128","1","big",true],"result":{"hex":"80"}},
+  {"op":"fromInt","args":["127","1","big",true],"result":{"hex":"7f"}},
+  {"op":"fromInt","args":["0","0","big",false],"result":{"hex":""}},
+  {"op":"fromInt","args":["0","3","big",false],"result":{"hex":"00 00 00"}},
+  {"op":"fromInt","args":["-257","2","little",true],"result":{"hex":"ff fe"}},
+  {"op":"fromInt","args":["4722366482869645213695","9","big",false],"result":{"hex":"ff ff ff ff ff ff ff ff ff"}},
+  {"op":"fromInt","args":["256","1","big",false],"error":"BYTES_INT_OVERFLOW"},
+  {"op":"fromInt","args":["-1","1","big",false],"error":"BYTES_INT_OVERFLOW"},
+  {"op":"fromInt","args":["128","1","big",true],"error":"BYTES_INT_OVERFLOW"},
+  {"op":"fromInt","args":["-129","1","big",true],"error":"BYTES_INT_OVERFLOW"},
+  {"op":"fromInt","args":["1","0","big",false],"error":"BYTES_INT_OVERFLOW"},
+  {"op":"fromInt","args":["1","-1","big",false],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fromInt","args":["1","1","middle",false],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"fromInt","args":["0","16777217","big",false],"error":"BYTES_SIZE_LIMIT"}
+]

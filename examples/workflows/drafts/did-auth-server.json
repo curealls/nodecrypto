@@ -1,0 +1,187 @@
+{
+  "draft": 1,
+  "name": "did-auth-server",
+  "description": "DID Auth, server side: recomputes the MAC from its own private key and compares it with the client MAC. Learning example, public demo keys.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "prv",
+          "dataType": "bytes",
+          "name": "Server Private Key",
+          "defaultValue": "a4b87f7821ada85b4e7f63618924b4c3f3bbb78cddcab485a7ee6f15fdfc7261",
+          "constraint": {
+            "lengths": [
+              32
+            ]
+          }
+        },
+        {
+          "id": "cpub",
+          "dataType": "bytes",
+          "name": "Client Public Key",
+          "defaultValue": "0415dc193b8e2a688d603303e85ec8fcc15dcba44ef2156a128c386b66b4f5e1d2188e7ca9d0385c02e72c6899f2771e86bb017a2d2903d89a2892c2199aec8f4d",
+          "constraint": {
+            "lengths": [
+              65
+            ]
+          }
+        },
+        {
+          "id": "nonce",
+          "dataType": "bytes",
+          "name": "Nonce",
+          "defaultValue": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+          "constraint": {
+            "lengths": [
+              32
+            ]
+          }
+        },
+        {
+          "id": "rmac",
+          "dataType": "bytes",
+          "name": "Received MAC",
+          "defaultValue": "39b415c1dfeb8f52",
+          "constraint": {
+            "lengths": [
+              8
+            ]
+          }
+        }
+      ],
+      "note": "# Server inputs\nThe nonce is the one the server issued. `Received MAC` defaults to the client workflow output for the default demo values. Change one bit to see `false`.\n\n> Learning example that explains the protocol. Do not use it in a real service. The keys are public demo keys."
+    },
+    {
+      "id": "ecdh",
+      "type": "asymmetric-ecc-ecdh",
+      "label": "ECDH",
+      "props": {
+        "curve": "p256",
+        "format": "raw_x"
+      },
+      "note": "# 1. Shared secret\n`secret = ECDH(prvServer, pubClient)`\n- P-256, output format `raw_x`: the 32-byte X coordinate (the DIDAuth text does not name the format, this is an assumption)\n- Public keys are uncompressed 65-byte points (assumption)"
+    },
+    {
+      "id": "sha",
+      "type": "hash-digest",
+      "label": "SHA-256",
+      "props": {
+        "algorithm": "SHA-256"
+      },
+      "note": "# 2. Hash\n`hash = SHA2-256(secret)`"
+    },
+    {
+      "id": "ks",
+      "type": "utility-slicer",
+      "label": "Key",
+      "props": {
+        "offset": 0,
+        "length": "16"
+      },
+      "note": "# 2. Key\n`key = hash[0,16]`: the left 16 bytes (AES-128 key)"
+    },
+    {
+      "id": "ivs",
+      "type": "utility-slicer",
+      "label": "IV",
+      "props": {
+        "offset": 16,
+        "length": "16"
+      },
+      "note": "# 2. IV\n`iv = hash[16,16]`: the right 16 bytes"
+    },
+    {
+      "id": "cbc",
+      "type": "symmetric-aes-encrypt",
+      "label": "AES-128-CBC",
+      "props": {
+        "mode": "CBC",
+        "padding": "None"
+      },
+      "note": "# 3. full_mac\n`full_mac = AES_ENC_CBC(key, nonce, iv)`\n- The 32-byte nonce is exactly two blocks, so no padding."
+    },
+    {
+      "id": "cut",
+      "type": "utility-slicer",
+      "label": "MAC",
+      "props": {
+        "offset": -16,
+        "length": "8"
+      },
+      "note": "# 3. mac\n`mac = full_mac[-16,8]`: the first 8 bytes of the last block (offset 16 bytes back from the end, length 8)."
+    },
+    {
+      "id": "cmp",
+      "type": "utility-compare",
+      "label": "MAC matches",
+      "props": {
+        "operator": "=="
+      },
+      "note": "# Verify\nCompares the recomputed mac with the client mac. Not constant time: acceptable for a learning example, use `ct_equals` in a script for a real comparison."
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "ok",
+          "dataType": "bool",
+          "name": "Verified"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.prv",
+      "to": "ecdh.privateKey"
+    },
+    {
+      "from": "in.cpub",
+      "to": "ecdh.peerPublicKey"
+    },
+    {
+      "from": "ecdh.sharedSecret",
+      "to": "sha.data"
+    },
+    {
+      "from": "sha.digest",
+      "to": "ks.data"
+    },
+    {
+      "from": "sha.digest",
+      "to": "ivs.data"
+    },
+    {
+      "from": "ks.sliced",
+      "to": "cbc.key"
+    },
+    {
+      "from": "ivs.sliced",
+      "to": "cbc.iv"
+    },
+    {
+      "from": "in.nonce",
+      "to": "cbc.plaintext"
+    },
+    {
+      "from": "cbc.ciphertext",
+      "to": "cut.data"
+    },
+    {
+      "from": "cut.sliced",
+      "to": "cmp.a"
+    },
+    {
+      "from": "in.rmac",
+      "to": "cmp.b"
+    },
+    {
+      "from": "cmp.result",
+      "to": "out.ok"
+    }
+  ]
+}

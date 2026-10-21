@@ -1,0 +1,83 @@
+{
+  "draft": 1,
+  "name": "aes-gcm",
+  "description": "AES-128-GCM encryption with a 96-bit nonce and associated data. Outputs the ciphertext and the 128-bit tag.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "nonce",
+          "dataType": "bytes",
+          "name": "Nonce"
+        },
+        {
+          "id": "aad",
+          "dataType": "bytes",
+          "name": "AAD"
+        },
+        {
+          "id": "pt",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ]
+    },
+    {
+      "id": "aes",
+      "type": "symmetric-aes-encrypt",
+      "note": "# AES-128-GCM\n- Test vector: RFC 7714 section 16.1.1 (SRTP packet)\n- 96-bit nonce, the size GCM is designed for. Never reuse a nonce under the same key.\n- `aad` is authenticated but not encrypted; `tag` is the 128-bit authentication tag (this port exists only because `mode` is `GCM`).",
+      "props": {
+        "mode": "GCM"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        },
+        {
+          "id": "tag",
+          "dataType": "bytes",
+          "name": "Tag"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.key",
+      "to": "aes.key"
+    },
+    {
+      "from": "in.nonce",
+      "to": "aes.nonce"
+    },
+    {
+      "from": "in.aad",
+      "to": "aes.aad"
+    },
+    {
+      "from": "in.pt",
+      "to": "aes.plaintext"
+    },
+    {
+      "from": "aes.ciphertext",
+      "to": "out.ct"
+    },
+    {
+      "from": "aes.tag",
+      "to": "out.tag"
+    }
+  ]
+}

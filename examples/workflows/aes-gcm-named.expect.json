@@ -1,0 +1,13 @@
+{
+  "source": "RFC 7714 §16.1.1 (AES-128-GCM, SRTP packet)",
+  "inputs": {
+    "Key": "000102030405060708090a0b0c0d0e0f",
+    "Nonce": "51753c6580c2726f20718414",
+    "AAD": "8040f17b8041f8d35501a0b2",
+    "Plaintext": "47616c6c696120657374206f6d6e69732064697669736120696e207061727465732074726573"
+  },
+  "outputs": {
+    "Ciphertext": "f24de3a3fb34de6cacba861c9d7e4bcabe633bd50d294e6f42a5f47a51c7d19b36de3adf8833",
+    "Tag": "899d7f27beb16a9152cf765ee4390cce"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "draft": 1,
+  "name": "x25519-ecdh",
+  "description": "X25519 shared secret from one side private key and the peer public key.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "priv",
+          "dataType": "bytes",
+          "name": "PrivateKey"
+        },
+        {
+          "id": "peer",
+          "dataType": "bytes",
+          "name": "PeerPublicKey"
+        }
+      ]
+    },
+    {
+      "id": "dh",
+      "type": "asymmetric-x25519-ecdh",
+      "note": "# X25519 key agreement\n- Test vector: RFC 7748 section 6.1 (Alice's private key, Bob's public key)\n- The shared secret is the raw X25519 output; feed it to a KDF before using it as a key."
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "k",
+          "dataType": "bytes",
+          "name": "SharedSecret"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.priv",
+      "to": "dh.privateKey"
+    },
+    {
+      "from": "in.peer",
+      "to": "dh.peerPublicKey"
+    },
+    {
+      "from": "dh.sharedSecret",
+      "to": "out.k"
+    }
+  ]
+}

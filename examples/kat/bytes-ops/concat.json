@@ -1,0 +1,5 @@
+[
+  {"op":"concat","args":[[]],"result":{"hex":""}},
+  {"op":"concat","args":[[{"hex":"ab"},{"hex":"cd ef"},{"hex":""}]],"result":{"hex":"ab cd ef"}},
+  {"op":"concat","args":[[{"hex":""}]],"result":{"hex":""}}
+]

@@ -1,0 +1,11 @@
+[
+  {"name":"range가 반복 횟수 한도를 넘음","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"for i in range(2000000):\n    pass\no = 1\n","error":"SCRIPT_SIZE_LIMIT"},
+  {"name":"bytes 반복 폭주","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = h\"00\" * 100000000\no = 1\n","error":"BYTES_SIZE_LIMIT"},
+  {"name":"zeros 폭주","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = zeros(100000000)\no = 1\n","error":"BYTES_SIZE_LIMIT"},
+  {"name":"거대한 int 시프트","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = 1 << 2000000\no = 1\n","error":"SCRIPT_SIZE_LIMIT"},
+  {"name":"시프트 이동량이 10^12","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = 1 << 1000000000000\no = 1\n","error":"SCRIPT_SIZE_LIMIT"},
+  {"name":"int 제곱 반복으로 한도 초과","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = 2\nfor i in range(30):\n    x = x * x\no = 1\n","error":"SCRIPT_SIZE_LIMIT"},
+  {"name":"목록 길이 한도","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"xs: list[int] = [0]\nfor i in range(21):\n    xs += xs\no = 1\n","error":"SCRIPT_SIZE_LIMIT"},
+  {"name":"실행 단계 한도","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"for i in range(1000000):\n    for j in range(11):\n        pass\no = 1\n","error":"SCRIPT_STEP_LIMIT"},
+  {"name":"bytes 순회가 반복 횟수 한도를 넘음","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = h\"00\" * 2000000\nfor v in x:\n    pass\no = 1\n","error":"SCRIPT_SIZE_LIMIT"}
+]

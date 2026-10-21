@@ -1,0 +1,24 @@
+{
+  "draft": 1,
+  "name": "did-auth-keygen",
+  "description": "Generates the P-256 key pairs of the DID Auth demo: one for the server and one for the client. Public demo keys only.",
+  "nodes": [
+    { "id": "server", "type": "asymmetric-ecc-keygen", "label": "Server Key Pair",
+      "note": "# Server key pair\n- P-256 (secp256r1), as in the DID Auth procedure\n- Public key: uncompressed point, 65 bytes starting with `04`\n- Random on every run. Copy the values you want to keep into the Workflow Input defaults of the client and server workflows." },
+    { "id": "client", "type": "asymmetric-ecc-keygen", "label": "Client Key Pair",
+      "note": "# Client key pair\nSame as the server key pair, generated independently." },
+    { "id": "out", "type": "workflow-output",
+      "inputs": [
+        { "id": "sprv", "dataType": "bytes", "name": "Server Private Key" },
+        { "id": "spub", "dataType": "bytes", "name": "Server Public Key" },
+        { "id": "cprv", "dataType": "bytes", "name": "Client Private Key" },
+        { "id": "cpub", "dataType": "bytes", "name": "Client Public Key" }
+      ] }
+  ],
+  "edges": [
+    { "from": "server.privateKey", "to": "out.sprv" },
+    { "from": "server.publicKey", "to": "out.spub" },
+    { "from": "client.privateKey", "to": "out.cprv" },
+    { "from": "client.publicKey", "to": "out.cpub" }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "draft": 1,
+  "name": "x25519-hkdf",
+  "description": "Derives a 32-byte session key: X25519 shared secret fed to HKDF-SHA-256 with a salt and context info.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "priv",
+          "dataType": "bytes",
+          "name": "PrivateKey"
+        },
+        {
+          "id": "peer",
+          "dataType": "bytes",
+          "name": "PeerPublicKey"
+        },
+        {
+          "id": "salt",
+          "dataType": "bytes",
+          "name": "Salt"
+        },
+        {
+          "id": "info",
+          "dataType": "bytes",
+          "name": "Info"
+        }
+      ]
+    },
+    {
+      "id": "dh",
+      "type": "asymmetric-x25519-ecdh",
+      "note": "# X25519 shared secret\n- Test vector: RFC 7748 section 6.1\n- Raw output: do not use it directly as a key."
+    },
+    {
+      "id": "hkdf",
+      "type": "kdf-hkdf",
+      "note": "# Session key\nHKDF-SHA-256 turns the shared secret into a 32-byte key. No salt or info is given, so the RFC 5869 defaults apply.",
+      "props": {
+        "keyLength": 32,
+        "hashAlgorithm": "SHA-256"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "SessionKey"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.priv",
+      "to": "dh.privateKey"
+    },
+    {
+      "from": "in.peer",
+      "to": "dh.peerPublicKey"
+    },
+    {
+      "from": "dh.sharedSecret",
+      "to": "hkdf.ikm"
+    },
+    {
+      "from": "in.salt",
+      "to": "hkdf.salt"
+    },
+    {
+      "from": "in.info",
+      "to": "hkdf.info"
+    },
+    {
+      "from": "hkdf.okm",
+      "to": "out.key"
+    }
+  ]
+}

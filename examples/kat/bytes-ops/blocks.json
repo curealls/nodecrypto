@@ -1,0 +1,9 @@
+[
+  {"op":"blocks","args":[{"hex":"01 02 03 04 05"},"2"],"result":[{"hex":"01 02"},{"hex":"03 04"},{"hex":"05"}]},
+  {"op":"blocks","args":[{"hex":""},"4"],"result":[]},
+  {"op":"blocks","args":[{"hex":"01 02"},"2"],"result":[{"hex":"01 02"}]},
+  {"op":"blocks","args":[{"hex":"01 02"},"5"],"result":[{"hex":"01 02"}]},
+  {"op":"blocks","args":[{"hex":"01 02"},"1"],"result":[{"hex":"01"},{"hex":"02"}]},
+  {"op":"blocks","args":[{"hex":"01"},"0"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"blocks","args":[{"hex":"01"},"-1"],"error":"BYTES_INVALID_ARGUMENT"}
+]

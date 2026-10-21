@@ -1,0 +1,4 @@
+[
+  {"op":"toInts","args":[{"hex":"00 01 ff"}],"result":["0","1","255"]},
+  {"op":"toInts","args":[{"hex":""}],"result":[]}
+]

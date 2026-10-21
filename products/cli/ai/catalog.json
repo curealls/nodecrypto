@@ -1,0 +1,5982 @@
+{
+  "catalogVersion": 1,
+  "engineVersion": "0.2.2",
+  "nodes": [
+    {
+      "type": "input-dialog",
+      "label": "User Input Dialog",
+      "category": "input",
+      "description": "Prompts user for runtime input via dialog or fallback test value, of a user-selected type",
+      "inputs": [
+        {
+          "id": "trigger",
+          "name": "Trigger",
+          "dataType": "any",
+          "required": false,
+          "description": "Optional trigger input"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "Value",
+          "dataType": "string",
+          "description": "User input value"
+        }
+      ],
+      "properties": [
+        {
+          "id": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "bytes",
+            "string",
+            "int",
+            "bool"
+          ],
+          "defaultValue": "string",
+          "description": "Data type of the value this node produces"
+        },
+        {
+          "id": "promptMessage",
+          "label": "Prompt Message",
+          "type": "text",
+          "defaultValue": "Enter value:",
+          "description": "Prompt message displayed to user",
+          "variable": "string"
+        },
+        {
+          "id": "defaultBytes",
+          "label": "Default Value (Bytes)",
+          "type": "hex",
+          "defaultValue": "00112233445566778899aabbccddeeff",
+          "visibleWhen": [
+            {
+              "type": [
+                "bytes"
+              ]
+            }
+          ],
+          "variable": "bytes"
+        },
+        {
+          "id": "defaultString",
+          "label": "Default Value (String)",
+          "type": "textarea",
+          "defaultValue": "Hello NodeCrypto",
+          "visibleWhen": [
+            {
+              "type": [
+                "string"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "defaultInt",
+          "label": "Default Value (Int)",
+          "type": "number",
+          "defaultValue": 0,
+          "visibleWhen": [
+            {
+              "type": [
+                "int"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "defaultBool",
+          "label": "Default Value (Bool)",
+          "type": "select",
+          "options": [
+            true,
+            false
+          ],
+          "defaultValue": false,
+          "visibleWhen": [
+            {
+              "type": [
+                "bool"
+              ]
+            }
+          ],
+          "variable": "bool"
+        }
+      ]
+    },
+    {
+      "type": "input-random",
+      "label": "Random Value",
+      "category": "input",
+      "description": "Generates a cryptographically secure random value of a user-selected type (bytes/string/int/bool)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Value",
+          "dataType": "bytes",
+          "description": "Cryptographically random value"
+        }
+      ],
+      "properties": [
+        {
+          "id": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "bytes",
+            "string",
+            "int",
+            "bool"
+          ],
+          "defaultValue": "bytes",
+          "description": "Data type of the value this node produces"
+        },
+        {
+          "id": "length",
+          "label": "Length",
+          "type": "number",
+          "defaultValue": 16,
+          "description": "Byte length (Bytes type) or character count (String type)",
+          "visibleWhen": [
+            {
+              "type": [
+                "bytes",
+                "string"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "intMin",
+          "label": "Min",
+          "type": "number",
+          "defaultValue": 0,
+          "visibleWhen": [
+            {
+              "type": [
+                "int"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "intMax",
+          "label": "Max",
+          "type": "number",
+          "defaultValue": 100,
+          "visibleWhen": [
+            {
+              "type": [
+                "int"
+              ]
+            }
+          ],
+          "variable": "int"
+        }
+      ]
+    },
+    {
+      "type": "input-static-value",
+      "label": "Static Value",
+      "category": "input",
+      "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "value",
+          "name": "Value",
+          "dataType": "bytes",
+          "description": "Constant value of the selected type"
+        }
+      ],
+      "properties": [
+        {
+          "id": "type",
+          "label": "Type",
+          "type": "select",
+          "options": [
+            "bytes",
+            "string",
+            "int",
+            "bool"
+          ],
+          "defaultValue": "bytes",
+          "description": "Data type of the value this node produces"
+        },
+        {
+          "id": "valueBytes",
+          "label": "Value (Bytes)",
+          "type": "hex",
+          "defaultValue": "00112233445566778899aabbccddeeff",
+          "visibleWhen": [
+            {
+              "type": [
+                "bytes"
+              ]
+            }
+          ],
+          "variable": "bytes"
+        },
+        {
+          "id": "valueString",
+          "label": "Value (String)",
+          "type": "textarea",
+          "defaultValue": "Hello NodeCrypto!",
+          "visibleWhen": [
+            {
+              "type": [
+                "string"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "valueInt",
+          "label": "Value (Int)",
+          "type": "number",
+          "defaultValue": 0,
+          "visibleWhen": [
+            {
+              "type": [
+                "int"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "valueBool",
+          "label": "Value (Bool)",
+          "type": "select",
+          "options": [
+            true,
+            false
+          ],
+          "defaultValue": false,
+          "visibleWhen": [
+            {
+              "type": [
+                "bool"
+              ]
+            }
+          ],
+          "variable": "bool"
+        }
+      ]
+    },
+    {
+      "type": "input-value-set",
+      "label": "ValueSet",
+      "category": "input",
+      "description": "A value set: each row is an output port whose value is fixed, random, or taken from its own input port",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "out_1",
+          "name": "Value 1",
+          "dataType": "bytes",
+          "description": "Value 1 output"
+        },
+        {
+          "id": "set",
+          "name": "Set",
+          "dataType": "set",
+          "description": "All row values as one set"
+        }
+      ],
+      "dynamicOutputs": {
+        "min": 2,
+        "defaultNamePrefix": "Value",
+        "defaultDataType": "bytes"
+      },
+      "properties": []
+    },
+    {
+      "type": "input-webhook-api",
+      "label": "Webhook / API Input",
+      "category": "input",
+      "description": "Fetches HTTP payload or Webhook response into workflow",
+      "inputs": [
+        {
+          "id": "url",
+          "name": "URL Override",
+          "dataType": "string",
+          "required": false
+        },
+        {
+          "id": "body",
+          "name": "Request Body",
+          "dataType": "any",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "id": "data",
+          "name": "Response Bytes",
+          "dataType": "bytes",
+          "description": "Response byte payload"
+        },
+        {
+          "id": "status",
+          "name": "HTTP Status",
+          "dataType": "int",
+          "description": "Status code"
+        }
+      ],
+      "properties": [
+        {
+          "id": "url",
+          "label": "Endpoint URL",
+          "type": "text",
+          "defaultValue": "https://httpbin.org/get",
+          "variable": "string"
+        },
+        {
+          "id": "method",
+          "label": "HTTP Method",
+          "type": "select",
+          "options": [
+            "GET",
+            "POST"
+          ],
+          "defaultValue": "GET"
+        },
+        {
+          "id": "mockResponse",
+          "label": "Mock Response (Offline / Fallback)",
+          "type": "textarea",
+          "defaultValue": "{\"status\":\"ok\",\"source\":\"mock-api\"}",
+          "variable": "string"
+        }
+      ]
+    },
+    {
+      "type": "link-box",
+      "label": "Link Box",
+      "category": "input",
+      "description": "Groups links into a named set (e.g. Key/IV/AAD) that moves together.",
+      "inputs": [],
+      "outputs": [],
+      "properties": []
+    },
+    {
+      "type": "output-inspector",
+      "label": "Output Inspector",
+      "category": "input",
+      "description": "Captures and displays inspected values in the Output console window",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "In",
+          "dataType": "any",
+          "required": true,
+          "description": "Data of any type to inspect"
+        }
+      ],
+      "outputs": [],
+      "properties": []
+    },
+    {
+      "type": "switch",
+      "label": "Switch",
+      "category": "input",
+      "description": "Picks one of several value sets and unpacks it into individual output ports",
+      "inputs": [
+        {
+          "id": "in_1",
+          "name": "Set 1",
+          "dataType": "set",
+          "required": false,
+          "description": "Value set input"
+        }
+      ],
+      "outputs": [],
+      "dynamicInputs": {
+        "min": 1,
+        "defaultNamePrefix": "Set",
+        "defaultDataType": "set"
+      },
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "SET_SCHEMA_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "workflow-input",
+      "label": "Workflow Input",
+      "category": "input",
+      "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+      "inputs": [],
+      "outputs": [],
+      "dynamicOutputs": {
+        "min": 0,
+        "defaultNamePrefix": "Arg",
+        "defaultDataType": "bytes"
+      },
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INPUT_CONSTRAINT_VIOLATION"
+        ]
+      }
+    },
+    {
+      "type": "workflow-output",
+      "label": "Workflow Output",
+      "category": "input",
+      "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+      "inputs": [],
+      "outputs": [],
+      "dynamicInputs": {
+        "min": 0,
+        "defaultNamePrefix": "Return",
+        "defaultDataType": "bytes"
+      },
+      "properties": []
+    },
+    {
+      "type": "converter-base58-to-bytes",
+      "label": "Base58 to Bytes",
+      "category": "converter",
+      "description": "Decodes Base58 string into raw byte array",
+      "inputs": [
+        {
+          "id": "string",
+          "name": "Base58 In",
+          "dataType": "string",
+          "required": true,
+          "description": "Base58 string"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes Out",
+          "dataType": "bytes",
+          "description": "Decoded byte array"
+        }
+      ],
+      "properties": [
+        {
+          "id": "alphabet",
+          "label": "Alphabet",
+          "type": "select",
+          "options": [
+            "btc",
+            "flickr"
+          ],
+          "defaultValue": "btc",
+          "description": "Base58 alphabet scheme"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_BASE58_CHAR"
+        ]
+      }
+    },
+    {
+      "type": "converter-base64-to-bytes",
+      "label": "Base64 to Bytes",
+      "category": "converter",
+      "description": "Decodes Base64 or Base64URL string into raw byte array",
+      "inputs": [
+        {
+          "id": "string",
+          "name": "Base64 In",
+          "dataType": "string",
+          "required": true,
+          "description": "Base64 string"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes Out",
+          "dataType": "bytes",
+          "description": "Decoded byte array"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_BASE64_INPUT"
+        ]
+      }
+    },
+    {
+      "type": "converter-bytes-to-base58",
+      "label": "Bytes to Base58",
+      "category": "converter",
+      "description": "Encodes raw byte array into Base58 string (Bitcoin / Flickr)",
+      "inputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes In",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Raw byte array"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "Base58 Out",
+          "dataType": "string",
+          "description": "Base58 string"
+        }
+      ],
+      "properties": [
+        {
+          "id": "alphabet",
+          "label": "Alphabet",
+          "type": "select",
+          "options": [
+            "btc",
+            "flickr"
+          ],
+          "defaultValue": "btc",
+          "description": "Base58 alphabet scheme"
+        }
+      ]
+    },
+    {
+      "type": "converter-bytes-to-base64",
+      "label": "Bytes to Base64",
+      "category": "converter",
+      "description": "Encodes raw byte array into Base64 / Base64URL string",
+      "inputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes In",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Raw byte array"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "Base64 Out",
+          "dataType": "string",
+          "description": "Base64 string"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Base64 Variant",
+          "type": "select",
+          "options": [
+            "standard",
+            "url_safe"
+          ],
+          "defaultValue": "standard",
+          "description": "Alphabet variant"
+        },
+        {
+          "id": "padding",
+          "label": "Include Padding (=)",
+          "type": "boolean",
+          "defaultValue": true,
+          "description": "Pad output with = characters",
+          "variable": "bool"
+        }
+      ]
+    },
+    {
+      "type": "converter-bytes-to-hex",
+      "label": "Bytes to Hex",
+      "category": "converter",
+      "description": "Encodes raw byte array into hexadecimal string representation",
+      "inputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes In",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Raw byte array"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "Hex Out",
+          "dataType": "string",
+          "description": "Hexadecimal string"
+        }
+      ],
+      "properties": [
+        {
+          "id": "case",
+          "label": "Letter Case",
+          "type": "select",
+          "options": [
+            "lower",
+            "upper"
+          ],
+          "defaultValue": "lower",
+          "description": "Hex character case"
+        },
+        {
+          "id": "prefix0x",
+          "label": "Prefix 0x",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Prepend 0x to hex string",
+          "variable": "bool"
+        },
+        {
+          "id": "separator",
+          "label": "Delimiter",
+          "type": "select",
+          "options": [
+            "none",
+            "space",
+            "colon"
+          ],
+          "defaultValue": "none",
+          "description": "Byte separation delimiter"
+        }
+      ]
+    },
+    {
+      "type": "converter-bytes-to-multibase",
+      "label": "Bytes to Multibase",
+      "category": "converter",
+      "description": "Encodes bytes into self-describing Multibase string with format prefix",
+      "inputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes In",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Raw byte array"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "Multibase Out",
+          "dataType": "string",
+          "description": "Multibase encoded string"
+        }
+      ],
+      "properties": [
+        {
+          "id": "base",
+          "label": "Multibase Format",
+          "type": "select",
+          "options": [
+            "base58btc",
+            "base16",
+            "base16_upper",
+            "base64",
+            "base64url"
+          ],
+          "defaultValue": "base58btc",
+          "description": "Multibase encoding format and prefix"
+        }
+      ]
+    },
+    {
+      "type": "converter-bytes-to-string",
+      "label": "Bytes to String",
+      "category": "converter",
+      "description": "Decodes byte array into human-readable text string (UTF-8, ASCII, Latin-1)",
+      "inputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes In",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Raw byte array"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "string",
+          "name": "String Out",
+          "dataType": "string",
+          "description": "Decoded text string"
+        }
+      ],
+      "properties": [
+        {
+          "id": "encoding",
+          "label": "Character Encoding",
+          "type": "select",
+          "options": [
+            "utf-8",
+            "ascii",
+            "latin1"
+          ],
+          "defaultValue": "utf-8",
+          "description": "Character encoding format"
+        }
+      ]
+    },
+    {
+      "type": "converter-hex-to-bytes",
+      "label": "Hex to Bytes",
+      "category": "converter",
+      "description": "Decodes a hexadecimal string into a raw byte array",
+      "inputs": [
+        {
+          "id": "string",
+          "name": "Hex In",
+          "dataType": "string",
+          "required": true,
+          "description": "Hex string to decode"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes Out",
+          "dataType": "bytes",
+          "description": "Decoded byte array"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_HEX_LENGTH",
+          "INVALID_HEX_CHAR"
+        ]
+      }
+    },
+    {
+      "type": "converter-multibase-to-bytes",
+      "label": "Multibase to Bytes",
+      "category": "converter",
+      "description": "Decodes self-describing Multibase string with automatic prefix detection",
+      "inputs": [
+        {
+          "id": "string",
+          "name": "Multibase In",
+          "dataType": "string",
+          "required": true,
+          "description": "Multibase string"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes Out",
+          "dataType": "bytes",
+          "description": "Decoded byte array"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_MULTIBASE_STRING",
+          "UNSUPPORTED_MULTIBASE_PREFIX",
+          "INVALID_HEX_LENGTH",
+          "INVALID_HEX_CHAR",
+          "INVALID_BASE58_CHAR",
+          "INVALID_BASE64_INPUT"
+        ]
+      }
+    },
+    {
+      "type": "converter-string-to-bytes",
+      "label": "String to Bytes",
+      "category": "converter",
+      "description": "Encodes text string into raw byte array using specified charset",
+      "inputs": [
+        {
+          "id": "string",
+          "name": "String In",
+          "dataType": "string",
+          "required": true,
+          "description": "Input text string"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "bytes",
+          "name": "Bytes Out",
+          "dataType": "bytes",
+          "description": "Encoded byte array"
+        }
+      ],
+      "properties": [
+        {
+          "id": "encoding",
+          "label": "Character Encoding",
+          "type": "select",
+          "options": [
+            "utf-8",
+            "ascii",
+            "latin1"
+          ],
+          "defaultValue": "utf-8",
+          "description": "Character encoding format"
+        }
+      ]
+    },
+    {
+      "type": "utility-bytes-to-int",
+      "label": "Bytes to Int",
+      "category": "converter",
+      "description": "Interprets bytes as an unsigned integer (bigint when beyond the safe range)",
+      "inputs": [
+        {
+          "id": "in",
+          "name": "Bytes",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "out",
+          "name": "Value",
+          "dataType": "int"
+        }
+      ],
+      "properties": [
+        {
+          "id": "endian",
+          "label": "Endian",
+          "type": "select",
+          "options": [
+            "big",
+            "little"
+          ],
+          "defaultValue": "big"
+        }
+      ]
+    },
+    {
+      "type": "utility-int-to-bytes",
+      "label": "Int to Bytes",
+      "category": "converter",
+      "description": "Converts an unsigned integer to bytes (length: minimal, fixed, or from the Length port)",
+      "inputs": [
+        {
+          "id": "in",
+          "name": "Value",
+          "dataType": "int",
+          "required": true
+        },
+        {
+          "id": "length",
+          "name": "Length",
+          "dataType": "int",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "id": "out",
+          "name": "Bytes",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "lengthMode",
+          "label": "Length Mode",
+          "type": "select",
+          "options": [
+            "min",
+            "port",
+            "fixed"
+          ],
+          "defaultValue": "min",
+          "description": "How the result byte count is decided. Minimal length is the fewest bytes that hold the value (0 takes 1 byte)"
+        },
+        {
+          "id": "length",
+          "label": "Length",
+          "type": "number",
+          "defaultValue": 1,
+          "description": "Fixed length (byte count, an integer of 0 or more)",
+          "visibleWhen": [
+            {
+              "lengthMode": [
+                "fixed"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "endian",
+          "label": "Endian",
+          "type": "select",
+          "options": [
+            "big",
+            "little"
+          ],
+          "defaultValue": "big"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_INT_OVERFLOW",
+          "BYTES_INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-aes-decrypt",
+      "label": "AES Decrypt",
+      "category": "symmetric",
+      "description": "Decrypts ciphertext using NIST AES (128/192/256-bit)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "AES symmetric key. Length selects AES-128/192/256."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter/tweak (16B) used during encryption. Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR",
+                "CFB",
+                "OFB",
+                "XTS"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B) used during encryption, required in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Authentication tag to verify, required in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR",
+            "CFB",
+            "OFB",
+            "XTS",
+            "KW"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding (CBC/ECB)",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING",
+          "DATA_TOO_SHORT"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-aes-encrypt",
+      "label": "AES Encrypt",
+      "category": "symmetric",
+      "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "AES symmetric key. Length selects AES-128/192/256."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter/tweak (16B). Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR",
+                "CFB",
+                "OFB",
+                "XTS"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM only",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "GCM/CCM",
+          "description": "Authentication tag produced in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR",
+            "CFB",
+            "OFB",
+            "XTS",
+            "KW"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding (CBC/ECB)",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "INVALID_NONCE_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED",
+          "DATA_TOO_SHORT"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-aria-decrypt",
+      "label": "ARIA Decrypt",
+      "category": "symmetric",
+      "description": "KISA Standard ARIA Block Cipher Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "ARIA symmetric key (16/24/32B)."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B) used during encryption. Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR",
+                "CFB",
+                "OFB"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B) used during encryption, required in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Authentication tag to verify, required in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR",
+            "CFB",
+            "OFB"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-aria-encrypt",
+      "label": "ARIA Encrypt",
+      "category": "symmetric",
+      "description": "KISA Standard ARIA (128/192/256-bit) Block Cipher (RFC 5794)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "ARIA symmetric key (16/24/32B)."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR",
+                "CFB",
+                "OFB"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "GCM/CCM",
+          "description": "Authentication tag produced in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR",
+            "CFB",
+            "OFB"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-camellia-decrypt",
+      "label": "Camellia Decrypt",
+      "category": "symmetric",
+      "description": "NTT & Mitsubishi Standard Camellia Block Cipher Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "Camellia symmetric key (16/24/32B)."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B) used during encryption. Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B) used during encryption, required in GCM only mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM",
+          "description": "Authentication tag to verify, required in GCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM only",
+          "description": "Additional Authenticated Data, used only in GCM only mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-camellia-encrypt",
+      "label": "Camellia Encrypt",
+      "category": "symmetric",
+      "description": "NTT & Mitsubishi Standard Camellia (128/192/256-bit) Block Cipher (RFC 3713)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24/32B",
+          "description": "Camellia symmetric key (16/24/32B)."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B), used only in GCM only mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM only",
+          "description": "Additional Authenticated Data, used only in GCM only mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "GCM",
+          "description": "Authentication tag produced in GCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-chacha20-poly1305-decrypt",
+      "label": "ChaCha20-Poly1305 Decrypt",
+      "category": "symmetric",
+      "description": "RFC 8439 Authenticated Decryption with Additional Data (AEAD)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B",
+          "description": "ChaCha20 256-bit symmetric key."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "12B",
+          "description": "Nonce used during encryption."
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16B",
+          "description": "Poly1305 authentication tag to verify."
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Additional Authenticated Data covered by the Poly1305 tag."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-chacha20-poly1305-encrypt",
+      "label": "ChaCha20-Poly1305 Encrypt",
+      "category": "symmetric",
+      "description": "RFC 8439 Authenticated Encryption with Additional Data (AEAD)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B",
+          "description": "ChaCha20 256-bit symmetric key."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "Defaults to 12 zero bytes if omitted."
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Additional Authenticated Data covered by the Poly1305 tag."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "16B",
+          "description": "Poly1305 authentication tag."
+        }
+      ],
+      "properties": [
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-chacha20-stream",
+      "label": "ChaCha20 Stream",
+      "category": "symmetric",
+      "description": "Pure ChaCha20 Stream Cipher without Poly1305 MAC (RFC 8439)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B",
+          "description": "ChaCha20 256-bit symmetric key."
+        },
+        {
+          "id": "data",
+          "name": "Data In",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "Defaults to 12 zero bytes if omitted."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "data",
+          "name": "Data Out",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-des-decrypt",
+      "label": "DES Decrypt",
+      "category": "symmetric",
+      "description": "Single DES (56-bit effective, 8-byte key) Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "8B",
+          "description": "Single DES key (56-bit effective)."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "8B",
+          "description": "Initialization vector for CBC mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-des-encrypt",
+      "label": "DES Encrypt",
+      "category": "symmetric",
+      "description": "Single DES (56-bit effective, 8-byte key) Encryption (FIPS 46-3 Legacy)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "8B",
+          "description": "Single DES key (56-bit effective)."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "8B",
+          "description": "Initialization vector for CBC mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-seed-decrypt",
+      "label": "SEED Decrypt",
+      "category": "symmetric",
+      "description": "KISA National Standard SEED 128/256-bit Block Cipher Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/32B",
+          "description": "SEED symmetric key (16/32B)."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B) used during encryption. Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B) used during encryption, required in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Authentication tag to verify, required in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-seed-encrypt",
+      "label": "SEED Encrypt",
+      "category": "symmetric",
+      "description": "KISA National Standard SEED 128/256-bit Block Cipher (RFC 4269)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/32B",
+          "description": "SEED symmetric key (16/32B)."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM/CCM",
+          "description": "Additional Authenticated Data, used only in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "GCM/CCM",
+          "description": "Authentication tag produced in GCM/CCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM",
+                "CCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-sm4-decrypt",
+      "label": "SM4 Decrypt",
+      "category": "symmetric",
+      "description": "Chinese National Standard SM4 128-bit Block Cipher Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16B",
+          "description": "SM4 symmetric key (16B)."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B) used during encryption. Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B) used during encryption, required in GCM only mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM",
+          "description": "Authentication tag to verify, required in GCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM only",
+          "description": "Additional Authenticated Data, used only in GCM only mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING",
+          "INVALID_NONCE_LENGTH",
+          "INVALID_TAG_LENGTH",
+          "AUTH_TAG_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-sm4-encrypt",
+      "label": "SM4 Encrypt",
+      "category": "symmetric",
+      "description": "Chinese National Standard SM4 128-bit Block Cipher (GB/T 32907 / GM/T 0002)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16B",
+          "description": "SM4 symmetric key (16B)."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "16B",
+          "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC",
+                "CTR"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nonce",
+          "name": "Nonce",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "12B",
+          "description": "AEAD nonce (12B), used only in GCM only mode. Defaults to 12 zero bytes if omitted.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "aad",
+          "name": "AAD",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "GCM only",
+          "description": "Additional Authenticated Data, used only in GCM only mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        },
+        {
+          "id": "tag",
+          "name": "Auth Tag",
+          "dataType": "bytes",
+          "spec": "GCM",
+          "description": "Authentication tag produced in GCM mode.",
+          "visibleWhen": [
+            {
+              "mode": [
+                "GCM"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC",
+            "GCM",
+            "CTR"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "INVALID_IV_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_NONCE_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-tdes-decrypt",
+      "label": "TDES Decrypt",
+      "category": "symmetric",
+      "description": "Triple-DES (112 or 168-bit Key) Decryption",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24B",
+          "description": "16 bytes for two-key (112-bit) or 24 bytes for three-key (168-bit) 3DES."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "8B",
+          "description": "Initialization vector for CBC mode (DES block size).",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "CIPHERTEXT_NOT_BLOCK_ALIGNED",
+          "INVALID_PADDING"
+        ]
+      }
+    },
+    {
+      "type": "symmetric-tdes-encrypt",
+      "label": "TDES Encrypt",
+      "category": "symmetric",
+      "description": "Triple-DES (112 or 168-bit Key) Encryption (NIST SP 800-67)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "16/24B",
+          "description": "16 bytes for two-key (112-bit) or 24 bytes for three-key (168-bit) 3DES."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "iv",
+          "name": "IV",
+          "dataType": "bytes",
+          "required": false,
+          "spec": "8B",
+          "description": "Initialization vector for CBC mode (DES block size).",
+          "visibleWhen": [
+            {
+              "mode": [
+                "CBC"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "mode",
+          "label": "Cipher Mode",
+          "type": "select",
+          "options": [
+            "ECB",
+            "CBC"
+          ],
+          "defaultValue": "ECB"
+        },
+        {
+          "id": "padding",
+          "label": "Padding",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH",
+          "PLAINTEXT_NOT_BLOCK_ALIGNED"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-ecc-ecdh",
+      "label": "ECDH Key Agreement",
+      "category": "asymmetric",
+      "description": "Computes Elliptic Curve Diffie-Hellman shared secret on Weierstrass curves (NIST SP 800-56A / RFC 5903)",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "My Private Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "peerPublicKey",
+          "name": "Peer Public Key",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Shared Secret",
+          "dataType": "bytes"
+        },
+        {
+          "id": "rawSecretX",
+          "name": "Raw Secret X",
+          "dataType": "bytes",
+          "spec": "32B",
+          "description": "Raw X-coordinate of the ECDH shared point, before any KDF (NIST SP 800-56A raw format)."
+        }
+      ],
+      "properties": [
+        {
+          "id": "curve",
+          "label": "Elliptic Curve",
+          "type": "select",
+          "options": [
+            "secp256k1",
+            "p256",
+            "p384",
+            "p521",
+            "brainpoolP256r1",
+            "brainpoolP384r1",
+            "brainpoolP512r1"
+          ],
+          "defaultValue": "p256"
+        },
+        {
+          "id": "format",
+          "label": "Output Secret Format",
+          "type": "select",
+          "options": [
+            "raw_x",
+            "sha256_kdf",
+            "compressed",
+            "uncompressed"
+          ],
+          "defaultValue": "raw_x"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-ecc-keygen",
+      "label": "ECC Keypair Generator",
+      "category": "asymmetric",
+      "description": "Generates Elliptic Curve keypair (NIST P-256/384/521, secp256k1, Brainpool)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "bytes"
+        },
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "spec": "Uncompressed",
+          "description": "Uncompressed EC point (0x04 prefix + X + Y coordinates)."
+        }
+      ],
+      "properties": [
+        {
+          "id": "curve",
+          "label": "Elliptic Curve",
+          "type": "select",
+          "options": [
+            "secp256k1",
+            "p256",
+            "p384",
+            "p521",
+            "brainpoolP256r1",
+            "brainpoolP384r1",
+            "brainpoolP512r1"
+          ],
+          "defaultValue": "p256"
+        }
+      ]
+    },
+    {
+      "type": "asymmetric-ecc-sign",
+      "label": "ECC Sign (ECDSA)",
+      "category": "asymmetric",
+      "description": "Signs message or hash using private key on specified curve",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Original message. If Pre-hash with SHA-256 is turned off, pass an already computed hash instead."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "curve",
+          "label": "Curve",
+          "type": "select",
+          "options": [
+            "secp256k1",
+            "p256",
+            "p384",
+            "p521",
+            "brainpoolP256r1",
+            "brainpoolP384r1",
+            "brainpoolP512r1"
+          ],
+          "defaultValue": "p256"
+        },
+        {
+          "id": "autoHash",
+          "label": "Pre-hash with SHA-256",
+          "type": "boolean",
+          "defaultValue": true,
+          "variable": "bool"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-ecc-verify",
+      "label": "ECC Verify (ECDSA)",
+      "category": "asymmetric",
+      "description": "Verifies ECDSA signature against public key on specified curve",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Original message. If Pre-hash with SHA-256 is turned off, pass an already computed hash instead."
+        },
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "isValid",
+          "name": "Valid",
+          "dataType": "bool",
+          "description": "True if the ECDSA signature verification succeeded."
+        }
+      ],
+      "properties": [
+        {
+          "id": "curve",
+          "label": "Curve",
+          "type": "select",
+          "options": [
+            "secp256k1",
+            "p256",
+            "p384",
+            "p521",
+            "brainpoolP256r1",
+            "brainpoolP384r1",
+            "brainpoolP512r1"
+          ],
+          "defaultValue": "p256"
+        },
+        {
+          "id": "autoHash",
+          "label": "Pre-hash with SHA-256",
+          "type": "boolean",
+          "defaultValue": true,
+          "variable": "bool"
+        },
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "isValid"
+      }
+    },
+    {
+      "type": "asymmetric-ed25519-keygen",
+      "label": "Ed25519 KeyGen",
+      "category": "asymmetric",
+      "description": "Generates Ed25519 32-byte keypair",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        },
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "type": "asymmetric-ed25519-sign",
+      "label": "Ed25519 Sign",
+      "category": "asymmetric",
+      "description": "High-speed Edwards-curve digital signature (RFC 8032)",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B"
+        },
+        {
+          "id": "message",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "spec": "64B",
+          "description": "Ed25519 signature (R || S)."
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-ed25519-verify",
+      "label": "Ed25519 Verify",
+      "category": "asymmetric",
+      "description": "Verifies Ed25519 signature (RFC 8032)",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B"
+        },
+        {
+          "id": "message",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "64B",
+          "description": "Ed25519 signature (R || S)."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "isValid",
+          "name": "Valid",
+          "dataType": "bool",
+          "description": "True if the Ed25519 signature verification succeeded."
+        }
+      ],
+      "properties": [
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "isValid"
+      }
+    },
+    {
+      "type": "asymmetric-rsa-decrypt",
+      "label": "RSA Decrypt",
+      "category": "asymmetric",
+      "description": "Decrypts ciphertext using RSA-OAEP with private key (RFC 8017)",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "any",
+          "required": true,
+          "spec": "PEM/DER",
+          "description": "RSA private key; accepts either PEM text or DER bytes."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext Data",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "label",
+          "name": "OAEP Label",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "plaintext",
+          "name": "Plaintext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "hash",
+          "label": "Hash Algorithm (OAEP & MGF1)",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512",
+            "SHA-384",
+            "SHA-1"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_FORMAT",
+          "RSA_DECRYPTION_FAILED"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-rsa-encrypt",
+      "label": "RSA Encrypt",
+      "category": "asymmetric",
+      "description": "Encrypts message using RSA-OAEP with recipient public key (RFC 8017)",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "any",
+          "required": true,
+          "spec": "PEM/DER",
+          "description": "Recipient RSA public key; accepts either PEM text or DER bytes."
+        },
+        {
+          "id": "plaintext",
+          "name": "Plaintext Data",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "label",
+          "name": "OAEP Label",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "hash",
+          "label": "Hash Algorithm (OAEP & MGF1)",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512",
+            "SHA-384",
+            "SHA-1"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_FORMAT",
+          "OAEP_MESSAGE_TOO_LONG"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-rsa-keygen",
+      "label": "RSA Key Generator",
+      "category": "asymmetric",
+      "description": "Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, PEM & DER)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "publicKeyPem",
+          "name": "Public Key",
+          "dataType": "string",
+          "spec": "PEM",
+          "description": "RSA public key encoded as PEM (Base64 text)."
+        },
+        {
+          "id": "privateKeyPem",
+          "name": "Private Key",
+          "dataType": "string",
+          "spec": "PEM",
+          "description": "RSA private key encoded as PEM (Base64 text). Handle with care."
+        },
+        {
+          "id": "publicKeyDer",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "spec": "DER",
+          "description": "RSA public key encoded as binary DER."
+        },
+        {
+          "id": "privateKeyDer",
+          "name": "Private Key",
+          "dataType": "bytes",
+          "spec": "DER",
+          "description": "RSA private key encoded as binary DER. Handle with care."
+        }
+      ],
+      "properties": [
+        {
+          "id": "modulusLength",
+          "label": "Key Size (Modulus Bits)",
+          "type": "select",
+          "options": [
+            1024,
+            2048,
+            3072,
+            4096
+          ],
+          "defaultValue": 2048
+        },
+        {
+          "id": "publicExponent",
+          "label": "Public Exponent (e)",
+          "type": "select",
+          "options": [
+            65537,
+            3
+          ],
+          "defaultValue": 65537
+        },
+        {
+          "id": "usage",
+          "label": "Intended Primary Usage",
+          "type": "select",
+          "options": [
+            "encrypt",
+            "sign"
+          ],
+          "defaultValue": "encrypt"
+        }
+      ]
+    },
+    {
+      "type": "asymmetric-rsa-sign",
+      "label": "RSA Sign",
+      "category": "asymmetric",
+      "description": "Creates digital signature using RSA-PSS or PKCS#1 v1.5 with private key",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "any",
+          "required": true,
+          "spec": "PEM/DER",
+          "description": "RSA private key; accepts either PEM text or DER bytes."
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Original message. It is hashed with the selected Hash Algorithm before signing."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "scheme",
+          "label": "Signature Scheme",
+          "type": "select",
+          "options": [
+            "PSS",
+            "PKCS1-v1_5"
+          ],
+          "defaultValue": "PSS"
+        },
+        {
+          "id": "hash",
+          "label": "Hash Algorithm",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-384",
+            "SHA-512"
+          ],
+          "defaultValue": "SHA-256"
+        },
+        {
+          "id": "saltLength",
+          "label": "PSS Salt Length (Bytes)",
+          "type": "number",
+          "defaultValue": 32,
+          "visibleWhen": [
+            {
+              "scheme": [
+                "PSS"
+              ]
+            }
+          ],
+          "variable": "int"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_FORMAT",
+          "RSA_SIGN_FAILED"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-rsa-verify",
+      "label": "RSA Verify",
+      "category": "asymmetric",
+      "description": "Verifies digital signature using RSA-PSS or PKCS#1 v1.5 with public key",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "any",
+          "required": true,
+          "spec": "PEM/DER",
+          "description": "Signer RSA public key; accepts either PEM text or DER bytes."
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Original message. It is hashed with the selected Hash Algorithm before verification."
+        },
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "isValid",
+          "name": "Valid",
+          "dataType": "bool",
+          "description": "True if the signature verification succeeded."
+        }
+      ],
+      "properties": [
+        {
+          "id": "scheme",
+          "label": "Signature Scheme",
+          "type": "select",
+          "options": [
+            "PSS",
+            "PKCS1-v1_5"
+          ],
+          "defaultValue": "PSS"
+        },
+        {
+          "id": "hash",
+          "label": "Hash Algorithm",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-384",
+            "SHA-512"
+          ],
+          "defaultValue": "SHA-256"
+        },
+        {
+          "id": "saltLength",
+          "label": "PSS Salt Length (Bytes)",
+          "type": "number",
+          "defaultValue": 32,
+          "visibleWhen": [
+            {
+              "scheme": [
+                "PSS"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "isValid"
+      }
+    },
+    {
+      "type": "asymmetric-x25519-ecdh",
+      "label": "X25519 Key Exchange (ECDH)",
+      "category": "asymmetric",
+      "description": "Montgomery-curve Diffie-Hellman shared secret (RFC 7748)",
+      "inputs": [
+        {
+          "id": "privateKey",
+          "name": "My Private Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B"
+        },
+        {
+          "id": "peerPublicKey",
+          "name": "Peer Public Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Shared Secret",
+          "dataType": "bytes",
+          "spec": "32B"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-x25519-keygen",
+      "label": "X25519 KeyGen",
+      "category": "asymmetric",
+      "description": "Generates X25519 keypair for ECDH",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "privateKey",
+          "name": "Private Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        },
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "type": "pqc-hybridkem-decaps",
+      "label": "Hybrid KEM Decapsulate",
+      "category": "pqc",
+      "description": "Decapsulates shared secret using hybrid secret key and ciphertext",
+      "inputs": [
+        {
+          "id": "secretKey",
+          "name": "Hybrid Secret Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "ciphertext",
+          "name": "Hybrid Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Recovered Shared Secret",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-hybridkem-encaps",
+      "label": "Hybrid KEM Encapsulate",
+      "category": "pqc",
+      "description": "Encapsulates shared secret using hybrid X25519 + ML-KEM-768 recipient public key",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Recipient Public Key",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Shared Secret",
+          "dataType": "bytes",
+          "spec": "Combined",
+          "description": "Combined shared secret derived from both the X25519 and ML-KEM-768 components."
+        },
+        {
+          "id": "ciphertext",
+          "name": "Hybrid Ciphertext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-hybridkem-keygen",
+      "label": "Hybrid KEM KeyGen",
+      "category": "pqc",
+      "description": "Generates Post-Quantum Hybrid Keypair (X25519 + ML-KEM-768)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "publicKey",
+          "name": "Hybrid Public Key",
+          "dataType": "bytes"
+        },
+        {
+          "id": "secretKey",
+          "name": "Hybrid Secret Key",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "type": "pqc-mldsa-keygen",
+      "label": "ML-DSA KeyGen (FIPS 204)",
+      "category": "pqc",
+      "description": "Post-Quantum Lattice-based Digital Signature Algorithm keypair generator",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes"
+        },
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Security Level",
+          "type": "select",
+          "options": [
+            44,
+            65,
+            87
+          ],
+          "defaultValue": 65
+        }
+      ]
+    },
+    {
+      "type": "pqc-mldsa-sign",
+      "label": "ML-DSA Sign",
+      "category": "pqc",
+      "description": "Creates post-quantum digital signature (FIPS 204)",
+      "inputs": [
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "message",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Variant",
+          "type": "select",
+          "options": [
+            44,
+            65,
+            87
+          ],
+          "defaultValue": 65
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-mldsa-verify",
+      "label": "ML-DSA Verify",
+      "category": "pqc",
+      "description": "Verifies post-quantum digital signature (FIPS 204)",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "message",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "isValid",
+          "name": "Valid",
+          "dataType": "bool",
+          "description": "True if the ML-DSA signature verification succeeded."
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Variant",
+          "type": "select",
+          "options": [
+            44,
+            65,
+            87
+          ],
+          "defaultValue": 65
+        },
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "isValid"
+      }
+    },
+    {
+      "type": "pqc-mlkem-decaps",
+      "label": "ML-KEM Decapsulate",
+      "category": "pqc",
+      "description": "Decapsulates shared key using secret key and ciphertext",
+      "inputs": [
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Recovered Shared Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Variant",
+          "type": "select",
+          "options": [
+            512,
+            768,
+            1024
+          ],
+          "defaultValue": 768
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-mlkem-encaps",
+      "label": "ML-KEM Encapsulate",
+      "category": "pqc",
+      "description": "Encapsulates a shared key against recipient public key",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Recipient Public Key",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sharedSecret",
+          "name": "Shared Key",
+          "dataType": "bytes",
+          "spec": "32B"
+        },
+        {
+          "id": "ciphertext",
+          "name": "Ciphertext",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Variant",
+          "type": "select",
+          "options": [
+            512,
+            768,
+            1024
+          ],
+          "defaultValue": 768
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-mlkem-keygen",
+      "label": "ML-KEM KeyGen (FIPS 203)",
+      "category": "pqc",
+      "description": "Post-Quantum Lattice-based Key Encapsulation Mechanism keypair generator",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "spec": "Encaps",
+          "description": "Public key used by the sender to encapsulate a shared secret."
+        },
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes",
+          "spec": "Decaps",
+          "description": "Secret key used by the recipient to decapsulate the shared secret."
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Security Level",
+          "type": "select",
+          "options": [
+            512,
+            768,
+            1024
+          ],
+          "defaultValue": 768
+        }
+      ]
+    },
+    {
+      "type": "pqc-slhdsa-keygen",
+      "label": "SLH-DSA KeyGen (FIPS 205)",
+      "category": "pqc",
+      "description": "Stateless Hash-Based Digital Signature Algorithm keypair generator (FIPS 205)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes"
+        },
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Parameter Set",
+          "type": "select",
+          "options": [
+            "slh_dsa_sha2_128s",
+            "slh_dsa_sha2_128f",
+            "slh_dsa_shake_128s",
+            "slh_dsa_shake_128f",
+            "slh_dsa_sha2_256s",
+            "slh_dsa_shake_256s"
+          ],
+          "defaultValue": "slh_dsa_sha2_128s"
+        }
+      ]
+    },
+    {
+      "type": "pqc-slhdsa-sign",
+      "label": "SLH-DSA Sign (FIPS 205)",
+      "category": "pqc",
+      "description": "Signs message using stateless hash-based signature scheme (FIPS 205)",
+      "inputs": [
+        {
+          "id": "secretKey",
+          "name": "Secret Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "message",
+          "name": "Message Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Parameter Set",
+          "type": "select",
+          "options": [
+            "slh_dsa_sha2_128s",
+            "slh_dsa_sha2_128f",
+            "slh_dsa_shake_128s",
+            "slh_dsa_shake_128f",
+            "slh_dsa_sha2_256s",
+            "slh_dsa_shake_256s"
+          ],
+          "defaultValue": "slh_dsa_sha2_128s"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_MATERIAL"
+        ]
+      }
+    },
+    {
+      "type": "pqc-slhdsa-verify",
+      "label": "SLH-DSA Verify (FIPS 205)",
+      "category": "pqc",
+      "description": "Verifies stateless hash-based digital signature (FIPS 205)",
+      "inputs": [
+        {
+          "id": "publicKey",
+          "name": "Public Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "message",
+          "name": "Message Data",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "signature",
+          "name": "Signature",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "isValid",
+          "name": "Valid",
+          "dataType": "bool",
+          "description": "True if the SLH-DSA signature verification succeeded."
+        }
+      ],
+      "properties": [
+        {
+          "id": "variant",
+          "label": "Parameter Set",
+          "type": "select",
+          "options": [
+            "slh_dsa_sha2_128s",
+            "slh_dsa_sha2_128f",
+            "slh_dsa_shake_128s",
+            "slh_dsa_shake_128f",
+            "slh_dsa_sha2_256s",
+            "slh_dsa_shake_256s"
+          ],
+          "defaultValue": "slh_dsa_sha2_128s"
+        },
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "isValid"
+      }
+    },
+    {
+      "type": "hash-digest",
+      "label": "Cryptographic Hash",
+      "category": "hash",
+      "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "digest",
+          "name": "Digest",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "algorithm",
+          "label": "Hash Algorithm",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512",
+            "SHA-224",
+            "SHA-384",
+            "SHA-512/224",
+            "SHA-512/256",
+            "SHA3-224",
+            "SHA3-256",
+            "SHA3-384",
+            "SHA3-512",
+            "Keccak-256",
+            "Keccak-512",
+            "SHAKE128",
+            "SHAKE256",
+            "BLAKE2b",
+            "BLAKE2s",
+            "BLAKE3",
+            "RIPEMD-160",
+            "MD5",
+            "SHA-1"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ]
+    },
+    {
+      "type": "mac-cmac",
+      "label": "CMAC Generator",
+      "category": "hash",
+      "description": "NIST SP 800-38B Cipher-based MAC (AES-128/256 or 3DES)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Cipher Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "mac",
+          "name": "CMAC Tag",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "cipher",
+          "label": "Underlying Cipher",
+          "type": "select",
+          "options": [
+            "AES",
+            "3DES"
+          ],
+          "defaultValue": "AES"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_LENGTH"
+        ]
+      }
+    },
+    {
+      "type": "mac-hmac",
+      "label": "HMAC Generator",
+      "category": "hash",
+      "description": "Hash-based Message Authentication Code (RFC 2104)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Secret Key",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "data",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "mac",
+          "name": "MAC Digest",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "algorithm",
+          "label": "Hash Algorithm",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512",
+            "SHA3-256"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ]
+    },
+    {
+      "type": "utility-crc",
+      "label": "CRC Generator",
+      "category": "hash",
+      "description": "Universal Parametric Cyclic Redundancy Check (Rocksoft Model: 8, 16, 32, 64-bit)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "checksum",
+          "name": "Checksum",
+          "dataType": "int",
+          "description": "Computed CRC checksum value."
+        }
+      ],
+      "properties": [
+        {
+          "id": "preset",
+          "label": "CRC Algorithm Preset",
+          "type": "select",
+          "options": [
+            "CRC-32/ISO-HDLC",
+            "CRC-32/CASTAGNOLI",
+            "CRC-16/MODBUS",
+            "CRC-16/CCITT-FALSE",
+            "CRC-16/XMODEM",
+            "CRC-16/USB",
+            "CRC-16/ISO-14443-A",
+            "CRC-8/SMBUS",
+            "CRC-8/MAXIM",
+            "CRC-64/ECMA",
+            "CRC-64/XZ",
+            "custom"
+          ],
+          "defaultValue": "CRC-32/ISO-HDLC"
+        },
+        {
+          "id": "customWidth",
+          "label": "Custom Width (Bits)",
+          "type": "select",
+          "options": [
+            8,
+            16,
+            32,
+            64
+          ],
+          "defaultValue": 32
+        },
+        {
+          "id": "customPoly",
+          "label": "Custom Polynomial (Hex)",
+          "type": "hex",
+          "defaultValue": "04C11DB7",
+          "description": "Polynomial as a hex value (e.g. 04C11DB7)",
+          "variable": "bytes"
+        },
+        {
+          "id": "customInit",
+          "label": "Custom Initial Value (Hex)",
+          "type": "hex",
+          "defaultValue": "FFFFFFFF",
+          "description": "Initial value as a hex value (e.g. FFFFFFFF)",
+          "variable": "bytes"
+        },
+        {
+          "id": "customRefIn",
+          "label": "Reflect In (refIn)",
+          "type": "boolean",
+          "defaultValue": true,
+          "variable": "bool"
+        },
+        {
+          "id": "customRefOut",
+          "label": "Reflect Out (refOut)",
+          "type": "boolean",
+          "defaultValue": true,
+          "variable": "bool"
+        },
+        {
+          "id": "customXorOut",
+          "label": "Custom XOR Out (Hex)",
+          "type": "hex",
+          "defaultValue": "FFFFFFFF",
+          "description": "Final XOR value as a hex value (e.g. FFFFFFFF)",
+          "variable": "bytes"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_CRC_PARAMETER"
+        ]
+      }
+    },
+    {
+      "type": "kdf-hkdf",
+      "label": "HKDF Key Derivation",
+      "category": "kdf",
+      "description": "HMAC-based Extract-and-Expand Key Derivation (RFC 5869)",
+      "inputs": [
+        {
+          "id": "ikm",
+          "name": "Input Keying Material",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "salt",
+          "name": "Salt",
+          "dataType": "bytes",
+          "required": false
+        },
+        {
+          "id": "info",
+          "name": "Context Info",
+          "dataType": "bytes",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "id": "okm",
+          "name": "Output Key",
+          "dataType": "bytes",
+          "spec": "OKM",
+          "description": "Output Keying Material derived via HKDF-Expand."
+        }
+      ],
+      "properties": [
+        {
+          "id": "keyLength",
+          "label": "Output Length (bytes)",
+          "type": "number",
+          "defaultValue": 32,
+          "variable": "int"
+        },
+        {
+          "id": "hashAlgorithm",
+          "label": "Hash Algorithm",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KDF_PARAMS"
+        ]
+      }
+    },
+    {
+      "type": "kdf-pbkdf2",
+      "label": "PBKDF2 Key Derivation",
+      "category": "kdf",
+      "description": "Password-Based Key Derivation Function 2 (RFC 8018)",
+      "inputs": [
+        {
+          "id": "password",
+          "name": "Password",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "salt",
+          "name": "Salt",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Optional salt; if omitted, defaults to 16 zero bytes (supply a random salt for real use)."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "derivedKey",
+          "name": "Derived Key",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "iterations",
+          "label": "Iterations",
+          "type": "number",
+          "defaultValue": 10000,
+          "variable": "int"
+        },
+        {
+          "id": "keyLength",
+          "label": "Output Key Length (bytes)",
+          "type": "number",
+          "defaultValue": 32,
+          "variable": "int"
+        },
+        {
+          "id": "hashAlgorithm",
+          "label": "PR Hash Function",
+          "type": "select",
+          "options": [
+            "SHA-256",
+            "SHA-512"
+          ],
+          "defaultValue": "SHA-256"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KDF_PARAMS"
+        ]
+      }
+    },
+    {
+      "type": "padding-asymmetric",
+      "label": "Asymmetric Padding",
+      "category": "utility",
+      "description": "RSA OAEP (Encoding/Decoding) and RSA PSS (Encoding) padding schemes (PKCS#1 v2.2 / RFC 8017)",
+      "inputs": [
+        {
+          "id": "message",
+          "name": "Message",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Message to encode with RSA-OAEP.",
+          "visibleWhen": [
+            {
+              "scheme": [
+                "OAEP-Encode"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "em",
+          "name": "Encoded Message",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "EM",
+          "description": "Encoded message (EM) to unpad with RSA-OAEP.",
+          "visibleWhen": [
+            {
+              "scheme": [
+                "OAEP-Decode"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mHash",
+          "name": "Message Hash",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "32B",
+          "description": "SHA-256 hash of the message to encode with RSA-PSS.",
+          "visibleWhen": [
+            {
+              "scheme": [
+                "PSS-Encode"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "label",
+          "name": "OAEP Label",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Optional OAEP label parameter (rarely used, defaults to empty).",
+          "visibleWhen": [
+            {
+              "scheme": [
+                "OAEP-Encode",
+                "OAEP-Decode"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "salt",
+          "name": "PSS Salt",
+          "dataType": "bytes",
+          "required": false,
+          "description": "Optional PSS salt; if omitted, a random salt of Salt Length bytes is generated.",
+          "visibleWhen": [
+            {
+              "scheme": [
+                "PSS-Encode"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Result",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "scheme",
+          "label": "Scheme",
+          "type": "select",
+          "options": [
+            "OAEP-Encode",
+            "OAEP-Decode",
+            "PSS-Encode"
+          ],
+          "defaultValue": "OAEP-Encode"
+        },
+        {
+          "id": "targetLength",
+          "label": "Modulus / Target Length (Bytes)",
+          "type": "select",
+          "options": [
+            128,
+            256,
+            384,
+            512
+          ],
+          "defaultValue": 256
+        },
+        {
+          "id": "saltLength",
+          "label": "PSS Salt Length (Bytes)",
+          "type": "number",
+          "defaultValue": 32,
+          "visibleWhen": [
+            {
+              "scheme": [
+                "PSS-Encode"
+              ]
+            }
+          ],
+          "variable": "int"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "OAEP_MESSAGE_TOO_LONG",
+          "INVALID_OAEP_PADDING",
+          "INVALID_PSS_PARAMS"
+        ]
+      }
+    },
+    {
+      "type": "padding-block-pad",
+      "label": "Block Padding",
+      "category": "utility",
+      "description": "Applies cryptographic block padding (PKCS#7, ANSI X9.23, ISO/IEC 9797-1 Method 1/2/3, NIST SP 800-38B, None)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Padded Data",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "paddingType",
+          "label": "Padding Standard",
+          "type": "select",
+          "options": [
+            "None",
+            "Zero",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "NIST80038B",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "blockSize",
+          "label": "Block Size (Bytes)",
+          "type": "select",
+          "options": [
+            8,
+            16,
+            32
+          ],
+          "defaultValue": 16
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "PLAINTEXT_NOT_BLOCK_ALIGNED"
+        ]
+      }
+    },
+    {
+      "type": "padding-block-unpad",
+      "label": "Block Unpadding",
+      "category": "utility",
+      "description": "Removes cryptographic block padding (PKCS#7, ANSI X9.23, ISO/IEC 9797-1 Method 2/3, None)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Padded Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Data",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "paddingType",
+          "label": "Padding Standard",
+          "type": "select",
+          "options": [
+            "None",
+            "ISO7816",
+            "ISO97971M3",
+            "PKCS7",
+            "ANSIX923"
+          ],
+          "defaultValue": "None"
+        },
+        {
+          "id": "blockSize",
+          "label": "Block Size (Bytes)",
+          "type": "select",
+          "options": [
+            8,
+            16,
+            32
+          ],
+          "defaultValue": 16
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_PADDING"
+        ]
+      }
+    },
+    {
+      "type": "utility-bitshift",
+      "label": "Bit Shift & Rotate",
+      "category": "utility",
+      "description": "Shifts or rotates a byte array by a number of bits (SHL, SHR, ROL, ROR)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Value",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Result",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "operation",
+          "label": "Operation",
+          "type": "select",
+          "options": [
+            "SHL",
+            "SHR",
+            "ROL",
+            "ROR"
+          ],
+          "defaultValue": "SHL"
+        },
+        {
+          "id": "bits",
+          "label": "Bits",
+          "type": "number",
+          "defaultValue": 1,
+          "description": "Number of bits to shift or rotate (an integer of 0 or more)",
+          "variable": "int"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_INVALID_ARGUMENT"
+        ]
+      }
+    },
+    {
+      "type": "utility-bitwise",
+      "label": "Bitwise Logic",
+      "category": "utility",
+      "description": "Performs bitwise logic (XOR, AND, OR) across byte arrays of equal length",
+      "inputs": [
+        {
+          "id": "in_1",
+          "name": "Input A",
+          "dataType": "bytes",
+          "required": true
+        },
+        {
+          "id": "in_2",
+          "name": "Input B",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Result",
+          "dataType": "bytes"
+        }
+      ],
+      "dynamicInputs": {
+        "min": 2,
+        "defaultNamePrefix": "In",
+        "defaultDataType": "bytes"
+      },
+      "properties": [
+        {
+          "id": "operation",
+          "label": "Operation",
+          "type": "select",
+          "options": [
+            "XOR",
+            "AND",
+            "OR"
+          ],
+          "defaultValue": "XOR"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_LENGTH_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "utility-bitwise-not",
+      "label": "Bit Inversion (NOT)",
+      "category": "utility",
+      "description": "Inverts all bits (One's Complement, ~) of the input bytes",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "inverted",
+          "name": "Inverted",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "type": "utility-byte-length",
+      "label": "Byte Length",
+      "category": "utility",
+      "description": "Converts the input to bytes (string = UTF-8, int = minimal length, bool = 1 byte) and returns the byte count",
+      "inputs": [
+        {
+          "id": "in",
+          "name": "Value",
+          "dataType": "any",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "length",
+          "name": "Length",
+          "dataType": "int"
+        }
+      ],
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_INVALID_ARGUMENT",
+          "BYTES_INT_OVERFLOW"
+        ]
+      }
+    },
+    {
+      "type": "utility-compare",
+      "label": "Value Comparator",
+      "category": "utility",
+      "description": "Compares two values of the same type (bytes, string, int, bool) with ==, !=, >, >=, <, <=",
+      "inputs": [
+        {
+          "id": "a",
+          "name": "Value A",
+          "dataType": "any",
+          "required": true,
+          "description": "First operand to compare"
+        },
+        {
+          "id": "b",
+          "name": "Value B",
+          "dataType": "any",
+          "required": true,
+          "description": "Second operand to compare"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Result",
+          "dataType": "bool",
+          "description": "True if the comparison holds"
+        }
+      ],
+      "properties": [
+        {
+          "id": "operator",
+          "label": "Comparison Operator",
+          "type": "select",
+          "options": [
+            "==",
+            "!=",
+            ">",
+            ">=",
+            "<",
+            "<="
+          ],
+          "defaultValue": "=="
+        },
+        {
+          "id": "errorOnValue",
+          "label": "Treat As Error",
+          "type": "select",
+          "options": [
+            "",
+            "true",
+            "false"
+          ],
+          "defaultValue": "",
+          "description": "When the verdict equals this value, the node status is reinterpreted as ERROR."
+        },
+        {
+          "id": "errorCode",
+          "label": "Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Code of the reinterpreted error. If empty, a default based on the node type is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorMessage",
+          "label": "Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Message of the reinterpreted error. If empty, a default based on the node name is used.",
+          "visibleWhen": [
+            {
+              "errorOnValue": [
+                "true",
+                "false"
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "judgement",
+        "port": "result"
+      }
+    },
+    {
+      "type": "utility-concat",
+      "label": "Byte Concatenator",
+      "category": "utility",
+      "description": "Concatenates bytes, string, int and bool inputs in input port order (A || B || C ...)",
+      "inputs": [],
+      "outputs": [
+        {
+          "id": "combined",
+          "name": "Combined",
+          "dataType": "bytes",
+          "spec": "A‖B‖...",
+          "description": "Concatenation of all connected input buffers in port order."
+        },
+        {
+          "id": "length",
+          "name": "Total Length",
+          "dataType": "int"
+        }
+      ],
+      "dynamicInputs": {
+        "min": 0,
+        "defaultNamePrefix": "Value",
+        "defaultDataType": "bytes"
+      },
+      "properties": [],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_INVALID_ARGUMENT",
+          "BYTES_INT_OVERFLOW",
+          "BYTES_SIZE_LIMIT"
+        ]
+      }
+    },
+    {
+      "type": "utility-endian",
+      "label": "Endian Converter",
+      "category": "utility",
+      "description": "Reverses the byte order of the input (big-endian <-> little-endian)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Value",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "result",
+          "name": "Result",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": []
+    },
+    {
+      "type": "utility-script",
+      "label": "Script",
+      "category": "utility",
+      "description": "Runs a built-in script (Python subset) over bytes/int/bool/string ports",
+      "inputs": [],
+      "outputs": [],
+      "dynamicInputs": {
+        "min": 0,
+        "defaultNamePrefix": "in",
+        "defaultDataType": "bytes"
+      },
+      "dynamicOutputs": {
+        "min": 0,
+        "defaultNamePrefix": "out",
+        "defaultDataType": "bytes"
+      },
+      "properties": [
+        {
+          "id": "code",
+          "label": "Code",
+          "type": "textarea",
+          "defaultValue": ""
+        },
+        {
+          "id": "scriptVersion",
+          "label": "Script Version",
+          "type": "number",
+          "defaultValue": 1,
+          "visibleWhen": [],
+          "variable": "int"
+        },
+        {
+          "id": "errorUnify",
+          "label": "Unify Errors",
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Replaces every built-in error of this node with the single custom code/message below.",
+          "variable": "bool"
+        },
+        {
+          "id": "errorUnifyCode",
+          "label": "Unified Error Code",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error code to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        },
+        {
+          "id": "errorUnifyMessage",
+          "label": "Unified Error Message",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Error message to use when unifying.",
+          "visibleWhen": [
+            {
+              "errorUnify": [
+                true
+              ]
+            }
+          ],
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_OUT_OF_RANGE",
+          "BYTES_LENGTH_MISMATCH",
+          "BYTES_INT_OVERFLOW",
+          "BYTES_INVALID_HEX",
+          "BYTES_INVALID_UTF8",
+          "BYTES_INVALID_ARGUMENT",
+          "BYTES_SIZE_LIMIT",
+          "SCRIPT_COMPILE_ERROR",
+          "SCRIPT_DIVISION_BY_ZERO",
+          "SCRIPT_INDEX_OUT_OF_RANGE",
+          "SCRIPT_INVALID_ARGUMENT",
+          "SCRIPT_INVALID_ERROR_CODE",
+          "SCRIPT_SIZE_LIMIT",
+          "SCRIPT_STEP_LIMIT",
+          "SCRIPT_TIMEOUT",
+          "SCRIPT_INTERNAL_ERROR"
+        ]
+      }
+    },
+    {
+      "type": "utility-slicer",
+      "label": "Byte Slicer",
+      "category": "utility",
+      "description": "Extracts bytes like the script slice b[offset, length]: empty length = to the end, negative = end position counted from the back (excluded)",
+      "inputs": [
+        {
+          "id": "data",
+          "name": "Data",
+          "dataType": "bytes",
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "id": "sliced",
+          "name": "Sliced Bytes",
+          "dataType": "bytes"
+        }
+      ],
+      "properties": [
+        {
+          "id": "offset",
+          "label": "Offset (Start)",
+          "type": "number",
+          "defaultValue": 0,
+          "description": "Start position. A negative value counts from the end.",
+          "variable": "int"
+        },
+        {
+          "id": "length",
+          "label": "Length",
+          "type": "text",
+          "defaultValue": "",
+          "description": "Empty = to the end; 0 or more = length; negative = end position counted from the back (excluded; -1 stops before the last byte)",
+          "variable": "string"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "BYTES_OUT_OF_RANGE",
+          "BYTES_INVALID_ARGUMENT"
+        ]
+      }
+    }
+  ]
+}

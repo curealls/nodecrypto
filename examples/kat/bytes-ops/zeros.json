@@ -1,0 +1,6 @@
+[
+  {"op":"zeros","args":["0"],"result":{"hex":""}},
+  {"op":"zeros","args":["3"],"result":{"hex":"00 00 00"}},
+  {"op":"zeros","args":["-1"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"zeros","args":["16777217"],"error":"BYTES_SIZE_LIMIT"}
+]

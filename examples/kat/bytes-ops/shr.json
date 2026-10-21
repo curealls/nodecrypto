@@ -1,0 +1,13 @@
+[
+  {"op":"shr","args":[{"hex":"80 01"},"1"],"result":{"hex":"40 00"}},
+  {"op":"shr","args":[{"hex":"01 02"},"8"],"result":{"hex":"00 01"}},
+  {"op":"shr","args":[{"hex":"04 02"},"9"],"result":{"hex":"00 02"}},
+  {"op":"shr","args":[{"hex":"00 ff 00"},"4"],"result":{"hex":"00 0f f0"}},
+  {"op":"shr","args":[{"hex":"01 02"},"16"],"result":{"hex":"00 00"}},
+  {"op":"shr","args":[{"hex":"01 02"},"100"],"result":{"hex":"00 00"}},
+  {"op":"shr","args":[{"hex":"01 02"},"0"],"result":{"hex":"01 02"}},
+  {"op":"shr","args":[{"hex":"ff"},"7"],"result":{"hex":"01"}},
+  {"op":"shr","args":[{"hex":""},"5"],"result":{"hex":""}},
+  {"op":"shr","args":[{"hex":"01 02"},"1000000000000"],"result":{"hex":"00 00"}},
+  {"op":"shr","args":[{"hex":"01"},"-1"],"error":"BYTES_INVALID_ARGUMENT"}
+]

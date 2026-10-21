@@ -1,0 +1,7 @@
+[
+  {"op":"equals","args":[{"hex":"ab"},{"hex":"ab"}],"result":true},
+  {"op":"equals","args":[{"hex":"ab"},{"hex":"ac"}],"result":false},
+  {"op":"equals","args":[{"hex":"ab"},{"hex":"ab ab"}],"result":false},
+  {"op":"equals","args":[{"hex":""},{"hex":""}],"result":true},
+  {"op":"equals","args":[{"hex":""},{"hex":"00"}],"result":false}
+]

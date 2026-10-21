@@ -1,0 +1,8 @@
+[
+  {"op":"toUtf8","args":[{"hex":"616263"}],"result":"abc"},
+  {"op":"toUtf8","args":[{"hex":"eab080"}],"result":"가"},
+  {"op":"toUtf8","args":[{"hex":""}],"result":""},
+  {"op":"toUtf8","args":[{"hex":"efbbbf41"}],"result":"﻿A"},
+  {"op":"toUtf8","args":[{"hex":"ff"}],"error":"BYTES_INVALID_UTF8"},
+  {"op":"toUtf8","args":[{"hex":"c080"}],"error":"BYTES_INVALID_UTF8"}
+]

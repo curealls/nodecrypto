@@ -1,0 +1,194 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "cmac-aes",
+    "version": "",
+    "description": "AES-CMAC of a 40-byte message.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "key",
+        "name": "Key",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "msg",
+        "name": "Message",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "mac",
+        "name": "MAC",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-e328a014",
+    "name": "cmac-aes",
+    "description": "AES-CMAC of a 40-byte message.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "msg",
+              "name": "Message",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "cmac",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "cmac",
+          "type": "cryptoNode",
+          "nodeType": "mac-cmac",
+          "label": "CMAC Generator",
+          "category": "hash",
+          "description": "NIST SP 800-38B Cipher-based MAC (AES-128/256 or 3DES)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Cipher Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "data",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "mac",
+              "name": "CMAC Tag",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "cipher": "AES"
+          },
+          "note": "# AES-CMAC\n- Test vector: RFC 4493 section 4, example 3 (40-byte message)\n- Deterministic: the same key and message always give the same 16-byte tag."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "mac",
+              "name": "MAC",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-key-cmac-key",
+        "source": "in",
+        "sourceHandle": "key",
+        "target": "cmac",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-msg-cmac-data",
+        "source": "in",
+        "sourceHandle": "msg",
+        "target": "cmac",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cmac-mac-out-mac",
+        "source": "cmac",
+        "sourceHandle": "mac",
+        "target": "out",
+        "targetHandle": "mac",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

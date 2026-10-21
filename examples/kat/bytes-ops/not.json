@@ -1,0 +1,4 @@
+[
+  {"op":"not","args":[{"hex":"00 ff 0f"}],"result":{"hex":"ff 00 f0"}},
+  {"op":"not","args":[{"hex":""}],"result":{"hex":""}}
+]

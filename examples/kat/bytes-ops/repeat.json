@@ -1,0 +1,7 @@
+[
+  {"op":"repeat","args":[{"hex":"01 02"},"3"],"result":{"hex":"01 02 01 02 01 02"}},
+  {"op":"repeat","args":[{"hex":"01 02"},"0"],"result":{"hex":""}},
+  {"op":"repeat","args":[{"hex":""},"5"],"result":{"hex":""}},
+  {"op":"repeat","args":[{"hex":"01"},"-1"],"error":"BYTES_INVALID_ARGUMENT"},
+  {"op":"repeat","args":[{"hex":"00"},"16777217"],"error":"BYTES_SIZE_LIMIT"}
+]

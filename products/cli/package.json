@@ -1,0 +1,56 @@
+{
+  "name": "@curealls/nodecrypto",
+  "version": "0.2.2",
+  "description": "Headless NodeCrypto: validate, expand and run crypto workflows from the command line, or as an MCP server for AI agents.",
+  "license": "Apache-2.0",
+  "author": "KANG Youngho <curealls@gmail.com>",
+  "keywords": [
+    "cryptography",
+    "workflow",
+    "cli",
+    "mcp",
+    "model-context-protocol",
+    "ai-agent",
+    "aes",
+    "hmac",
+    "hkdf"
+  ],
+  "homepage": "https://nodecrypto.dev/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curealls/nodecrypto.git",
+    "directory": "products/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/curealls/nodecrypto/issues"
+  },
+  "type": "module",
+  "bin": {
+    "nodecrypto": "dist/nodecrypto.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "gen:catalog": "vite-node scripts/gen-catalog.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "nodecrypto-engine": "*",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.1",
+    "vitest": "^3.0.6"
+  }
+}

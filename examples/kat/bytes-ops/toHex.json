@@ -1,0 +1,5 @@
+[
+  {"op":"toHex","args":[{"hex":"00 ff 10"},false],"result":"00ff10"},
+  {"op":"toHex","args":[{"hex":"ab cd"},true],"result":"ABCD"},
+  {"op":"toHex","args":[{"hex":""},false],"result":""}
+]

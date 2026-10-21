@@ -1,0 +1,10 @@
+[
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"1",{"hex":"aa bb"}],"result":{"hex":"00 aa bb 33"}},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"-1",{"hex":"ff"}],"result":{"hex":"00 11 22 ff"}},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"0",{"hex":""}],"result":{"hex":"00 11 22 33"}},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"4",{"hex":""}],"result":{"hex":"00 11 22 33"}},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"0",{"hex":"00 11 22 33"}],"result":{"hex":"00 11 22 33"}},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"3",{"hex":"aa bb"}],"error":"BYTES_OUT_OF_RANGE"},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"-5",{"hex":"aa"}],"error":"BYTES_OUT_OF_RANGE"},
+  {"op":"replace","args":[{"hex":"00 11 22 33"},"5",{"hex":""}],"error":"BYTES_OUT_OF_RANGE"}
+]

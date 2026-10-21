@@ -1,0 +1,10 @@
+{
+  "source": "independent implementation: Node crypto (reference/did-auth/did-auth.mjs), no published vector",
+  "inputs": {
+    "Server Private Key": "a4b87f7821ada85b4e7f63618924b4c3f3bbb78cddcab485a7ee6f15fdfc7261",
+    "Client Public Key": "0415dc193b8e2a688d603303e85ec8fcc15dcba44ef2156a128c386b66b4f5e1d2188e7ca9d0385c02e72c6899f2771e86bb017a2d2903d89a2892c2199aec8f4d",
+    "Nonce": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "Received MAC": "39b415c1dfeb8f52"
+  },
+  "outputs": { "Verified": true }
+}

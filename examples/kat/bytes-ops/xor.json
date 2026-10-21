@@ -1,0 +1,6 @@
+[
+  {"op":"xor","args":[{"hex":"f0 f0"},{"hex":"ff 00"}],"result":{"hex":"0f f0"}},
+  {"op":"xor","args":[{"hex":""},{"hex":""}],"result":{"hex":""}},
+  {"op":"xor","args":[{"hex":"00"},{"hex":"00 00"}],"error":"BYTES_LENGTH_MISMATCH"},
+  {"op":"xor","args":[{"hex":"00 00"},{"hex":"00"}],"error":"BYTES_LENGTH_MISMATCH"}
+]

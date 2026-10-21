@@ -1,0 +1,93 @@
+{
+  "draft": 1,
+  "name": "x25519-hkdf-named",
+  "description": "X25519 then HKDF of x25519-hkdf with role names on the fixed ports of both nodes (portNames).",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "priv",
+          "dataType": "bytes",
+          "name": "PrivateKey"
+        },
+        {
+          "id": "peer",
+          "dataType": "bytes",
+          "name": "PeerPublicKey"
+        },
+        {
+          "id": "salt",
+          "dataType": "bytes",
+          "name": "Salt"
+        },
+        {
+          "id": "info",
+          "dataType": "bytes",
+          "name": "Info"
+        }
+      ]
+    },
+    {
+      "id": "dh",
+      "type": "asymmetric-x25519-ecdh",
+      "note": "# X25519 shared secret\n- Test vector: RFC 7748 section 6.1\n- Raw output: do not use it directly as a key.",
+      "portNames": {
+        "privateKey": "Local Private Key",
+        "peerPublicKey": "Peer Public Key",
+        "sharedSecret": "Raw Shared Secret"
+      }
+    },
+    {
+      "id": "hkdf",
+      "type": "kdf-hkdf",
+      "note": "# Session key\nHKDF-SHA-256 turns the shared secret into a 32-byte key. No salt or info is given, so the RFC 5869 defaults apply.",
+      "props": {
+        "keyLength": 32,
+        "hashAlgorithm": "SHA-256"
+      },
+      "portNames": {
+        "ikm": "Raw Shared Secret",
+        "okm": "Session Key"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "SessionKey"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.priv",
+      "to": "dh.privateKey"
+    },
+    {
+      "from": "in.peer",
+      "to": "dh.peerPublicKey"
+    },
+    {
+      "from": "dh.sharedSecret",
+      "to": "hkdf.ikm"
+    },
+    {
+      "from": "in.salt",
+      "to": "hkdf.salt"
+    },
+    {
+      "from": "in.info",
+      "to": "hkdf.info"
+    },
+    {
+      "from": "hkdf.okm",
+      "to": "out.key"
+    }
+  ]
+}

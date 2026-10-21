@@ -1,0 +1,56 @@
+{
+  "draft": 1,
+  "name": "hmac-sha256",
+  "description": "HMAC-SHA-256 of a message under a key.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "data",
+          "dataType": "bytes",
+          "name": "Data"
+        }
+      ]
+    },
+    {
+      "id": "hmac",
+      "type": "mac-hmac",
+      "note": "# HMAC-SHA-256\n- Test vector: RFC 4231 section 4.3 (test case 2)\n- The vector uses the 4-byte key \"Jefe\" and the message \"what do ya want for nothing?\".",
+      "props": {
+        "algorithm": "SHA-256"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "mac",
+          "dataType": "bytes",
+          "name": "MAC"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.key",
+      "to": "hmac.key"
+    },
+    {
+      "from": "in.data",
+      "to": "hmac.data"
+    },
+    {
+      "from": "hmac.mac",
+      "to": "out.mac"
+    }
+  ]
+}

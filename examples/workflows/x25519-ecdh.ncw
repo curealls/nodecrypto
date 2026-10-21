@@ -1,0 +1,195 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "x25519-ecdh",
+    "version": "",
+    "description": "X25519 shared secret from one side private key and the peer public key.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "priv",
+        "name": "PrivateKey",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "peer",
+        "name": "PeerPublicKey",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "k",
+        "name": "SharedSecret",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-85b4fc6c",
+    "name": "x25519-ecdh",
+    "description": "X25519 shared secret from one side private key and the peer public key.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "priv",
+              "name": "PrivateKey",
+              "dataType": "bytes"
+            },
+            {
+              "id": "peer",
+              "name": "PeerPublicKey",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "dh",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dh",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-x25519-ecdh",
+          "label": "X25519 Key Exchange (ECDH)",
+          "category": "asymmetric",
+          "description": "Montgomery-curve Diffie-Hellman shared secret (RFC 7748)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "My Private Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "peerPublicKey",
+              "name": "Peer Public Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Secret",
+              "spec": "32B",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {},
+          "note": "# X25519 key agreement\n- Test vector: RFC 7748 section 6.1 (Alice's private key, Bob's public key)\n- The shared secret is the raw X25519 output; feed it to a KDF before using it as a key."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "k",
+              "name": "SharedSecret",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-priv-dh-privateKey",
+        "source": "in",
+        "sourceHandle": "priv",
+        "target": "dh",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-peer-dh-peerPublicKey",
+        "source": "in",
+        "sourceHandle": "peer",
+        "target": "dh",
+        "targetHandle": "peerPublicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dh-sharedSecret-out-k",
+        "source": "dh",
+        "sourceHandle": "sharedSecret",
+        "target": "out",
+        "targetHandle": "k",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

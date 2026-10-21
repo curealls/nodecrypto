@@ -1,0 +1,12 @@
+[
+  {"op":"ror","args":[{"hex":"00 03"},"1"],"result":{"hex":"80 01"}},
+  {"op":"ror","args":[{"hex":"01 02"},"8"],"result":{"hex":"02 01"}},
+  {"op":"ror","args":[{"hex":"01 02"},"16"],"result":{"hex":"01 02"}},
+  {"op":"ror","args":[{"hex":"01 02"},"0"],"result":{"hex":"01 02"}},
+  {"op":"ror","args":[{"hex":"01"},"1"],"result":{"hex":"80"}},
+  {"op":"ror","args":[{"hex":"5a"},"4"],"result":{"hex":"a5"}},
+  {"op":"ror","args":[{"hex":"12 34 56"},"4"],"result":{"hex":"61 23 45"}},
+  {"op":"ror","args":[{"hex":""},"1"],"result":{"hex":""}},
+  {"op":"ror","args":[{"hex":"01 02"},"1000000000001"],"result":{"hex":"00 81"}},
+  {"op":"ror","args":[{"hex":"01"},"-1"],"error":"BYTES_INVALID_ARGUMENT"}
+]

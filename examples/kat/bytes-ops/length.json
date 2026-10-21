@@ -1,0 +1,4 @@
+[
+  {"op":"length","args":[{"hex":""}],"result":"0"},
+  {"op":"length","args":[{"hex":"01 02"}],"result":"2"}
+]

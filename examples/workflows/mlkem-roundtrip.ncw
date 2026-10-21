@@ -1,0 +1,328 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "mlkem-roundtrip",
+    "version": "",
+    "description": "ML-KEM-768 key generation, encapsulation and decapsulation. The result is true when both sides derive the same shared secret.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "same",
+        "name": "SharedSecretsMatch",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-b0a6b6c3",
+    "name": "mlkem-roundtrip",
+    "description": "ML-KEM-768 key generation, encapsulation and decapsulation. The result is true when both sides derive the same shared secret.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "gen",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 384
+        },
+        "width": 304,
+        "data": {
+          "id": "gen",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mlkem-keygen",
+          "label": "ML-KEM KeyGen (FIPS 203)",
+          "category": "pqc",
+          "description": "Post-Quantum Lattice-based Key Encapsulation Mechanism keypair generator",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "spec": "Encaps",
+              "dataType": "bytes",
+              "description": "Public key used by the sender to encapsulate a shared secret."
+            },
+            {
+              "id": "secretKey",
+              "name": "Secret Key",
+              "spec": "Decaps",
+              "dataType": "bytes",
+              "description": "Secret key used by the recipient to decapsulate the shared secret."
+            }
+          ],
+          "properties": {
+            "variant": 768
+          },
+          "note": "Key generation is random: every run gives a different key pair."
+        }
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mlkem-encaps",
+          "label": "ML-KEM Encapsulate",
+          "category": "pqc",
+          "description": "Encapsulates a shared key against recipient public key",
+          "inputs": [
+            {
+              "id": "publicKey",
+              "name": "Recipient Public Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Key",
+              "spec": "32B",
+              "dataType": "bytes"
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "variant": 768
+          }
+        }
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mlkem-decaps",
+          "label": "ML-KEM Decapsulate",
+          "category": "pqc",
+          "description": "Decapsulates shared key using secret key and ciphertext",
+          "inputs": [
+            {
+              "id": "secretKey",
+              "name": "Secret Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Recovered Shared Key",
+              "spec": "32B",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "variant": 768
+          }
+        }
+      },
+      {
+        "id": "cmp",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1264,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "cmp",
+          "type": "cryptoNode",
+          "nodeType": "utility-compare",
+          "label": "Value Comparator",
+          "category": "utility",
+          "description": "Compares two values of the same type (bytes, string, int, bool) with ==, !=, >, >=, <, <=",
+          "inputs": [
+            {
+              "id": "a",
+              "name": "Value A",
+              "dataType": "any",
+              "required": true,
+              "description": "First operand to compare"
+            },
+            {
+              "id": "b",
+              "name": "Value B",
+              "dataType": "any",
+              "required": true,
+              "description": "Second operand to compare"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Result",
+              "dataType": "bool",
+              "description": "True if the comparison holds"
+            }
+          ],
+          "properties": {
+            "operator": "==",
+            "errorOnValue": ""
+          },
+          "note": "# Verdict\nBoth shared secrets are random per run, so only this `bool` is compared (`true` means encaps and decaps agree)."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1664,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "same",
+              "name": "SharedSecretsMatch",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-gen-publicKey-enc-publicKey",
+        "source": "gen",
+        "sourceHandle": "publicKey",
+        "target": "enc",
+        "targetHandle": "publicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-ciphertext-dec-ciphertext",
+        "source": "enc",
+        "sourceHandle": "ciphertext",
+        "target": "dec",
+        "targetHandle": "ciphertext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-gen-secretKey-dec-secretKey",
+        "source": "gen",
+        "sourceHandle": "secretKey",
+        "target": "dec",
+        "targetHandle": "secretKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-sharedSecret-cmp-a",
+        "source": "enc",
+        "sourceHandle": "sharedSecret",
+        "target": "cmp",
+        "targetHandle": "a",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dec-sharedSecret-cmp-b",
+        "source": "dec",
+        "sourceHandle": "sharedSecret",
+        "target": "cmp",
+        "targetHandle": "b",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cmp-result-out-same",
+        "source": "cmp",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "same",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

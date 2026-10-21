@@ -1,0 +1,19 @@
+[
+  {"name":"f-string: 정수 서식 (§4.9)","ports":{"inputs":{},"outputs":{"a":"string","b":"string","c":"string","d":"string","e":"string","f":"string","g":"string"}},"inputs":{},"script":"n = 7\nv = 10\nneg = -255\na = f\"{n:03d}\"\nb = f\"{v:02x}\"\nc = f\"{v:08b}\"\nd = f\"{neg:#x}\"\ne = f\"{n:+d}\"\nf = f\"{v:X}\"\ng = f\"{v:o}\"\n","outputs":{"a":"007","b":"0a","c":"00001010","d":"-0xff","e":"+7","f":"A","g":"12"}},
+  {"name":"f-string: 문자열 정렬과 채움","ports":{"inputs":{},"outputs":{"a":"string","b":"string","c":"string","d":"string","e":"string"}},"inputs":{},"script":"name = \"ab\"\na = f\"{name:>6}\"\nb = f\"{name:*^6}\"\nc = f\"{name:<4}|\"\nd = f\"{name:3}\"\ne = f\"{name:1}\"\n","outputs":{"a":"    ab","b":"**ab**","c":"ab  |","d":"ab ","e":"ab"}},
+  {"name":"f-string: bytes와 bool","ports":{"inputs":{},"outputs":{"a":"string","b":"string","c":"string","d":"string","e":"string"}},"inputs":{},"script":"k = h\"0a ff\"\nt = True\na = f\"{k}\"\nb = f\"{k:X}\"\nc = f\"{t}\"\nd = f\"{t:>6}\"\ne = f\"{k:>6}|\"\n","outputs":{"a":"0aff","b":"0AFF","c":"True","d":"  True","e":"  0aff|"}},
+  {"name":"f-string: 중괄호, 이스케이프, 식","ports":{"inputs":{},"outputs":{"a":"string","b":"string","c":"string"}},"inputs":{},"script":"n = 7\nxs = [1, 2, 3]\na = f\"{{{n}}}\"\nb = f\"len={len(xs)} first={xs[0]} sum={n + xs[2]}\"\nc = f\"a\\tb\\\"c\"\n","outputs":{"a":"{7}","b":"len=3 first=1 sum=10","c":"a\tb\"c"}},
+  {"name":"f-string: 큰 정수","ports":{"inputs":{},"outputs":{"a":"string","b":"string"}},"inputs":{},"script":"n = 1 << 100\na = f\"{n}\"\nb = f\"{n:x}\"\n","outputs":{"a":"1267650600228229401496703205376","b":"10000000000000000000000000"}},
+  {"name":"f-string: fail 메시지에 값을 넣는다","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"n = 5\nif n != 16:\n    fail(\"BAD_LEN\", f\"expected 16, got {n}\")\no = 1\n","error":"BAD_LEN"},
+  {"name":"f-string: 빈 필드","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"a = f\"x{}y\"\no = 1\n","error":"SCRIPT_SYNTAX_FSTRING_EMPTY"},
+  {"name":"f-string: 홀로 있는 }","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"a = f\"x}y\"\no = 1\n","error":"SCRIPT_SYNTAX_FSTRING_BRACE"},
+  {"name":"f-string: 식 안의 따옴표","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"a = f\"{h\"00\"}\"\no = 1\n","error":"SCRIPT_SYNTAX_FSTRING_FIELD"},
+  {"name":"f-string: 닫히지 않은 필드","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"a = f\"{n\"\no = 1\n","error":"SCRIPT_SYNTAX_FSTRING_FIELD"},
+  {"name":"f-string: bytes에 d 형식","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"k = h\"00\"\na = f\"{k:d}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: string에 부호","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"s = \"a\"\na = f\"{s:+}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: 목록은 끼워 넣을 수 없다","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"xs = [1]\na = f\"{xs}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: 너비 한도","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"n = 1\na = f\"{n:5000}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: 0과 정렬을 함께 쓸 수 없다","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"n = 1\na = f\"{n:>05}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: 알 수 없는 형식","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"n = 1\na = f\"{n:q}\"\no = 1\n","error":"SCRIPT_FORMAT_INVALID"},
+  {"name":"f-string: 식의 이름 오류","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"a = f\"{nope}\"\no = 1\n","error":"SCRIPT_NAME_UNDEFINED"}
+]

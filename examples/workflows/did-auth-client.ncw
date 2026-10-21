@@ -1,0 +1,579 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "did-auth-client",
+    "version": "",
+    "description": "DID Auth, client side: derives the MAC that answers the server challenge. Learning example, public demo keys.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "prv",
+        "name": "Client Private Key",
+        "dataType": "bytes",
+        "spec": "32 B",
+        "required": true
+      },
+      {
+        "id": "pub",
+        "name": "Client Public Key",
+        "dataType": "bytes",
+        "spec": "65 B",
+        "required": true
+      },
+      {
+        "id": "spub",
+        "name": "Server Public Key",
+        "dataType": "bytes",
+        "spec": "65 B",
+        "required": true
+      },
+      {
+        "id": "nonce",
+        "name": "Nonce",
+        "dataType": "bytes",
+        "spec": "32 B",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "pub",
+        "name": "Client Public Key",
+        "dataType": "bytes"
+      },
+      {
+        "id": "mac",
+        "name": "MAC",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-db0cdba9",
+    "name": "did-auth-client",
+    "description": "DID Auth, client side: derives the MAC that answers the server challenge. Learning example, public demo keys.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "prv",
+              "name": "Client Private Key",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  32
+                ]
+              },
+              "defaultValue": "2ad39d172118c0802359e6806b8939881b6a3fbcc9e89e307499a862acd4e3c9"
+            },
+            {
+              "id": "pub",
+              "name": "Client Public Key",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  65
+                ]
+              },
+              "defaultValue": "0415dc193b8e2a688d603303e85ec8fcc15dcba44ef2156a128c386b66b4f5e1d2188e7ca9d0385c02e72c6899f2771e86bb017a2d2903d89a2892c2199aec8f4d"
+            },
+            {
+              "id": "spub",
+              "name": "Server Public Key",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  65
+                ]
+              },
+              "defaultValue": "0447edf45c2c402ae4cfe8460fb208fbc0d6af18efa4b3d78d44c73fcb0c250ec08222f152af03468af65a74fbf89ecc763f19b0dadec5fd8df5cf76d7da097ae5"
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "dataType": "bytes",
+              "constraint": {
+                "lengths": [
+                  32
+                ]
+              },
+              "defaultValue": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {},
+          "note": "# Client inputs\nThe nonce is the server challenge (32 random bytes). The defaults are fixed demo values so the workflow runs as is.\n\n> Learning example that explains the protocol. Do not use it in a real service. The keys are public demo keys."
+        }
+      },
+      {
+        "id": "ecdh",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "ecdh",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ecc-ecdh",
+          "label": "ECDH",
+          "category": "asymmetric",
+          "description": "Computes Elliptic Curve Diffie-Hellman shared secret on Weierstrass curves (NIST SP 800-56A / RFC 5903)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "My Private Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "peerPublicKey",
+              "name": "Peer Public Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Secret",
+              "dataType": "bytes"
+            },
+            {
+              "id": "rawSecretX",
+              "name": "Raw Secret X",
+              "spec": "32B",
+              "dataType": "bytes",
+              "description": "Raw X-coordinate of the ECDH shared point, before any KDF (NIST SP 800-56A raw format)."
+            }
+          ],
+          "properties": {
+            "curve": "p256",
+            "format": "raw_x"
+          },
+          "note": "# 1. Shared secret\n`secret = ECDH(prvClient, pubServer)`\n- P-256, output format `raw_x`: the 32-byte X coordinate (the DIDAuth text does not name the format, this is an assumption)\n- Public keys are uncompressed 65-byte points (assumption)"
+        }
+      },
+      {
+        "id": "sha",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "sha",
+          "type": "cryptoNode",
+          "nodeType": "hash-digest",
+          "label": "SHA-256",
+          "category": "hash",
+          "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "algorithm": "SHA-256"
+          },
+          "note": "# 2. Hash\n`hash = SHA2-256(secret)`"
+        }
+      },
+      {
+        "id": "ks",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1264,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "ks",
+          "type": "cryptoNode",
+          "nodeType": "utility-slicer",
+          "label": "Key",
+          "category": "utility",
+          "description": "Extracts bytes like the script slice b[offset, length]: empty length = to the end, negative = end position counted from the back (excluded)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sliced",
+              "name": "Sliced Bytes",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "offset": 0,
+            "length": "16"
+          },
+          "note": "# 2. Key\n`key = hash[0,16]`: the left 16 bytes (AES-128 key)"
+        }
+      },
+      {
+        "id": "ivs",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1264,
+          "y": 384
+        },
+        "width": 304,
+        "data": {
+          "id": "ivs",
+          "type": "cryptoNode",
+          "nodeType": "utility-slicer",
+          "label": "IV",
+          "category": "utility",
+          "description": "Extracts bytes like the script slice b[offset, length]: empty length = to the end, negative = end position counted from the back (excluded)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sliced",
+              "name": "Sliced Bytes",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "offset": 16,
+            "length": "16"
+          },
+          "note": "# 2. IV\n`iv = hash[16,16]`: the right 16 bytes"
+        }
+      },
+      {
+        "id": "cbc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1664,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "cbc",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-aes-encrypt",
+          "label": "AES-128-CBC",
+          "category": "symmetric",
+          "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "16/24/32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "AES symmetric key. Length selects AES-128/192/256."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector/counter/tweak (16B). Defaults to 16 zero bytes if omitted."
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "AEAD nonce (12B), used only in GCM/CCM mode. Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "spec": "GCM/CCM only",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data, used only in GCM/CCM mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "GCM/CCM",
+              "dataType": "bytes",
+              "description": "Authentication tag produced in GCM/CCM mode."
+            }
+          ],
+          "properties": {
+            "mode": "CBC",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          },
+          "note": "# 3. full_mac\n`full_mac = AES_ENC_CBC(key, nonce, iv)`\n- The 32-byte nonce is exactly two blocks, so no padding."
+        }
+      },
+      {
+        "id": "cut",
+        "type": "cryptoNode",
+        "position": {
+          "x": 2064,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "cut",
+          "type": "cryptoNode",
+          "nodeType": "utility-slicer",
+          "label": "MAC",
+          "category": "utility",
+          "description": "Extracts bytes like the script slice b[offset, length]: empty length = to the end, negative = end position counted from the back (excluded)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sliced",
+              "name": "Sliced Bytes",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "offset": -16,
+            "length": "8"
+          },
+          "note": "# 3. mac\n`mac = full_mac[-16,8]`: the first 8 bytes of the last block (offset 16 bytes back from the end, length 8)."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 2464,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "pub",
+              "name": "Client Public Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "mac",
+              "name": "MAC",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {},
+          "note": "# Request DID Auth\nThe client sends `{pubKey_client, mac}` to the server."
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-prv-ecdh-privateKey",
+        "source": "in",
+        "sourceHandle": "prv",
+        "target": "ecdh",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-spub-ecdh-peerPublicKey",
+        "source": "in",
+        "sourceHandle": "spub",
+        "target": "ecdh",
+        "targetHandle": "peerPublicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ecdh-sharedSecret-sha-data",
+        "source": "ecdh",
+        "sourceHandle": "sharedSecret",
+        "target": "sha",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sha-digest-ks-data",
+        "source": "sha",
+        "sourceHandle": "digest",
+        "target": "ks",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sha-digest-ivs-data",
+        "source": "sha",
+        "sourceHandle": "digest",
+        "target": "ivs",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ks-sliced-cbc-key",
+        "source": "ks",
+        "sourceHandle": "sliced",
+        "target": "cbc",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ivs-sliced-cbc-iv",
+        "source": "ivs",
+        "sourceHandle": "sliced",
+        "target": "cbc",
+        "targetHandle": "iv",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-nonce-cbc-plaintext",
+        "source": "in",
+        "sourceHandle": "nonce",
+        "target": "cbc",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cbc-ciphertext-cut-data",
+        "source": "cbc",
+        "sourceHandle": "ciphertext",
+        "target": "cut",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-pub-out-pub",
+        "source": "in",
+        "sourceHandle": "pub",
+        "target": "out",
+        "targetHandle": "pub",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cut-sliced-out-mac",
+        "source": "cut",
+        "sourceHandle": "sliced",
+        "target": "out",
+        "targetHandle": "mac",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

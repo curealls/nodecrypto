@@ -1,0 +1,19 @@
+[
+  {"name":"내림 나눗셈과 나머지의 부호","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","d":"int","e":"int","f":"int"}},"inputs":{},"script":"a = -7 // 2\nb = -7 % 2\nc = 7 // -2\nd = 7 % -2\ne = -7 // -2\nf = -7 % -2\n","outputs":{"a":"-4","b":"1","c":"-4","d":"-1","e":"3","f":"-1"}},
+  {"name":"2^64를 넘는 곱셈과 시프트","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","d":"int","e":"int"}},"inputs":{},"script":"a = 0xffffffffffffffff * 0xffffffffffffffff\nb = 1 << 100\nc = b >> 98\nd = -1 >> 5\ne = (1 << 64) - 1\n","outputs":{"a":"340282366920938463426481119284349108225","b":"1267650600228229401496703205376","c":"4","d":"-1","e":"18446744073709551615"}},
+  {"name":"int 비트 연산(2의 보수)","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","d":"int","e":"int"}},"inputs":{},"script":"a = 0xF0 & 0x3C\nb = 0xF0 | 0x0F\nc = 0xFF ^ 0x0F\nd = ~5\ne = -1 & 0xFF\n","outputs":{"a":"48","b":"255","c":"240","d":"-6","e":"255"}},
+  {"name":"to_bytes/to_int 왕복","ports":{"inputs":{"n":"int"},"outputs":{"b":"bytes","l":"bytes","m":"int","s":"int"}},"inputs":{"n":"4660"},"script":"b = to_bytes(n, 4)\nl = to_bytes(n, 4, \"little\")\nm = to_int(b)\ns = to_int(to_bytes(-2, 2, signed=True), signed=True)\n","outputs":{"b":{"hex":"00001234"},"l":{"hex":"34120000"},"m":"4660","s":"-2"}},
+  {"name":"to_bytes 길이 초과","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"b = to_bytes(256, 1)\no = 1\n","error":"BYTES_INT_OVERFLOW"},
+  {"name":"to_bytes 부호 없는 음수","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"b = to_bytes(-1, 1)\no = 1\n","error":"BYTES_INT_OVERFLOW"},
+  {"name":"잘못된 endian","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"x = to_int(h\"01\", \"middle\")\no = x\n","error":"BYTES_INVALID_ARGUMENT"},
+  {"name":"0으로 나눔(//)","ports":{"inputs":{"n":"int"},"outputs":{"o":"int"}},"inputs":{"n":"0"},"script":"o = 1 // n\n","error":"SCRIPT_DIVISION_BY_ZERO"},
+  {"name":"0으로 나눔(%)","ports":{"inputs":{"n":"int"},"outputs":{"o":"int"}},"inputs":{"n":"0"},"script":"o = 1 % n\n","error":"SCRIPT_DIVISION_BY_ZERO"},
+  {"name":"음수 시프트(<<)","ports":{"inputs":{"n":"int"},"outputs":{"o":"int"}},"inputs":{"n":"-1"},"script":"o = 1 << n\n","error":"SCRIPT_INVALID_ARGUMENT"},
+  {"name":"음수 시프트(>>)","ports":{"inputs":{"n":"int"},"outputs":{"o":"int"}},"inputs":{"n":"-1"},"script":"o = 1 >> n\n","error":"SCRIPT_INVALID_ARGUMENT"},
+  {"name":"pow","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","d":"int"}},"inputs":{},"script":"a = pow(3, 200, 13)\nb = pow(2, 10, 1)\nc = pow(-2, 3, 5)\nd = pow(5, 0, 7)\n","outputs":{"a":"9","b":"0","c":"2","d":"1"}},
+  {"name":"pow 음수 지수","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"o = pow(2, -1, 5)\n","error":"SCRIPT_INVALID_ARGUMENT"},
+  {"name":"pow mod 0","ports":{"inputs":{},"outputs":{"o":"int"}},"inputs":{},"script":"o = pow(2, 1, 0)\n","error":"SCRIPT_INVALID_ARGUMENT"},
+  {"name":"bit_length","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","d":"int"}},"inputs":{},"script":"a = bit_length(0)\nb = bit_length(255)\nc = bit_length(256)\nd = bit_length(-255)\n","outputs":{"a":"0","b":"8","c":"9","d":"8"}},
+  {"name":"abs/min/max/str","ports":{"inputs":{},"outputs":{"a":"int","b":"int","c":"int","s":"string"}},"inputs":{},"script":"a = abs(-5)\nb = min(3, 2)\nc = max(3, 2)\ns = str(-42)\n","outputs":{"a":"5","b":"2","c":"3","s":"-42"}},
+  {"name":"큰 int 입력","ports":{"inputs":{"n":"int"},"outputs":{"o":"int"}},"inputs":{"n":"4722366482869645213695"},"script":"o = n + 1\n","outputs":{"o":"4722366482869645213696"}}
+]

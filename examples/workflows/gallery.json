@@ -1,0 +1,116 @@
+{
+  "aes-gcm": {
+    "title": { "en": "AES-GCM encryption", "ko": "AES-GCM 암호화" },
+    "description": { "en": "AES-128-GCM authenticated encryption with a 96-bit nonce and associated data. Outputs the ciphertext and the 128-bit tag.", "ko": "96비트 nonce와 연관 데이터를 쓰는 AES-128-GCM 인증 암호화. 암호문과 128비트 태그를 출력한다." },
+    "tags": ["symmetric"],
+    "order": 10
+  },
+  "aes-gcm-named": {
+    "title": { "en": "AES-GCM with port names", "ko": "포트 이름을 붙인 AES-GCM" },
+    "description": { "en": "The same AES-GCM encryption, with role names on the fixed ports of the AES node so the graph reads like the protocol.", "ko": "같은 AES-GCM 암호화에서 AES 노드의 고정 포트에 역할 이름을 붙여 그래프가 프로토콜처럼 읽히게 했다." },
+    "tags": ["symmetric"],
+    "order": 11
+  },
+  "seed-ecb": {
+    "title": { "en": "SEED-128 block encryption", "ko": "SEED-128 블록 암호화" },
+    "description": { "en": "Encrypts a single block with the Korean standard block cipher SEED in ECB mode without padding.", "ko": "국내 표준 블록 암호 SEED로 한 블록을 패딩 없이 ECB 모드로 암호화한다." },
+    "tags": ["symmetric"],
+    "order": 12
+  },
+  "variables-aes-ecb": {
+    "title": { "en": "AES with variables", "ko": "변수를 쓰는 AES" },
+    "description": { "en": "The FIPS 197 AES-128 example whose key and plaintext come from named variables of the Value Registry instead of constants.", "ko": "키와 평문을 상수 대신 Value Registry의 이름 있는 변수에서 가져오는 FIPS 197 AES-128 예제." },
+    "tags": ["symmetric", "variables"],
+    "order": 13
+  },
+  "hmac-sha256": {
+    "title": { "en": "HMAC-SHA-256", "ko": "HMAC-SHA-256" },
+    "description": { "en": "Message authentication code of a message under a key, checked against RFC 4231.", "ko": "키로 메시지의 인증 코드를 계산하며 RFC 4231로 검증했다." },
+    "tags": ["mac"],
+    "order": 20
+  },
+  "cmac-aes": {
+    "title": { "en": "AES-CMAC", "ko": "AES-CMAC" },
+    "description": { "en": "AES-CMAC of a 40-byte message, checked against RFC 4493.", "ko": "40바이트 메시지의 AES-CMAC을 계산하며 RFC 4493으로 검증했다." },
+    "tags": ["mac"],
+    "order": 21
+  },
+  "cmac-subkey": {
+    "title": { "en": "CMAC subkey generation", "ko": "CMAC 서브키 생성" },
+    "description": { "en": "Derives the CMAC subkeys K1 and K2 from an AES key with an AES block and a built-in script node.", "ko": "AES 블록 암호화와 내장 스크립트 노드로 AES 키에서 CMAC 서브키 K1, K2를 유도한다." },
+    "tags": ["mac", "script"],
+    "order": 22
+  },
+  "hkdf-sha256": {
+    "title": { "en": "HKDF-SHA-256", "ko": "HKDF-SHA-256" },
+    "description": { "en": "Extract-and-expand key derivation (RFC 5869) to 42 bytes from input keying material, salt and info.", "ko": "입력 키 재료, 솔트, info로 42바이트를 유도하는 추출-확장 키 유도(RFC 5869)." },
+    "tags": ["kdf"],
+    "order": 30
+  },
+  "pbkdf2-sha256": {
+    "title": { "en": "PBKDF2-HMAC-SHA-256", "ko": "PBKDF2-HMAC-SHA-256" },
+    "description": { "en": "Password-based key derivation with one iteration and 64 output bytes, checked against RFC 7914.", "ko": "반복 1회, 출력 64바이트의 패스워드 기반 키 유도이며 RFC 7914로 검증했다." },
+    "tags": ["kdf"],
+    "order": 31
+  },
+  "x25519-ecdh": {
+    "title": { "en": "X25519 key agreement", "ko": "X25519 키 합의" },
+    "description": { "en": "Computes the shared secret from one side's private key and the peer's public key, checked against RFC 7748.", "ko": "한쪽 개인키와 상대 공개키로 공유 비밀을 계산하며 RFC 7748로 검증했다." },
+    "tags": ["asymmetric"],
+    "order": 40
+  },
+  "x25519-hkdf": {
+    "title": { "en": "X25519 + HKDF", "ko": "X25519 + HKDF" },
+    "description": { "en": "Key agreement followed by HKDF-SHA-256 with a salt and context info to derive a 32-byte session key.", "ko": "키 합의 후 솔트와 컨텍스트 info를 넣은 HKDF-SHA-256으로 32바이트 세션키를 유도한다." },
+    "tags": ["asymmetric", "kdf"],
+    "order": 41
+  },
+  "x25519-hkdf-named": {
+    "title": { "en": "X25519 + HKDF with port names", "ko": "포트 이름을 붙인 X25519 + HKDF" },
+    "description": { "en": "The same session-key derivation with role names on the fixed ports of both nodes.", "ko": "같은 세션키 유도에서 두 노드의 고정 포트에 역할 이름을 붙였다." },
+    "tags": ["asymmetric", "kdf"],
+    "order": 42
+  },
+  "ed25519-sign": {
+    "title": { "en": "Ed25519 signature", "ko": "Ed25519 서명" },
+    "description": { "en": "Deterministic signature of a message with a 32-byte secret key, checked against RFC 8032.", "ko": "32바이트 비밀키로 메시지에 결정적 서명을 하며 RFC 8032로 검증했다." },
+    "tags": ["signature"],
+    "order": 50
+  },
+  "mlkem-768-decaps": {
+    "title": { "en": "ML-KEM-768 decapsulation", "ko": "ML-KEM-768 역캡슐화" },
+    "description": { "en": "Decapsulates a ciphertext with the full-size 2400-byte decapsulation key and checks the shared secret against an independent implementation's vector.", "ko": "2400바이트 역캡슐화 키로 암호문을 풀어 공유 비밀을 얻고 독립 구현의 시험 벡터와 대조한다." },
+    "tags": ["post-quantum"],
+    "order": 60
+  },
+  "mlkem-roundtrip": {
+    "title": { "en": "ML-KEM-768 round trip", "ko": "ML-KEM-768 왕복" },
+    "description": { "en": "Key generation, encapsulation and decapsulation in one graph. The result is true when both sides derive the same shared secret.", "ko": "키 생성, 캡슐화, 역캡슐화를 한 그래프로 구성한다. 양쪽 공유 비밀이 같으면 true를 출력한다." },
+    "tags": ["post-quantum"],
+    "order": 61
+  },
+  "did-auth-keygen": {
+    "title": { "en": "DID Auth: key pairs", "ko": "DID Auth: 키쌍 생성" },
+    "description": { "en": "Generates the P-256 key pairs of the DID Auth demo, one for the server and one for the client. Public demo keys only.", "ko": "DID Auth 데모의 서버용과 클라이언트용 P-256 키쌍을 생성한다. 공개 데모 키만 쓴다." },
+    "tags": ["protocol", "demo"],
+    "order": 70
+  },
+  "did-auth-client": {
+    "title": { "en": "DID Auth: client", "ko": "DID Auth: 클라이언트" },
+    "description": { "en": "Client side of a challenge-response over ECDH: derives the MAC that answers the server's nonce.", "ko": "ECDH 기반 챌린지-응답의 클라이언트 쪽. 서버의 nonce에 답하는 MAC을 계산한다." },
+    "tags": ["protocol", "demo"],
+    "order": 71
+  },
+  "did-auth-server": {
+    "title": { "en": "DID Auth: server", "ko": "DID Auth: 서버" },
+    "description": { "en": "Server side: recomputes the MAC from its own private key and compares it with the MAC sent by the client.", "ko": "서버 쪽. 자신의 개인키로 MAC을 다시 계산해 클라이언트가 보낸 MAC과 비교한다." },
+    "tags": ["protocol", "demo"],
+    "order": 72
+  },
+  "did-auth-demo": {
+    "title": { "en": "DID Auth demo", "ko": "DID Auth 데모" },
+    "description": { "en": "Client and server workflows registered as custom nodes and wired together with fresh key pairs and nonce on every run. A learning example.", "ko": "클라이언트와 서버 워크플로우를 사용자 정의 노드로 등록해 매 실행마다 새 키쌍과 nonce로 연결한 학습용 예제." },
+    "tags": ["protocol", "demo"],
+    "order": 73
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "draft": 1,
+  "name": "cmac-aes",
+  "description": "AES-CMAC of a 40-byte message.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "key",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "msg",
+          "dataType": "bytes",
+          "name": "Message"
+        }
+      ]
+    },
+    {
+      "id": "cmac",
+      "type": "mac-cmac",
+      "note": "# AES-CMAC\n- Test vector: RFC 4493 section 4, example 3 (40-byte message)\n- Deterministic: the same key and message always give the same 16-byte tag.",
+      "props": {
+        "cipher": "AES"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "mac",
+          "dataType": "bytes",
+          "name": "MAC"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.key",
+      "to": "cmac.key"
+    },
+    {
+      "from": "in.msg",
+      "to": "cmac.data"
+    },
+    {
+      "from": "cmac.mac",
+      "to": "out.mac"
+    }
+  ]
+}
