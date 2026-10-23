@@ -31,7 +31,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-e0bfba6e",
+    "id": "wf-ed3726e4",
     "name": "ed25519-sign",
     "description": "Ed25519 signature of a message with a 32-byte secret key.",
     "viewport": {
@@ -60,12 +60,14 @@
             {
               "id": "priv",
               "name": "PrivateKey",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb"
             },
             {
               "id": "msg",
               "name": "Message",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "72"
             }
           ],
           "size": "small",

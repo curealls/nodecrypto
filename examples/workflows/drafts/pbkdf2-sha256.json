@@ -10,12 +10,14 @@
         {
           "id": "password",
           "dataType": "bytes",
-          "name": "Password"
+          "name": "Password",
+          "defaultValue": "706173737764"
         },
         {
           "id": "salt",
           "dataType": "bytes",
-          "name": "Salt"
+          "name": "Salt",
+          "defaultValue": "73616c74"
         }
       ]
     },

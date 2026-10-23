@@ -143,7 +143,7 @@ function checkProps(n: CNode, i: number, p: Paths, ctx: Ctx, out: Issue[]) {
   }
 }
 
-function checkPorts(n: CNode, i: number, p: Paths, out: Issue[], strictLists: boolean) {
+function checkPorts(n: CNode, i: number, p: Paths, nodes: Map<string, CNode>, out: Issue[], strictLists: boolean) {
   const def = n.def;
   if (!def) return;
   for (const side of ['inputs', 'outputs'] as const) {
@@ -154,7 +154,18 @@ function checkPorts(n: CNode, i: number, p: Paths, out: Issue[], strictLists: bo
 
     if (!dyn && !derived) {
       // Fixed ports: a written list must match the visible ports of the definition; a package carries them all.
-      const expected = (strictLists ? visiblePorts(def[side], n.props) : def[side]).map((x) => `${x.id}:${x.dataType}`);
+      let expected = (strictLists ? visiblePorts(def[side], n.props) : def[side]).map((x) => `${x.id}:${x.dataType}`);
+      // A Link's `out` has the type of the port it points at, not the definition's `any` (authoring.md §2.3).
+      if (n.type === LINK_NODE_TYPE && side === 'outputs') {
+        const from = nodes.get(n.props.sourceNodeId)?.outputs.find((x) => x.id === n.props.sourcePortId);
+        if (from) {
+          if (from.dataType === 'set' || !same(n[side].map((x) => `${x.id}:${x.dataType}`), [`out:${from.dataType}`])) {
+            out.push(issue('LINK_TYPE_MISMATCH', path, { node: n.id }, `Source port ${n.props.sourceNodeId}.${from.id} is ${from.dataType}${from.dataType === 'set' ? ', which cannot be linked' : ''}`));
+          }
+          continue;
+        }
+        expected = ['out:' + (n.outputs[0]?.dataType ?? 'any')];
+      }
       const got = strictLists ? n.given?.[side] : list;
       // A package keeps the order the user chose (node-catalog.md §2.2-14); only a draft must match the definition order.
       const order = (l: string[]) => (strictLists ? l : [...l].sort());
@@ -250,7 +261,7 @@ function checkWorkflow(nodes: CNode[], edges: Edge[], p: Paths, ctx: Ctx, strict
   });
   nodes.forEach((n, i) => {
     checkProps(n, i, p, ctx, out);
-    checkPorts(n, i, p, out, strictLists);
+    checkPorts(n, i, p, byId, out, strictLists);
     checkDerived(n, i, p, byId, edges, out);
   });
 

@@ -37,7 +37,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-a813a9ac",
+    "id": "wf-7b947004",
     "name": "hkdf-sha256",
     "description": "HKDF-SHA-256 extract-and-expand to 42 bytes.",
     "viewport": {
@@ -66,17 +66,20 @@
             {
               "id": "ikm",
               "name": "IKM",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"
             },
             {
               "id": "salt",
               "name": "Salt",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "000102030405060708090a0b0c"
             },
             {
               "id": "info",
               "name": "Info",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "f0f1f2f3f4f5f6f7f8f9"
             }
           ],
           "size": "small",

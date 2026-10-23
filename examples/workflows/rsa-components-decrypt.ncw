@@ -1,0 +1,315 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "rsa-components-decrypt",
+    "version": "",
+    "description": "RSA-OAEP decryption with a private key built from its components N, e and d.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "n",
+        "name": "N",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "e",
+        "name": "e",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "d",
+        "name": "d",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
+        "id": "ciphertext",
+        "name": "Ciphertext",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "plaintext",
+        "name": "Plaintext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-6a447df8",
+    "name": "rsa-components-decrypt",
+    "description": "RSA-OAEP decryption with a private key built from its components N, e and d.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "defaultValue": "ea3a35a2d7b5467e45de0eecd49862cf702dfd6bd59ec103d43543f52b78e92af38951f499bff434a3bd7b50b0a58422fc19ae93d39de392c2b8e21bf4684686d3caaed79121917697335afdd7282928b78e75f36cc5d1dcf16126b1e10d8956d51f270739e3670304961a55757edf4b01e5073df545abaf5dab0acee3046c1f"
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "defaultValue": "010001"
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "defaultValue": "dae08e629fe47bfd5fd8c465b7bcb70955b10452128b899ec45d0a263efb7c1870ffef9ffd550d256ba59368b1c9da12bf365897377721c4714647b50bcdada862f6114300104514fe1cb76c514615082218f68c9726a929547f37fc40fa630032c5eb2c6e95b49ddb98ffdb794b3ba8981654314aee0bf7ee79bb3bc71b4a71"
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "defaultValue": "358db60d0905e619e75119df0bd4603287a65543cb40535d2d44605e2466b36dafd2a5927c72f6dafc1fdcb9f60115340c64b788a5f8203ecb080957bf420b4b40c4e5de4861809cb42b05a1091ea711a650d4239f2faf0684cbeb8c80c9a395f87cc80334310e438e1c465cae5a5fbdc451a20ee68a322e49796198f0088577"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-key-encode",
+          "label": "RSA Key Encoder",
+          "category": "asymmetric",
+          "description": "Builds an RSA SPKI public key or PKCS#8 private key (DER) from its components N, e and d",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Modulus N (big-endian unsigned integer)."
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Public exponent e (big-endian unsigned integer)."
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Private exponent d. p and q are computed from N, e and d."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "SPKI/PKCS#8 DER",
+              "dataType": "bytes",
+              "description": "SPKI DER for a public key, PKCS#8 DER for a private key."
+            }
+          ],
+          "properties": {
+            "keyType": "Private"
+          },
+          "note": "# RSA Key Encoder\n- Builds the PKCS#8 private key from N, e and d. The prime factors p and q are computed from them.\n- The values are a throw-away 1024-bit test key generated for this example; never use it for real data."
+        }
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-decrypt",
+          "label": "RSA Decrypt",
+          "category": "asymmetric",
+          "description": "Decrypts ciphertext using RSA-OAEP with private key (RFC 8017)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "RSA private key as DER bytes (PKCS#8)."
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext Data",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "label",
+              "name": "OAEP Label",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "hash": "SHA-256"
+          },
+          "note": "# RSA Decrypt\n- RSA-OAEP with SHA-256 and an empty label.\n- The ciphertext was produced with Node crypto (OpenSSL), an independent implementation."
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1264,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-n-enc-n",
+        "source": "in",
+        "sourceHandle": "n",
+        "target": "enc",
+        "targetHandle": "n",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-e-enc-e",
+        "source": "in",
+        "sourceHandle": "e",
+        "target": "enc",
+        "targetHandle": "e",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-d-enc-d",
+        "source": "in",
+        "sourceHandle": "d",
+        "target": "enc",
+        "targetHandle": "d",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-key-dec-privateKey",
+        "source": "enc",
+        "sourceHandle": "key",
+        "target": "dec",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-ciphertext-dec-ciphertext",
+        "source": "in",
+        "sourceHandle": "ciphertext",
+        "target": "dec",
+        "targetHandle": "ciphertext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dec-plaintext-out-plaintext",
+        "source": "dec",
+        "sourceHandle": "plaintext",
+        "target": "out",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

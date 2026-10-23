@@ -3,7 +3,6 @@
  * Supports RSA-OAEP (Encryption/Decryption) and RSA-PSS / RSASSA-PKCS1-v1_5 (Signing/Verification)
  */
 
-import { bytesToBase64, base64ToBytes } from '../utils/encoding';
 import { NodeError } from '../../dag/errors';
 import { tmsg, type Msg } from '../../messages';
 
@@ -25,8 +24,6 @@ function classifyRsaError(err: unknown, operationErrorCode: string, operationMes
 }
 
 export interface RsaKeyPair {
-  publicKeyPem: string;
-  privateKeyPem: string;
   publicKeyDer: Uint8Array;
   privateKeyDer: Uint8Array;
 }
@@ -34,18 +31,8 @@ export interface RsaKeyPair {
 export type RsaHashAlgorithm = 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
 export type RsaAlgorithmScheme = 'RSA-OAEP' | 'RSA-PSS' | 'RSASSA-PKCS1-v1_5';
 
-function arrayBufferToPem(buffer: ArrayBuffer, type: 'PUBLIC KEY' | 'PRIVATE KEY'): string {
-  const base64 = bytesToBase64(new Uint8Array(buffer));
-  const lines = base64.match(/.{1,64}/g)?.join('\n') || '';
-  return `-----BEGIN ${type}-----\n${lines}\n-----END ${type}-----`;
-}
-
-function pemOrDerToArrayBuffer(input: Uint8Array | string): ArrayBuffer {
-  if (typeof input === 'string') {
-    const clean = input.replace(/-----BEGIN [^-]+-----|-----END [^-]+-----|\s+/g, '');
-    return base64ToBytes(clean).buffer as ArrayBuffer;
-  }
-  // Convert Uint8Array to clean ArrayBuffer copy safely
+function toArrayBuffer(input: Uint8Array): ArrayBuffer {
+  // Copy into a clean ArrayBuffer (the input may be a view into a larger buffer)
   const copy = new Uint8Array(input.length);
   copy.set(input);
   return copy.buffer;
@@ -54,7 +41,6 @@ function pemOrDerToArrayBuffer(input: Uint8Array | string): ArrayBuffer {
 export interface RsaKeyGenOptions {
   modulusLength?: 1024 | 2048 | 3072 | 4096;
   publicExponent?: 65537 | 3;
-  usage?: 'encrypt' | 'sign';
   algorithm?: RsaAlgorithmScheme;
   hash?: RsaHashAlgorithm;
 }
@@ -63,12 +49,12 @@ export async function rsaGenerateKeyPair(
   opts: RsaKeyGenOptions = {}
 ): Promise<RsaKeyPair> {
   const modulusLength = opts.modulusLength || 2048;
-  const usage = opts.usage || 'encrypt';
   const publicExponent = opts.publicExponent === 3 ? new Uint8Array([3]) : new Uint8Array([1, 0, 1]);
   const hash = opts.hash || 'SHA-256';
 
-  let algorithmName: string = opts.algorithm || (usage === 'encrypt' ? 'RSA-OAEP' : 'RSA-PSS');
-  let keyUsages: KeyUsage[] = usage === 'encrypt' ? ['encrypt', 'decrypt'] : ['sign', 'verify'];
+  // The exported SPKI/PKCS#8 do not depend on the algorithm; it only sets the WebCrypto key-usage flags.
+  const algorithmName: string = opts.algorithm || 'RSA-OAEP';
+  const keyUsages: KeyUsage[] = algorithmName === 'RSA-OAEP' ? ['encrypt', 'decrypt'] : ['sign', 'verify'];
 
   const algorithm = {
     name: algorithmName,
@@ -85,19 +71,17 @@ export async function rsaGenerateKeyPair(
   return {
     publicKeyDer: new Uint8Array(pubDer),
     privateKeyDer: new Uint8Array(privDer),
-    publicKeyPem: arrayBufferToPem(pubDer, 'PUBLIC KEY'),
-    privateKeyPem: arrayBufferToPem(privDer, 'PRIVATE KEY'),
   };
 }
 
 export async function rsaOaepEncrypt(
   plaintext: Uint8Array,
-  publicKeyDerOrPem: Uint8Array | string,
+  publicKeyDer: Uint8Array,
   hash: RsaHashAlgorithm = 'SHA-256',
   label?: Uint8Array
 ): Promise<Uint8Array> {
   try {
-    const der = pemOrDerToArrayBuffer(publicKeyDerOrPem);
+    const der = toArrayBuffer(publicKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'spki',
@@ -127,12 +111,12 @@ export async function rsaOaepEncrypt(
 
 export async function rsaOaepDecrypt(
   ciphertext: Uint8Array,
-  privateKeyDerOrPem: Uint8Array | string,
+  privateKeyDer: Uint8Array,
   hash: RsaHashAlgorithm = 'SHA-256',
   label?: Uint8Array
 ): Promise<Uint8Array> {
   try {
-    const der = pemOrDerToArrayBuffer(privateKeyDerOrPem);
+    const der = toArrayBuffer(privateKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'pkcs8',
@@ -162,12 +146,12 @@ export async function rsaOaepDecrypt(
 
 export async function rsaPssSign(
   message: Uint8Array,
-  privateKeyDerOrPem: Uint8Array | string,
+  privateKeyDer: Uint8Array,
   saltLength: number = 32,
   hash: RsaHashAlgorithm = 'SHA-256'
 ): Promise<Uint8Array> {
   try {
-    const der = pemOrDerToArrayBuffer(privateKeyDerOrPem);
+    const der = toArrayBuffer(privateKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'pkcs8',
@@ -191,12 +175,12 @@ export async function rsaPssSign(
 export async function rsaPssVerify(
   signature: Uint8Array,
   message: Uint8Array,
-  publicKeyDerOrPem: Uint8Array | string,
+  publicKeyDer: Uint8Array,
   saltLength: number = 32,
   hash: RsaHashAlgorithm = 'SHA-256'
 ): Promise<boolean> {
   try {
-    const der = pemOrDerToArrayBuffer(publicKeyDerOrPem);
+    const der = toArrayBuffer(publicKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'spki',
@@ -219,11 +203,11 @@ export async function rsaPssVerify(
 
 export async function rsaPkcs1Sign(
   message: Uint8Array,
-  privateKeyDerOrPem: Uint8Array | string,
+  privateKeyDer: Uint8Array,
   hash: RsaHashAlgorithm = 'SHA-256'
 ): Promise<Uint8Array> {
   try {
-    const der = pemOrDerToArrayBuffer(privateKeyDerOrPem);
+    const der = toArrayBuffer(privateKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'pkcs8',
@@ -247,11 +231,11 @@ export async function rsaPkcs1Sign(
 export async function rsaPkcs1Verify(
   signature: Uint8Array,
   message: Uint8Array,
-  publicKeyDerOrPem: Uint8Array | string,
+  publicKeyDer: Uint8Array,
   hash: RsaHashAlgorithm = 'SHA-256'
 ): Promise<boolean> {
   try {
-    const der = pemOrDerToArrayBuffer(publicKeyDerOrPem);
+    const der = toArrayBuffer(publicKeyDer);
 
     const cryptoKey = await crypto.subtle.importKey(
       'spki',

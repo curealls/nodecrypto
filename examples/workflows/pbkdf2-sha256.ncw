@@ -31,7 +31,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-e33a9beb",
+    "id": "wf-723cd9dd",
     "name": "pbkdf2-sha256",
     "description": "PBKDF2-HMAC-SHA-256 with one iteration, 64 output bytes.",
     "viewport": {
@@ -60,12 +60,14 @@
             {
               "id": "password",
               "name": "Password",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "706173737764"
             },
             {
               "id": "salt",
               "name": "Salt",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "73616c74"
             }
           ],
           "size": "small",

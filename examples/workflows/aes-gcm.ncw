@@ -48,7 +48,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-96b6cb7c",
+    "id": "wf-0f95ddc3",
     "name": "aes-gcm",
     "description": "AES-128-GCM encryption with a 96-bit nonce and associated data. Outputs the ciphertext and the 128-bit tag.",
     "viewport": {
@@ -77,22 +77,26 @@
             {
               "id": "key",
               "name": "Key",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "000102030405060708090a0b0c0d0e0f"
             },
             {
               "id": "nonce",
               "name": "Nonce",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "51753c6580c2726f20718414"
             },
             {
               "id": "aad",
               "name": "AAD",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "8040f17b8041f8d35501a0b2"
             },
             {
               "id": "pt",
               "name": "Plaintext",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "47616c6c696120657374206f6d6e69732064697669736120696e207061727465732074726573"
             }
           ],
           "size": "small",

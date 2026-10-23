@@ -1,0 +1,209 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "sha256-link",
+    "version": "",
+    "description": "SHA-256 digest passed to the output through a Link.",
+    "category": "",
+    "inputs": [
+      {
+        "id": "data",
+        "name": "Data",
+        "dataType": "bytes",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "id": "digest",
+        "name": "Digest",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-fff96b04",
+    "name": "sha256-link",
+    "description": "SHA-256 digest passed to the output through a Link.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "workflow-input",
+          "label": "Workflow Input",
+          "category": "input",
+          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "defaultValue": "616263"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "Arg",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "hash",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "hash",
+          "type": "cryptoNode",
+          "nodeType": "hash-digest",
+          "label": "Cryptographic Hash",
+          "category": "hash",
+          "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "algorithm": "SHA-256"
+          }
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 384
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Workflow Output",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      },
+      {
+        "id": "link-1",
+        "type": "linkNode",
+        "position": {
+          "x": 700,
+          "y": 64
+        },
+        "data": {
+          "id": "link-1",
+          "type": "cryptoNode",
+          "nodeType": "link",
+          "label": "Digest",
+          "category": "input",
+          "description": "Symbolic link to an output port. Copy freely to avoid tangled connection lines.",
+          "inputs": [
+            {
+              "id": "in",
+              "name": "In",
+              "dataType": "any",
+              "required": true,
+              "description": "Value of the linked output port"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "out",
+              "name": "Out",
+              "dataType": "bytes",
+              "description": "Same value as the linked output port"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "sourceNodeId": "hash",
+            "sourcePortId": "digest"
+          },
+          "executionState": "idle"
+        },
+        "style": {
+          "width": 160,
+          "height": 32
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-data-hash-data",
+        "source": "in",
+        "sourceHandle": "data",
+        "target": "hash",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-link-1-out-out-digest",
+        "source": "link-1",
+        "sourceHandle": "out",
+        "target": "out",
+        "targetHandle": "digest",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

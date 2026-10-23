@@ -10,12 +10,14 @@
         {
           "id": "priv",
           "dataType": "bytes",
-          "name": "PrivateKey"
+          "name": "PrivateKey",
+          "defaultValue": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb"
         },
         {
           "id": "msg",
           "dataType": "bytes",
-          "name": "Message"
+          "name": "Message",
+          "defaultValue": "72"
         }
       ]
     },

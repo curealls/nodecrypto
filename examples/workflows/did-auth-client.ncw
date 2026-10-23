@@ -52,12 +52,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-db0cdba9",
     "name": "did-auth-client",
     "description": "DID Auth, client side: derives the MAC that answers the server challenge. Learning example, public demo keys.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": -20,
+      "y": 177.5,
       "zoom": 1
     },
     "nodes": [
@@ -131,14 +130,19 @@
           },
           "properties": {},
           "note": "# Client inputs\nThe nonce is the server challenge (32 random bytes). The defaults are fixed demo values so the workflow runs as is.\n\n> Learning example that explains the protocol. Do not use it in a real service. The keys are public demo keys."
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": true
       },
       {
         "id": "ecdh",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
-          "y": 64
+          "x": 480,
+          "y": -48
         },
         "width": 304,
         "data": {
@@ -181,14 +185,20 @@
             "format": "raw_x"
           },
           "note": "# 1. Shared secret\n`secret = ECDH(prvClient, pubServer)`\n- P-256, output format `raw_x`: the 32-byte X coordinate (the DIDAuth text does not name the format, this is an assumption)\n- Public keys are uncompressed 65-byte points (assumption)"
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "sha",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 880,
+          "y": -32
         },
         "width": 304,
         "data": {
@@ -217,14 +227,20 @@
             "algorithm": "SHA-256"
           },
           "note": "# 2. Hash\n`hash = SHA2-256(secret)`"
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "ks",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
-          "y": 64
+          "x": 1296,
+          "y": -48
         },
         "width": 304,
         "data": {
@@ -254,14 +270,20 @@
             "length": "16"
           },
           "note": "# 2. Key\n`key = hash[0,16]`: the left 16 bytes (AES-128 key)"
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "ivs",
         "type": "cryptoNode",
         "position": {
           "x": 1264,
-          "y": 384
+          "y": 288
         },
         "width": 304,
         "data": {
@@ -291,7 +313,13 @@
             "length": "16"
           },
           "note": "# 2. IV\n`iv = hash[16,16]`: the right 16 bytes"
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "cbc",
@@ -370,7 +398,12 @@
             "errorUnifyMessage": ""
           },
           "note": "# 3. full_mac\n`full_mac = AES_ENC_CBC(key, nonce, iv)`\n- The 32-byte nonce is exactly two blocks, so no padding."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false
       },
       {
         "id": "cut",
@@ -407,7 +440,12 @@
             "length": "8"
           },
           "note": "# 3. mac\n`mac = full_mac[-16,8]`: the first 8 bytes of the last block (offset 16 bytes back from the end, length 8)."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false
       },
       {
         "id": "out",
@@ -447,7 +485,12 @@
           },
           "properties": {},
           "note": "# Request DID Auth\nThe client sends `{pubKey_client, mac}` to the server."
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       }
     ],
     "edges": [
@@ -572,8 +615,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

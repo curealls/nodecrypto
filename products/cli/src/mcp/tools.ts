@@ -3,7 +3,8 @@
  * The only thing added is `expand`'s file save; file system access comes in through `McpDeps`.
  */
 import { dirname, extname, join, resolve } from 'node:path';
-import { catalog, expand, guide, run, validateCmd, version, type CommandResult, type Deps } from '../commands';
+import type { NodePackage } from 'nodecrypto-engine';
+import { catalog, expand, guide, run, shareLink, validateCmd, version, type CommandResult, type Deps } from '../commands';
 import type { McpInfo, McpTool } from './server';
 
 export interface McpDeps extends Deps {
@@ -22,8 +23,8 @@ export const INSTRUCTIONS = `NodeCrypto builds cryptographic workflows (node gra
 1. Call guide first and follow it.
 2. Never guess node types, port ids or property values: use catalog (search, then type).
 3. Check with validate, then run with expect (use published test vectors).
-4. Only then call expand to save the .ncw file, and tell the person its path: they open it in the NodeCrypto web app (File > Open).
-Do not put real secret keys into inputs: results pass through this conversation.`;
+4. Only then call expand to save the .ncw file, and tell the person its path and the shareUrl link: they open the file in the NodeCrypto web app (File > Open), or open the link in a browser.
+Do not put real secret keys into inputs: results pass through this conversation. The shareUrl link carries all values in plain text.`;
 
 export const mcpInfo = (): McpInfo => ({ name: 'nodecrypto', title: 'NodeCrypto', version: (version(false).data as { cli: string }).cli, instructions: INSTRUCTIONS });
 
@@ -120,7 +121,7 @@ export function mcpTools(deps: McpDeps): McpTool[] {
 
     tool(
       'expand',
-      "Validate a draft, expand it into a .ncw package and SAVE it to a file. The person opens the file in the NodeCrypto web app (File > Open). output is the .ncw path to write: pass an absolute path inside the user's project when you know it; without it the file goes to the default folder under the draft name. An existing file is overwritten unless overwrite is false.",
+      "Validate a draft, expand it into a .ncw package and SAVE it to a file. The person opens the file in the NodeCrypto web app (File > Open). The result also has shareUrl, a link that opens the same workflow in the web app: give the person both the path and the link. output is the .ncw path to write: pass an absolute path inside the user's project when you know it; without it the file goes to the default folder under the draft name. An existing file is overwritten unless overwrite is false.",
       {
         ...draftOrPath,
         output: { type: 'string', description: 'Path of the .ncw file to write. Relative paths are resolved against the default folder.' },
@@ -132,7 +133,7 @@ export function mcpTools(deps: McpDeps): McpTool[] {
         if (bad) return bad;
         const r = await expand({ file: file(a) }, d);
         if (r.exitCode !== 0) return fromResult(r);
-        const pkg = r.data as { manifest: { label?: string }; workflow: { nodes: unknown[]; edges: unknown[] } };
+        const pkg = r.data as NodePackage;
         const target = resolve(deps.outDir ?? join(deps.homedir(), 'nodecrypto-workflows'), a.output ?? `${slug(pkg.manifest.label ?? '')}.ncw`);
         if (extname(target).toLowerCase() !== '.ncw') return failure('MCP_OUTPUT_EXTENSION', 'output', `the file must have the .ncw extension: ${target}`);
         const overwritten = await deps.exists(target);
@@ -143,6 +144,7 @@ export function mcpTools(deps: McpDeps): McpTool[] {
         } catch (e) {
           return failure('MCP_OUTPUT_WRITE_FAILED', 'output', `cannot write ${target}: ${(e as Error).message}`);
         }
+        const link = await shareLink(pkg);
         return {
           text: JSON.stringify({
             ok: true,
@@ -150,7 +152,8 @@ export function mcpTools(deps: McpDeps): McpTool[] {
             overwritten,
             nodes: pkg.workflow.nodes.length,
             edges: pkg.workflow.edges.length,
-            openHint: 'Open this file in the NodeCrypto web app: File > Open.',
+            openHint: 'Open this file in the NodeCrypto web app: File > Open. The shareUrl link contains all values in plain text: do not share it if it holds real keys.',
+            ...(link.ok ? { shareUrl: link.url, ...(link.warn ? { shareNote: link.warn } : {}) } : { shareNote: link.issues[0].message }),
           }),
         };
       }

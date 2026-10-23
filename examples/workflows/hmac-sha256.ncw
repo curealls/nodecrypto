@@ -31,7 +31,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-fe09002e",
+    "id": "wf-e3ba33f2",
     "name": "hmac-sha256",
     "description": "HMAC-SHA-256 of a message under a key.",
     "viewport": {
@@ -60,12 +60,14 @@
             {
               "id": "key",
               "name": "Key",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "4a656665"
             },
             {
               "id": "data",
               "name": "Data",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "7768617420646f2079612077616e7420666f72206e6f7468696e673f"
             }
           ],
           "size": "small",

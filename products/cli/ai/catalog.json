@@ -1,6 +1,6 @@
 {
   "catalogVersion": 1,
-  "engineVersion": "0.2.2",
+  "engineVersion": "0.2.5",
   "nodes": [
     {
       "type": "input-dialog",
@@ -3820,10 +3820,10 @@
         {
           "id": "privateKey",
           "name": "Private Key",
-          "dataType": "any",
+          "dataType": "bytes",
           "required": true,
-          "spec": "PEM/DER",
-          "description": "RSA private key; accepts either PEM text or DER bytes."
+          "spec": "DER",
+          "description": "RSA private key as DER bytes (PKCS#8)."
         },
         {
           "id": "ciphertext",
@@ -3877,10 +3877,10 @@
         {
           "id": "publicKey",
           "name": "Public Key",
-          "dataType": "any",
+          "dataType": "bytes",
           "required": true,
-          "spec": "PEM/DER",
-          "description": "Recipient RSA public key; accepts either PEM text or DER bytes."
+          "spec": "DER",
+          "description": "Recipient RSA public key as DER bytes (SPKI)."
         },
         {
           "id": "plaintext",
@@ -3926,39 +3926,214 @@
       }
     },
     {
+      "type": "asymmetric-rsa-key-decode",
+      "label": "RSA Key Decoder",
+      "category": "asymmetric",
+      "description": "Extracts the RSA components (N, e, d, ...) from an SPKI public key or PKCS#8 private key (DER)",
+      "inputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "required": true,
+          "spec": "SPKI/PKCS#8 DER",
+          "description": "RSA public key (SPKI) or private key (PKCS#8) as DER bytes. PEM and PKCS#1 are not supported."
+        }
+      ],
+      "outputs": [
+        {
+          "id": "n",
+          "name": "N",
+          "dataType": "bytes",
+          "description": "Modulus N (big-endian, no leading zero bytes)."
+        },
+        {
+          "id": "e",
+          "name": "e",
+          "dataType": "bytes",
+          "description": "Public exponent e (big-endian, no leading zero bytes)."
+        },
+        {
+          "id": "d",
+          "name": "d",
+          "dataType": "bytes",
+          "description": "Private exponent d.",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p",
+          "name": "p",
+          "dataType": "bytes",
+          "description": "First prime factor p of N.",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "q",
+          "name": "q",
+          "dataType": "bytes",
+          "description": "Second prime factor q of N.",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dp",
+          "name": "dP",
+          "dataType": "bytes",
+          "description": "CRT exponent dP = d mod (p-1).",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dq",
+          "name": "dQ",
+          "dataType": "bytes",
+          "description": "CRT exponent dQ = d mod (q-1).",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qInv",
+          "name": "qInv",
+          "dataType": "bytes",
+          "description": "CRT coefficient qInv = q^-1 mod p.",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "id": "keyType",
+          "label": "Key Type",
+          "type": "select",
+          "options": [
+            "Public",
+            "Private"
+          ],
+          "defaultValue": "Public"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "INVALID_KEY_FORMAT"
+        ]
+      }
+    },
+    {
+      "type": "asymmetric-rsa-key-encode",
+      "label": "RSA Key Encoder",
+      "category": "asymmetric",
+      "description": "Builds an RSA SPKI public key or PKCS#8 private key (DER) from its components N, e and d",
+      "inputs": [
+        {
+          "id": "n",
+          "name": "N",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Modulus N (big-endian unsigned integer)."
+        },
+        {
+          "id": "e",
+          "name": "e",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Public exponent e (big-endian unsigned integer)."
+        },
+        {
+          "id": "d",
+          "name": "d",
+          "dataType": "bytes",
+          "required": true,
+          "description": "Private exponent d. p and q are computed from N, e and d.",
+          "visibleWhen": [
+            {
+              "keyType": [
+                "Private"
+              ]
+            }
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "key",
+          "name": "Key",
+          "dataType": "bytes",
+          "spec": "SPKI/PKCS#8 DER",
+          "description": "SPKI DER for a public key, PKCS#8 DER for a private key."
+        }
+      ],
+      "properties": [
+        {
+          "id": "keyType",
+          "label": "Key Type",
+          "type": "select",
+          "options": [
+            "Public",
+            "Private"
+          ],
+          "defaultValue": "Public"
+        }
+      ],
+      "errorProfile": {
+        "kind": "fixed",
+        "codes": [
+          "RSA_COMPONENTS_INVALID"
+        ]
+      }
+    },
+    {
       "type": "asymmetric-rsa-keygen",
       "label": "RSA Key Generator",
       "category": "asymmetric",
-      "description": "Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, PEM & DER)",
+      "description": "Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, DER)",
       "inputs": [],
       "outputs": [
-        {
-          "id": "publicKeyPem",
-          "name": "Public Key",
-          "dataType": "string",
-          "spec": "PEM",
-          "description": "RSA public key encoded as PEM (Base64 text)."
-        },
-        {
-          "id": "privateKeyPem",
-          "name": "Private Key",
-          "dataType": "string",
-          "spec": "PEM",
-          "description": "RSA private key encoded as PEM (Base64 text). Handle with care."
-        },
         {
           "id": "publicKeyDer",
           "name": "Public Key",
           "dataType": "bytes",
           "spec": "DER",
-          "description": "RSA public key encoded as binary DER."
+          "description": "RSA public key as DER (SubjectPublicKeyInfo)."
         },
         {
           "id": "privateKeyDer",
           "name": "Private Key",
           "dataType": "bytes",
           "spec": "DER",
-          "description": "RSA private key encoded as binary DER. Handle with care."
+          "description": "RSA private key as DER (PKCS#8). Handle with care."
         }
       ],
       "properties": [
@@ -3983,16 +4158,6 @@
             3
           ],
           "defaultValue": 65537
-        },
-        {
-          "id": "usage",
-          "label": "Intended Primary Usage",
-          "type": "select",
-          "options": [
-            "encrypt",
-            "sign"
-          ],
-          "defaultValue": "encrypt"
         }
       ]
     },
@@ -4005,10 +4170,10 @@
         {
           "id": "privateKey",
           "name": "Private Key",
-          "dataType": "any",
+          "dataType": "bytes",
           "required": true,
-          "spec": "PEM/DER",
-          "description": "RSA private key; accepts either PEM text or DER bytes."
+          "spec": "DER",
+          "description": "RSA private key as DER bytes (PKCS#8)."
         },
         {
           "id": "data",
@@ -4079,10 +4244,10 @@
         {
           "id": "publicKey",
           "name": "Public Key",
-          "dataType": "any",
+          "dataType": "bytes",
           "required": true,
-          "spec": "PEM/DER",
-          "description": "Signer RSA public key; accepts either PEM text or DER bytes."
+          "spec": "DER",
+          "description": "Signer RSA public key as DER bytes (SPKI)."
         },
         {
           "id": "data",

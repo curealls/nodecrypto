@@ -11,6 +11,7 @@
           "id": "key",
           "dataType": "bytes",
           "name": "Key",
+          "defaultValue": "28dbc3bc49ffd87dcfa509b11d422be7",
           "constraint": {
             "lengths": [
               16
@@ -21,6 +22,7 @@
           "id": "pt",
           "dataType": "bytes",
           "name": "Plaintext",
+          "defaultValue": "b41e6be2eba84a148e2eed84593c5ec7",
           "constraint": {
             "lengths": [
               16

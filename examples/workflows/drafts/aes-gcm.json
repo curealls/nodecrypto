@@ -10,22 +10,26 @@
         {
           "id": "key",
           "dataType": "bytes",
-          "name": "Key"
+          "name": "Key",
+          "defaultValue": "000102030405060708090a0b0c0d0e0f"
         },
         {
           "id": "nonce",
           "dataType": "bytes",
-          "name": "Nonce"
+          "name": "Nonce",
+          "defaultValue": "51753c6580c2726f20718414"
         },
         {
           "id": "aad",
           "dataType": "bytes",
-          "name": "AAD"
+          "name": "AAD",
+          "defaultValue": "8040f17b8041f8d35501a0b2"
         },
         {
           "id": "pt",
           "dataType": "bytes",
-          "name": "Plaintext"
+          "name": "Plaintext",
+          "defaultValue": "47616c6c696120657374206f6d6e69732064697669736120696e207061727465732074726573"
         }
       ]
     },

@@ -10,22 +10,26 @@
         {
           "id": "priv",
           "dataType": "bytes",
-          "name": "PrivateKey"
+          "name": "PrivateKey",
+          "defaultValue": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
         },
         {
           "id": "peer",
           "dataType": "bytes",
-          "name": "PeerPublicKey"
+          "name": "PeerPublicKey",
+          "defaultValue": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f"
         },
         {
           "id": "salt",
           "dataType": "bytes",
-          "name": "Salt"
+          "name": "Salt",
+          "defaultValue": "000102030405060708090a0b0c"
         },
         {
           "id": "info",
           "dataType": "bytes",
-          "name": "Info"
+          "name": "Info",
+          "defaultValue": "6e6f646563727970746f2073657373696f6e206b6579"
         }
       ]
     },

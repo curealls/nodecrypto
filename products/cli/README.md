@@ -8,6 +8,7 @@ npx @curealls/nodecrypto catalog --search aes gcm   # find nodes (all keywords);
 npx @curealls/nodecrypto catalog --type symmetric-aes-encrypt
 npx @curealls/nodecrypto validate draft.json
 npx @curealls/nodecrypto expand draft.json -o flow.ncw
+npx @curealls/nodecrypto share flow.ncw                # a link that opens the workflow in the web app (values are in the link)
 npx @curealls/nodecrypto run flow.ncw --inputs '{"Key":"00..."}' --expect '{"Ciphertext":"..."}'
 npx @curealls/nodecrypto run flow.ncw --inputs '{"Key":"00..."}' --trace   # also print every node's outputs
 ```
@@ -31,7 +32,7 @@ claude mcp add --transport stdio nodecrypto -- npx -y @curealls/nodecrypto mcp
 
 The JSON form goes in `claude_desktop_config.json` (Claude Desktop, then restart it) or `.cursor/mcp.json` (Cursor); VS Code's `.vscode/mcp.json` uses the top-level key `servers` instead of `mcpServers`.
 
-Tools: `guide`, `catalog`, `validate`, `run` (same arguments as the commands above; `draft` takes the JSON object, `path` a file) and `expand`, which saves the workflow as a `.ncw` file and returns its absolute path. Open that file in the web app (https://nodecrypto.dev/) with File > Open.
+Tools: `guide`, `catalog`, `validate`, `run` (same arguments as the commands above; `draft` takes the JSON object, `path` a file) and `expand`, which saves the workflow as a `.ncw` file and returns its absolute path. Open that file in the web app (https://nodecrypto.dev/) with File > Open, or open the returned `shareUrl` link in a browser. The link carries every value in plain text, so do not share it if the workflow holds real keys.
 
 `expand` saves to `~/nodecrypto-workflows` by default. Change the folder with `nodecrypto mcp --out-dir <folder>` or the environment variable `NODECRYPTO_OUT_DIR`, or pass `output` (a `.ncw` path) per call. An existing file is overwritten unless `overwrite` is `false`.
 

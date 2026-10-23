@@ -12,6 +12,8 @@ const cases: Record<string, string[]> = {
   'symmetric-chacha20-stream': ['key', 'data', 'nonce'],
   'mac-hmac': ['key', 'data'],
   'mac-cmac': ['key', 'data'],
+  'asymmetric-rsa-key-encode': ['n', 'e', 'd'],
+  'asymmetric-rsa-key-decode': ['key'],
   'asymmetric-rsa-encrypt': ['publicKey', 'plaintext', 'label'],
   'asymmetric-rsa-decrypt': ['privateKey', 'ciphertext', 'label'],
   'asymmetric-rsa-sign': ['privateKey', 'data'],

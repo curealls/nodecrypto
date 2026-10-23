@@ -181,7 +181,9 @@ describe('expand saves the .ncw (mcp-spec.md §5)', () => {
     const r = await call('expand', { draft });
     expect(r.isError).toBeFalsy();
     const file = join(defaultDir, 'AES-ECB-demo1.ncw');
-    expect(r.json).toEqual({ ok: true, path: file, overwritten: false, nodes: 4, edges: 3, openHint: 'Open this file in the NodeCrypto web app: File > Open.' });
+    expect(r.json).toMatchObject({ ok: true, path: file, overwritten: false, nodes: 4, edges: 3 });
+    expect(r.json.openHint).toContain('File > Open');
+    expect(r.json.shareUrl).toMatch(/^https:\/\/app\.nodecrypto\.dev\/#share=1\./);
     expect(made).toEqual([defaultDir]);
     const cli = await expand({ file: path('drafts/aes-gcm.json') }, { readFile: realRead, readStdin: async () => '' });
     const saved = await call('expand', { path: path('drafts/aes-gcm.json') });

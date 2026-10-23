@@ -33,12 +33,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-6ba7e7e5",
     "name": "did-auth-keygen",
     "description": "Generates the P-256 key pairs of the DID Auth demo: one for the server and one for the client. Public demo keys only.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 250,
+      "y": 169.5,
       "zoom": 1
     },
     "nodes": [
@@ -76,14 +75,19 @@
             "curve": "p256"
           },
           "note": "# Server key pair\n- P-256 (secp256r1), as in the DID Auth procedure\n- Public key: uncompressed point, 65 bytes starting with `04`\n- Random on every run. Copy the values you want to keep into the Workflow Input defaults of the client and server workflows."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 174
+        },
+        "selected": false
       },
       {
         "id": "client",
         "type": "cryptoNode",
         "position": {
           "x": 64,
-          "y": 384
+          "y": 272
         },
         "width": 304,
         "data": {
@@ -112,14 +116,20 @@
             "curve": "p256"
           },
           "note": "# Client key pair\nSame as the server key pair, generated independently."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 174
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
-          "y": 64
+          "x": 480,
+          "y": 144
         },
         "width": 208,
         "data": {
@@ -163,7 +173,13 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -211,8 +227,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

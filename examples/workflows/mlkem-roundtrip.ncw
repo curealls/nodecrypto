@@ -18,47 +18,20 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-b0a6b6c3",
     "name": "mlkem-roundtrip",
     "description": "ML-KEM-768 key generation, encapsulation and decapsulation. The result is true when both sides derive the same shared secret.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": -97,
+      "y": -6.5,
       "zoom": 1
     },
     "nodes": [
       {
-        "id": "in",
-        "type": "cryptoNode",
-        "position": {
-          "x": 64,
-          "y": 64
-        },
-        "width": 208,
-        "data": {
-          "id": "in",
-          "type": "cryptoNode",
-          "nodeType": "workflow-input",
-          "label": "Workflow Input",
-          "category": "input",
-          "description": "Workflow ingress interface. Injects external API inputs or custom-node caller parameters.",
-          "inputs": [],
-          "outputs": [],
-          "size": "small",
-          "dynamicOutputs": {
-            "min": 0,
-            "defaultNamePrefix": "Arg",
-            "defaultDataType": "bytes"
-          },
-          "properties": {}
-        }
-      },
-      {
         "id": "gen",
         "type": "cryptoNode",
         "position": {
-          "x": 64,
-          "y": 384
+          "x": 96,
+          "y": 288
         },
         "width": 304,
         "data": {
@@ -89,7 +62,13 @@
             "variant": 768
           },
           "note": "Key generation is random: every run gives a different key pair."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 174
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "enc",
@@ -130,14 +109,19 @@
           "properties": {
             "variant": 768
           }
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false
       },
       {
         "id": "dec",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 816,
+          "y": 288
         },
         "width": 304,
         "data": {
@@ -149,14 +133,14 @@
           "description": "Decapsulates shared key using secret key and ciphertext",
           "inputs": [
             {
-              "id": "secretKey",
-              "name": "Secret Key",
+              "id": "ciphertext",
+              "name": "Ciphertext",
               "dataType": "bytes",
               "required": true
             },
             {
-              "id": "ciphertext",
-              "name": "Ciphertext",
+              "id": "secretKey",
+              "name": "Secret Key",
               "dataType": "bytes",
               "required": true
             }
@@ -172,13 +156,19 @@
           "properties": {
             "variant": 768
           }
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "cmp",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
+          "x": 1184,
           "y": 64
         },
         "width": 304,
@@ -218,14 +208,20 @@
             "errorOnValue": ""
           },
           "note": "# Verdict\nBoth shared secrets are random per run, so only this `bool` is compared (`true` means encaps and decaps agree)."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 1664,
-          "y": 64
+          "x": 1584,
+          "y": 96
         },
         "width": 208,
         "data": {
@@ -251,7 +247,13 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": true,
+        "dragging": false
       }
     ],
     "edges": [
@@ -321,8 +323,7 @@
           "dataType": "bool"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

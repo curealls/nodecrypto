@@ -2,7 +2,7 @@
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { parseArgs } from 'node:util';
-import { catalog, expand, guide, run, validateCmd, version, type Args, type CommandResult, type Deps } from './commands';
+import { catalog, expand, guide, run, share, validateCmd, version, type Args, type CommandResult, type Deps } from './commands';
 import { createServer, serve } from './mcp/server';
 import { mcpInfo, mcpTools } from './mcp/tools';
 
@@ -16,6 +16,7 @@ Commands:
   run <file|-> [--inputs <JSON|file>] [--vars <file>] [--expect <JSON|file>] [--trace]
                                   validate and run, optionally compare with expected outputs
                                   and print every node's outputs (--trace)
+  share <file|-> [--app <URL>]    make a link that opens the workflow in the web app (values are in the link)
   guide                           print the authoring guide
   mcp [--out-dir <folder>]        run as an MCP server for AI agents (see 'nodecrypto mcp --help')
 
@@ -71,6 +72,7 @@ async function dispatch(argv: string[]): Promise<{ res: CommandResult; json: boo
         vars: { type: 'string' },
         expect: { type: 'string' },
         trace: { type: 'boolean' },
+        app: { type: 'string' },
       },
     });
   } catch (e) {
@@ -86,9 +88,10 @@ async function dispatch(argv: string[]): Promise<{ res: CommandResult; json: boo
   if (values.version) return { res: version(json), json: false };
   if (values.help || !command) return { res: { exitCode: 0, data: { help: HELP }, text: HELP, stderr: '' }, json: false };
   if (values.trace && command !== 'run') return usage('--trace is only valid for run');
+  if (values.app !== undefined && command !== 'share') return usage('--app is only valid for share');
   if (rest.length) return usage(`unexpected argument '${rest[0]}'`);
-  if (!['validate', 'expand', 'run'].includes(command) && file !== undefined) return usage(`unexpected argument '${file}'`);
-  const args: Args = { json, file, type: values.type, list: values.list, search, output: values.output, inputs: values.inputs, vars: values.vars, expect: values.expect, trace: values.trace };
+  if (!['validate', 'expand', 'run', 'share'].includes(command) && file !== undefined) return usage(`unexpected argument '${file}'`);
+  const args: Args = { json, file, type: values.type, list: values.list, search, output: values.output, inputs: values.inputs, vars: values.vars, expect: values.expect, trace: values.trace, app: values.app };
   switch (command) {
     case 'catalog':
       return { res: catalog(args), json };
@@ -100,6 +103,8 @@ async function dispatch(argv: string[]): Promise<{ res: CommandResult; json: boo
       return { res: await expand(args, deps), json };
     case 'run':
       return { res: await run(args, deps), json };
+    case 'share':
+      return { res: await share(args, deps), json };
     default:
       return usage(`unknown command '${command}' (try --help)`);
   }

@@ -1,0 +1,90 @@
+{
+  "draft": 1,
+  "name": "rsa-components-decrypt",
+  "description": "RSA-OAEP decryption with a private key built from its components N, e and d.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "outputs": [
+        {
+          "id": "n",
+          "dataType": "bytes",
+          "name": "N",
+          "defaultValue": "ea3a35a2d7b5467e45de0eecd49862cf702dfd6bd59ec103d43543f52b78e92af38951f499bff434a3bd7b50b0a58422fc19ae93d39de392c2b8e21bf4684686d3caaed79121917697335afdd7282928b78e75f36cc5d1dcf16126b1e10d8956d51f270739e3670304961a55757edf4b01e5073df545abaf5dab0acee3046c1f"
+        },
+        {
+          "id": "e",
+          "dataType": "bytes",
+          "name": "e",
+          "defaultValue": "010001"
+        },
+        {
+          "id": "d",
+          "dataType": "bytes",
+          "name": "d",
+          "defaultValue": "dae08e629fe47bfd5fd8c465b7bcb70955b10452128b899ec45d0a263efb7c1870ffef9ffd550d256ba59368b1c9da12bf365897377721c4714647b50bcdada862f6114300104514fe1cb76c514615082218f68c9726a929547f37fc40fa630032c5eb2c6e95b49ddb98ffdb794b3ba8981654314aee0bf7ee79bb3bc71b4a71"
+        },
+        {
+          "id": "ciphertext",
+          "dataType": "bytes",
+          "name": "Ciphertext",
+          "defaultValue": "358db60d0905e619e75119df0bd4603287a65543cb40535d2d44605e2466b36dafd2a5927c72f6dafc1fdcb9f60115340c64b788a5f8203ecb080957bf420b4b40c4e5de4861809cb42b05a1091ea711a650d4239f2faf0684cbeb8c80c9a395f87cc80334310e438e1c465cae5a5fbdc451a20ee68a322e49796198f0088577"
+        }
+      ]
+    },
+    {
+      "id": "enc",
+      "type": "asymmetric-rsa-key-encode",
+      "note": "# RSA Key Encoder\n- Builds the PKCS#8 private key from N, e and d. The prime factors p and q are computed from them.\n- The values are a throw-away 1024-bit test key generated for this example; never use it for real data.",
+      "props": {
+        "keyType": "Private"
+      }
+    },
+    {
+      "id": "dec",
+      "type": "asymmetric-rsa-decrypt",
+      "note": "# RSA Decrypt\n- RSA-OAEP with SHA-256 and an empty label.\n- The ciphertext was produced with Node crypto (OpenSSL), an independent implementation.",
+      "props": {
+        "hash": "SHA-256"
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "inputs": [
+        {
+          "id": "plaintext",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.n",
+      "to": "enc.n"
+    },
+    {
+      "from": "in.e",
+      "to": "enc.e"
+    },
+    {
+      "from": "in.d",
+      "to": "enc.d"
+    },
+    {
+      "from": "enc.key",
+      "to": "dec.privateKey"
+    },
+    {
+      "from": "in.ciphertext",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "dec.plaintext",
+      "to": "out.plaintext"
+    }
+  ]
+}

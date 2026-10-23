@@ -15,8 +15,8 @@
     "name": "cmac-subkey",
     "description": "RFC 4493 CMAC subkeys K1/K2: AES-128-ECB(key, 0^128) -> built-in script (builtin-script.md §12.1)",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 45,
+      "y": 230.5,
       "zoom": 1
     },
     "nodes": [
@@ -52,7 +52,11 @@
             "valueBool": false
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
       },
       {
         "id": "node-1791034725443-thzy",
@@ -86,7 +90,11 @@
             "valueBool": false
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
       },
       {
         "id": "node-1791034725444-0rm7",
@@ -104,18 +112,18 @@
           "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
           "inputs": [
             {
-              "id": "plaintext",
-              "name": "Plaintext",
-              "dataType": "bytes",
-              "required": true
-            },
-            {
               "id": "key",
               "name": "Key",
               "spec": "16/24/32B",
               "dataType": "bytes",
               "required": true,
               "description": "AES symmetric key. Length selects AES-128/192/256."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
             },
             {
               "id": "iv",
@@ -164,7 +172,11 @@
             "errorUnifyMessage": ""
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
       },
       {
         "id": "node-1791034725445-1efh",
@@ -220,7 +232,11 @@
             "errorUnifyMessage": ""
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 304,
+          "height": 205
+        }
       }
     ],
     "edges": [

@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { validate } from '../../src/authoring/validate';
 import { draftToPackage } from '../../src/authoring/draft';
+import { buildPackage } from '../../src/dag/package';
+import { computeDefinitionId, deriveInterface } from '../../src/dag/customNode';
 import { formatMsg } from '../../src/messages';
 
 const base = () => ({
@@ -359,3 +361,127 @@ describe('validate: portNames', () => {
     expect(codes(names({ key: 'Ciphertext' }))).not.toContain('PORT_NAME_DUPLICATE'); // an output name
   });
 });
+
+describe('validate: Link output type (authoring.md §2.3)', () => {
+  /** in.k (bytes) -> Link lk -> out.c; the app stores the Link's `out` with the type of its source. */
+  const withLink = (outType = 'bytes') => {
+    const r = draftToPackage({
+      draft: 1,
+      name: 'link',
+      nodes: [
+        { id: 'in', type: 'workflow-input', outputs: [{ id: 'k', dataType: 'bytes' }] },
+        { id: 'o', type: 'workflow-output', inputs: [{ id: 'c', dataType: 'bytes' }] },
+      ],
+      edges: [],
+    } as any);
+    if (!r.ok) throw new Error('draft');
+    const p: any = JSON.parse(JSON.stringify(r.package));
+    p.workflow.nodes.push({
+      id: 'lk',
+      type: 'linkNode',
+      position: { x: 0, y: 0 },
+      data: {
+        id: 'lk', nodeType: 'link', label: 'k', category: 'input',
+        inputs: [{ id: 'in', name: 'In', dataType: 'any' }],
+        outputs: [{ id: 'out', name: 'Out', dataType: outType }],
+        properties: { sourceNodeId: 'in', sourcePortId: 'k' },
+      },
+    });
+    p.workflow.edges.push({ id: 'e', source: 'lk', sourceHandle: 'out', target: 'o', targetHandle: 'c', type: 'custom', data: { dataType: outType } });
+    return p;
+  };
+  const codes = (p: any) => validate(p).issues.map((i) => i.code);
+
+  it('accepts an app-saved Link whose out has the source type', () => {
+    expect(validate(withLink()).issues).toEqual([]);
+  });
+
+  it('rejects an out whose type differs from the source port', () => {
+    const p = withLink('int');
+    const i = validate(p).issues.find((x) => x.code === 'LINK_TYPE_MISMATCH')!;
+    expect(i.path).toBe('workflow.nodes[2].data.outputs');
+    expect(i.hint).toContain('in.k is bytes');
+    expect(codes(p)).not.toContain('PORT_MISMATCH');
+  });
+
+  it('rejects a Link to a set port', () => {
+    const p = withLink('set');
+    p.workflow.nodes.push({
+      id: 'vs', type: 'cryptoNode', position: { x: 0, y: 0 },
+      data: { id: 'vs', nodeType: 'input-value-set', label: 'Values', category: 'input', inputs: [], outputs: [{ id: 'set', name: 'Set', dataType: 'set' }], properties: { rows: {} } },
+    });
+    Object.assign(p.workflow.nodes[2].data.properties, { sourceNodeId: 'vs', sourcePortId: 'set' });
+    expect(codes(p)).toContain('LINK_TYPE_MISMATCH');
+  });
+
+  it('skips the type check when the source is not in the workflow', () => {
+    const p = withLink('int');
+    p.workflow.nodes[2].data.properties.sourceNodeId = 'gone';
+    expect(codes(p)).not.toContain('LINK_TYPE_MISMATCH');
+    expect(codes(p)).not.toContain('PORT_MISMATCH');
+  });
+
+  it('still compares the input with the definition', () => {
+    const p = withLink();
+    p.workflow.nodes[2].data.inputs[0].dataType = 'bytes';
+    expect(codes(p)).toContain('PORT_MISMATCH');
+  });
+
+  it('compares a Link that points at another Link with the out of that Link', () => {
+    const chain = (outType: string) => {
+      const p = withLink();
+      p.workflow.nodes.push({ ...JSON.parse(JSON.stringify(p.workflow.nodes[2])), id: 'lk2' });
+      const lk2 = p.workflow.nodes[3].data;
+      Object.assign(lk2, { id: 'lk2' });
+      lk2.outputs[0].dataType = outType;
+      lk2.properties = { sourceNodeId: 'lk', sourcePortId: 'out' };
+      return p;
+    };
+    expect(codes(chain('bytes'))).not.toContain('LINK_TYPE_MISMATCH');
+    const bad = validate(chain('int')).issues.find((x) => x.code === 'LINK_TYPE_MISMATCH')!;
+    expect(bad.path).toBe('workflow.nodes[3].data.outputs');
+    expect(bad.hint).toContain('lk.out is bytes');
+  });
+
+  describe('inside a custom node definition', () => {
+    const io = (id: string, nodeType: string, port: any) => ({
+      id, type: 'cryptoNode', position: { x: 0, y: 0 },
+      data: { id, nodeType, label: id, category: 'input', inputs: nodeType === 'workflow-output' ? [port] : [], outputs: nodeType === 'workflow-input' ? [port] : [], properties: {} },
+    });
+    /** A sub-workflow in -> Link -> out, wrapped as a definition and used once by an outer workflow. */
+    const nested = (outType: string) => {
+      const port = { id: 'x', name: 'X', dataType: 'bytes' };
+      const link = JSON.parse(JSON.stringify(withLink(outType).workflow.nodes[2]));
+      Object.assign(link.data.properties, { sourceNodeId: 'a', sourcePortId: 'x' });
+      const body = {
+        nodes: [io('a', 'workflow-input', port), link, io('b', 'workflow-output', port)],
+        edges: [{ id: 'e', source: 'lk', sourceHandle: 'out', target: 'b', targetHandle: 'x', type: 'custom', data: { dataType: outType } }],
+      };
+      const def = { manifest: { label: 'L', version: '1.0.0', description: '', category: 'custom', ...deriveInterface(body.nodes) }, workflow: body };
+      const id = computeDefinitionId(def);
+      const use = {
+        id: 'use', type: 'cryptoNode', position: { x: 0, y: 0 },
+        data: { id: 'use', nodeType: id, label: 'L', category: 'custom', inputs: [port], outputs: [port], properties: {} },
+      };
+      const outer = {
+        nodes: [io('i', 'workflow-input', port), use, io('o', 'workflow-output', port)],
+        edges: [
+          { id: 'e1', source: 'i', sourceHandle: 'x', target: 'use', targetHandle: 'x', type: 'custom', data: { dataType: 'bytes' } },
+          { id: 'e2', source: 'use', sourceHandle: 'x', target: 'o', targetHandle: 'x', type: 'custom', data: { dataType: 'bytes' } },
+        ],
+      };
+      return { id, pkg: buildPackage(outer, { label: 'Outer', version: '1.0.0', description: '', category: 'custom' }, () => def) };
+    };
+
+    it('accepts a Link whose out has the source type', () => {
+      expect(validate(nested('bytes').pkg).issues).toEqual([]);
+    });
+
+    it('rejects a Link whose out differs from its source, at the definition path', () => {
+      const { id, pkg } = nested('int');
+      const i = validate(pkg).issues.find((x) => x.code === 'LINK_TYPE_MISMATCH')!;
+      expect(i.path).toBe(`definitions.${id}.workflow.nodes[1].data.outputs`);
+    });
+  });
+});
+

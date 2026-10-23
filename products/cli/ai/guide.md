@@ -112,7 +112,7 @@ Verified drafts with published test vectors (each has a `.expect.json` next to i
 | [seed-ecb](https://github.com/curealls/nodecrypto/blob/main/examples/workflows/drafts/seed-ecb.json) | SEED-128 ECB (Korean standard) | RFC 4269 |
 | [cmac-aes](https://github.com/curealls/nodecrypto/blob/main/examples/workflows/drafts/cmac-aes.json) | AES-CMAC | RFC 4493 |
 | [mlkem-768-decaps](https://github.com/curealls/nodecrypto/blob/main/examples/workflows/drafts/mlkem-768-decaps.json) | ML-KEM-768 decapsulation with the 2400-byte secret key | C2SP CCTV |
-| [mlkem-roundtrip](https://github.com/curealls/nodecrypto/blob/main/examples/workflows/drafts/mlkem-roundtrip.json) | ML-KEM keygen, encaps, decaps, shared secrets equal (`bool`) | random: only the `bool` is compared |
+| [mlkem-roundtrip](https://github.com/curealls/nodecrypto/blob/main/examples/workflows/mlkem-roundtrip.ncw) | ML-KEM keygen, encaps, decaps, shared secrets equal (`bool`); a saved workflow, there is no draft file | random: only the `bool` is compared |
 
 ## 4. Workflow Input and Output
 
@@ -136,7 +136,7 @@ Verified drafts with published test vectors (each has a `.expect.json` next to i
 - **Omitted optional inputs have defaults.** `kdf-pbkdf2` `salt` defaults to 16 zero bytes; `kdf-hkdf` `salt` defaults to the RFC 5869 zero salt and `info` to empty. Connect a real salt unless a test vector says otherwise.
 - **Property value types.** Catalog `number` properties take plain JSON numbers (`"iterations": 1000`); only `text` properties (e.g. `utility-slicer` `length`) take strings. The "decimal string" rule above is for `int` data ports and `Workflow Input` values.
 - **Dynamic-port ids are free.** For `utility-concat` and other `dynamicInputs` nodes, you choose the port ids (`a`, `b`, ...); the order of the `inputs` list is the order of concatenation. A non-bytes input is encoded as: `string` UTF-8, `bool` one byte (`00`/`01`), `int` its minimal big-endian unsigned bytes. For a fixed width or endianness, convert in a script (`to_bytes(n, 4)`) or insert `utility-int-to-bytes`.
-- **Keys given as PEM.** RSA key ports (`any`, "PEM/DER") take a `string` input carrying the PEM text (newlines as `\n` in JSON) or `bytes` DER. `saltLength` of `asymmetric-rsa-sign`/`-verify` is visible only with the `PSS` scheme (`visibleWhen`) and must match on both sides. PSS signatures are randomized: with `--expect`, compare the `bool` of the verification, not the signature.
+- **RSA keys are DER `bytes` only.** RSA key ports take SPKI (public) or PKCS#8 (private) DER; PEM text and PKCS#1 are not accepted. `asymmetric-rsa-key-decode` splits a key into `n`, `e` (and `d`, `p`, `q`, `dp`, `dq`, `qInv` for `keyType` `Private`); `asymmetric-rsa-key-encode` builds a key from `n`, `e` (and `d`). Components are big-endian `bytes`. `saltLength` of `asymmetric-rsa-sign`/`-verify` is visible only with the `PSS` scheme (`visibleWhen`) and must match on both sides. PSS signatures are randomized: with `--expect`, compare the `bool` of the verification, not the signature.
 
 ## Common patterns
 

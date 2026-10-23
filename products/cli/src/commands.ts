@@ -6,6 +6,7 @@
 import {
   DAGRunner,
   DRAFT_VERSION,
+  PACKAGE_FORMAT_VERSION,
   PACKAGE_FORMAT_VERSION_VARIABLES,
   defaultNodeRegistry,
   draftToPackage,
@@ -19,6 +20,8 @@ import {
 import { nearest } from 'nodecrypto-engine/authoring/issues';
 import { bytesToHex, hexToBytes } from 'nodecrypto-engine/crypto/utils/encoding';
 import { WORKFLOW_INPUT, WORKFLOW_OUTPUT, nodeTypeOf, registerCustomNodes } from 'nodecrypto-engine/dag/customNode';
+import { SHARE_MAX_LENGTH, SHARE_WARN_LENGTH, encodeShare } from 'nodecrypto-engine/dag/shareLink';
+import { inlineReferences, workflowHasRefs } from 'nodecrypto-engine/variables/exportWorkflow';
 import { toVariableMap, type VariableMap } from 'nodecrypto-engine/variables/reference';
 import { parseRegistryFile } from 'nodecrypto-engine/variables/registryFile';
 import cliPkg from '../package.json';
@@ -49,6 +52,7 @@ export interface Args {
   vars?: string;
   expect?: string;
   trace?: boolean;
+  app?: string;
 }
 
 interface CliIssue {
@@ -228,6 +232,43 @@ export async function expand(args: Args, deps: Deps): Promise<CommandResult> {
   const content = JSON.stringify(p.pkg, null, 2) + '\n';
   if (args.output) return { exitCode: 0, data: { ok: true, output: args.output }, text: '', stderr: '', files: [{ path: args.output, content }] };
   return result(0, p.pkg, content);
+}
+
+// ─── share ─────────────────────────────────────────────────────────────────
+
+const SHARE_APP = 'https://app.nodecrypto.dev/';
+
+/** The link, or why none was made; `warn` is set when messengers may cut it off (cli-spec.md §4.7). */
+export type ShareLink = { ok: true; url: string; length: number; warn?: string } | { ok: false; issues: CliIssue[] };
+
+/** Share link of a package: variables written as values, never as names (package-format.md §6.5). */
+export async function shareLink(pkg: NodePackage, app: string = SHARE_APP): Promise<ShareLink> {
+  let body = pkg;
+  if (pkg.variables || workflowHasRefs(pkg.workflow as any)) {
+    let workflow = pkg.workflow;
+    if (workflowHasRefs(workflow as any)) {
+      if (pkg.definitions) registerCustomNodes(structuredClone(pkg.definitions));
+      const r = inlineReferences(workflow as any, toVariableMap(pkg.variables ?? {}), (t) => defaultNodeRegistry.get(t));
+      if (!r.ok) return { ok: false, issues: r.errors.map((e) => own('SHARE_VARIABLE_UNRESOLVED', e.nodeId, e.message, 'bundle the variable values in the package')) };
+      workflow = r.workflow as any;
+    }
+    const { variables: _dropped, ...rest } = pkg;
+    body = { ...rest, formatVersion: PACKAGE_FORMAT_VERSION, workflow };
+  }
+  const url = `${app.replace(/#.*$/, '')}#share=${await encodeShare(body)}`;
+  if (url.length > SHARE_MAX_LENGTH) {
+    return { ok: false, issues: [own('SHARE_TOO_LONG', '', `the link would be ${url.length} characters (limit ${SHARE_MAX_LENGTH}); share the .ncw file instead`)] };
+  }
+  const warn = url.length > SHARE_WARN_LENGTH ? `the link is ${url.length} characters: some messengers and boards may cut it off` : undefined;
+  return { ok: true, url, length: url.length, ...(warn ? { warn } : {}) };
+}
+
+export async function share(args: Args, deps: Deps): Promise<CommandResult> {
+  const p = await loadPackage(args.file, deps);
+  if (!p.ok) return p.res;
+  const s = await shareLink(p.pkg, args.app);
+  if (!s.ok) return failed(undefined, s.issues);
+  return { exitCode: 0, data: { ok: true, url: s.url, length: s.length }, text: `${s.url}\n`, stderr: s.warn ? `warning: ${s.warn}\n` : '' };
 }
 
 // ─── run ───────────────────────────────────────────────────────────────────

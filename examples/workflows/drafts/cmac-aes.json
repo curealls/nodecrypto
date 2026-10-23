@@ -10,12 +10,14 @@
         {
           "id": "key",
           "dataType": "bytes",
-          "name": "Key"
+          "name": "Key",
+          "defaultValue": "2b7e151628aed2a6abf7158809cf4f3c"
         },
         {
           "id": "msg",
           "dataType": "bytes",
-          "name": "Message"
+          "name": "Message",
+          "defaultValue": "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411"
         }
       ]
     },

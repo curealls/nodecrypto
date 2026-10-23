@@ -75,33 +75,39 @@ describe('Asymmetric & ECC Known Answer Tests (KAT)', () => {
     } = await import('nodecrypto-engine/crypto/asymmetric/rsa');
 
     // 1024-bit RSA Keypair Generation
-    const rsaKeys = await rsaGenerateKeyPair({ modulusLength: 1024, usage: 'encrypt' });
-    expect(rsaKeys.publicKeyPem).toContain('BEGIN PUBLIC KEY');
-    expect(rsaKeys.privateKeyPem).toContain('BEGIN PRIVATE KEY');
+    const rsaKeys = await rsaGenerateKeyPair({ modulusLength: 1024 });
+    expect(Object.keys(rsaKeys).sort()).toEqual(['privateKeyDer', 'publicKeyDer']);
 
     // RSA-OAEP Encrypt & Decrypt
     const plaintext = utf8ToBytes('Confidential RSA Secret Data');
-    const ciphertext = await rsaOaepEncrypt(plaintext, rsaKeys.publicKeyPem, 'SHA-256');
+    const ciphertext = await rsaOaepEncrypt(plaintext, rsaKeys.publicKeyDer, 'SHA-256');
     expect(ciphertext.length).toBe(128); // 1024 bits = 128 bytes
-    const decrypted = await rsaOaepDecrypt(ciphertext, rsaKeys.privateKeyPem, 'SHA-256');
+    const decrypted = await rsaOaepDecrypt(ciphertext, rsaKeys.privateKeyDer, 'SHA-256');
     expect(new TextDecoder().decode(decrypted)).toBe('Confidential RSA Secret Data');
 
     // RSA Signing Keypair
-    const signKeys = await rsaGenerateKeyPair({ modulusLength: 1024, usage: 'sign', algorithm: 'RSA-PSS' });
+    const signKeys = await rsaGenerateKeyPair({ modulusLength: 1024, algorithm: 'RSA-PSS' });
     const msg = utf8ToBytes('Document to be signed by RSA-PSS');
 
     // RSA-PSS Sign & Verify
-    const pssSig = await rsaPssSign(msg, signKeys.privateKeyPem, 32, 'SHA-256');
+    const pssSig = await rsaPssSign(msg, signKeys.privateKeyDer, 32, 'SHA-256');
     expect(pssSig.length).toBe(128);
-    const pssValid = await rsaPssVerify(pssSig, msg, signKeys.publicKeyPem, 32, 'SHA-256');
+    const pssValid = await rsaPssVerify(pssSig, msg, signKeys.publicKeyDer, 32, 'SHA-256');
     expect(pssValid).toBe(true);
 
     // RSASSA-PKCS1-v1_5 Sign & Verify
-    const pkcsKeys = await rsaGenerateKeyPair({ modulusLength: 1024, usage: 'sign', algorithm: 'RSASSA-PKCS1-v1_5' });
-    const pkcsSig = await rsaPkcs1Sign(msg, pkcsKeys.privateKeyPem, 'SHA-256');
+    const pkcsKeys = await rsaGenerateKeyPair({ modulusLength: 1024, algorithm: 'RSASSA-PKCS1-v1_5' });
+    const pkcsSig = await rsaPkcs1Sign(msg, pkcsKeys.privateKeyDer, 'SHA-256');
     expect(pkcsSig.length).toBe(128);
-    const pkcsValid = await rsaPkcs1Verify(pkcsSig, msg, pkcsKeys.publicKeyPem, 'SHA-256');
+    const pkcsValid = await rsaPkcs1Verify(pkcsSig, msg, pkcsKeys.publicKeyDer, 'SHA-256');
     expect(pkcsValid).toBe(true);
+
+    // PEM text is not a key input any more (D-19, D-20)
+    const pem = new TextEncoder().encode(`-----BEGIN PUBLIC KEY-----
+${Buffer.from(rsaKeys.publicKeyDer).toString('base64')}
+-----END PUBLIC KEY-----`);
+    await expect(rsaOaepEncrypt(plaintext, pem, 'SHA-256')).rejects.toMatchObject({ code: 'INVALID_KEY_FORMAT' });
+    await expect(rsaOaepEncrypt(plaintext, 'not bytes' as any, 'SHA-256')).rejects.toMatchObject({ code: 'INVALID_KEY_FORMAT' });
   });
 
   // 6. Extended NIST and Brainpool Curves (P-384, P-521, Brainpool P256/P384/P512)

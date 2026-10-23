@@ -10,17 +10,20 @@
         {
           "id": "ikm",
           "dataType": "bytes",
-          "name": "IKM"
+          "name": "IKM",
+          "defaultValue": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"
         },
         {
           "id": "salt",
           "dataType": "bytes",
-          "name": "Salt"
+          "name": "Salt",
+          "defaultValue": "000102030405060708090a0b0c"
         },
         {
           "id": "info",
           "dataType": "bytes",
-          "name": "Info"
+          "name": "Info",
+          "defaultValue": "f0f1f2f3f4f5f6f7f8f9"
         }
       ]
     },

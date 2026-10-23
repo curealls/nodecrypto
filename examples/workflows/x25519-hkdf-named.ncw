@@ -43,7 +43,7 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-29de7d47",
+    "id": "wf-4e893f0e",
     "name": "x25519-hkdf-named",
     "description": "X25519 then HKDF of x25519-hkdf with role names on the fixed ports of both nodes (portNames).",
     "viewport": {
@@ -72,22 +72,26 @@
             {
               "id": "priv",
               "name": "PrivateKey",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
             },
             {
               "id": "peer",
               "name": "PeerPublicKey",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f"
             },
             {
               "id": "salt",
               "name": "Salt",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "000102030405060708090a0b0c"
             },
             {
               "id": "info",
               "name": "Info",
-              "dataType": "bytes"
+              "dataType": "bytes",
+              "defaultValue": "6e6f646563727970746f2073657373696f6e206b6579"
             }
           ],
           "size": "small",

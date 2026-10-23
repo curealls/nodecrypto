@@ -71,6 +71,12 @@
     "tags": ["asymmetric", "kdf"],
     "order": 42
   },
+  "rsa-components-decrypt": {
+    "title": { "en": "RSA decryption from N, e and d", "ko": "N, e, d로 하는 RSA 복호화" },
+    "description": { "en": "Builds an RSA private key from its components N, e and d, then decrypts an RSA-OAEP ciphertext with it. Uses a throw-away test key.", "ko": "구성 요소 N, e, d로 RSA 개인키를 만들고 그 키로 RSA-OAEP 암호문을 복호화한다. 폐기용 시험 키를 쓴다." },
+    "tags": ["asymmetric"],
+    "order": 43
+  },
   "ed25519-sign": {
     "title": { "en": "Ed25519 signature", "ko": "Ed25519 서명" },
     "description": { "en": "Deterministic signature of a message with a 32-byte secret key, checked against RFC 8032.", "ko": "32바이트 비밀키로 메시지에 결정적 서명을 하며 RFC 8032로 검증했다." },

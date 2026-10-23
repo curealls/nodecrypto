@@ -17,6 +17,7 @@ import {
   rsaPkcs1Verify,
   RsaHashAlgorithm,
 } from '../../crypto/asymmetric/rsa';
+import { decodeRsaKey, encodeRsaPublicKey, encodeRsaPrivateKey } from '../../crypto/asymmetric/rsaKeyCodec';
 import { mlKemGenerateKeyPair, mlKemEncapsulate, mlKemDecapsulate, MlKemSecurityLevel } from '../../crypto/pqc/ml_kem';
 import { mlDsaGenerateKeyPair, mlDsaSign, mlDsaVerify, MlDsaSecurityLevel } from '../../crypto/pqc/ml_dsa';
 import { slhDsaGenerateKeyPair, slhDsaSign, slhDsaVerify, SlhDsaVariant } from '../../crypto/pqc/slh_dsa';
@@ -123,13 +124,11 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
     type: 'asymmetric-rsa-keygen',
     label: 'RSA Key Generator',
     category: 'asymmetric',
-    description: 'Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, PEM & DER)',
+    description: 'Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, DER)',
     inputs: [],
     outputs: [
-      { id: 'publicKeyPem', name: 'Public Key', spec: 'PEM', dataType: 'string', description: 'RSA public key encoded as PEM (Base64 text).' },
-      { id: 'privateKeyPem', name: 'Private Key', spec: 'PEM', dataType: 'string', description: 'RSA private key encoded as PEM (Base64 text). Handle with care.' },
-      { id: 'publicKeyDer', name: 'Public Key', spec: 'DER', dataType: 'bytes', description: 'RSA public key encoded as binary DER.' },
-      { id: 'privateKeyDer', name: 'Private Key', spec: 'DER', dataType: 'bytes', description: 'RSA private key encoded as binary DER. Handle with care.' },
+      { id: 'publicKeyDer', name: 'Public Key', spec: 'DER', dataType: 'bytes', description: 'RSA public key as DER (SubjectPublicKeyInfo).' },
+      { id: 'privateKeyDer', name: 'Private Key', spec: 'DER', dataType: 'bytes', description: 'RSA private key as DER (PKCS#8). Handle with care.' },
     ],
     propertySchema: [
       {
@@ -154,31 +153,100 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
         ],
         defaultValue: 65537,
       },
-      {
-        id: 'usage',
-        label: 'Intended Primary Usage',
-        type: 'select',
-        options: [
-          { label: 'Encryption / Decryption (RSA-OAEP)', value: 'encrypt' },
-          { label: 'Digital Signatures (RSA-PSS / PKCS#1)', value: 'sign' },
-        ],
-        defaultValue: 'encrypt',
-      },
     ],
     errorProfile: NONE_PROFILE,
     execute: async ({ properties, log }) => {
       const modulusLength = Number(properties.modulusLength) || 2048;
       const publicExponent = Number(properties.publicExponent) === 3 ? 3 : 65537;
-      const usage = (properties.usage || 'encrypt') as 'encrypt' | 'sign';
-      log(`Generating RSA-${modulusLength} keypair (e=${publicExponent}, usage=${usage})`);
+      log(`Generating RSA-${modulusLength} keypair (e=${publicExponent})`);
 
       const keypair = await rsaGenerateKeyPair({
         modulusLength: modulusLength as any,
         publicExponent: publicExponent as any,
-        usage,
       });
 
       return keypair;
+    },
+  },
+
+  // RSA Key Encoder (ND-5.9): N, e (, d) -> SPKI / PKCS#8 DER. p and q are computed from N, e, d.
+  {
+    type: 'asymmetric-rsa-key-encode',
+    label: 'RSA Key Encoder',
+    category: 'asymmetric',
+    description: 'Builds an RSA SPKI public key or PKCS#8 private key (DER) from its components N, e and d',
+    inputs: [
+      { id: 'n', name: 'N', dataType: 'bytes', required: true, description: 'Modulus N (big-endian unsigned integer).' },
+      { id: 'e', name: 'e', dataType: 'bytes', required: true, description: 'Public exponent e (big-endian unsigned integer).' },
+      { id: 'd', name: 'd', dataType: 'bytes', required: true, description: 'Private exponent d. p and q are computed from N, e and d.', showWhen: (p) => p.keyType === 'Private' },
+    ],
+    outputs: [
+      { id: 'key', name: 'Key', spec: 'SPKI/PKCS#8 DER', dataType: 'bytes', description: 'SPKI DER for a public key, PKCS#8 DER for a private key.' },
+    ],
+    propertySchema: [
+      {
+        id: 'keyType',
+        label: 'Key Type',
+        type: 'select',
+        options: [
+          { label: 'Public (SPKI)', value: 'Public' },
+          { label: 'Private (PKCS#8)', value: 'Private' },
+        ],
+        defaultValue: 'Public',
+      },
+    ],
+    errorProfile: fixedErrorProfile(['RSA_COMPONENTS_INVALID']),
+    execute: async ({ inputs, properties, log }) => {
+      const isPrivate = properties.keyType === 'Private';
+      log(`Encoding RSA ${isPrivate ? 'Private' : 'Public'} key`);
+      const key = isPrivate
+        ? encodeRsaPrivateKey({ n: inputs.n, e: inputs.e, d: inputs.d })
+        : encodeRsaPublicKey(inputs.n, inputs.e);
+      return { key };
+    },
+  },
+
+  // RSA Key Decoder (ND-5.10): SPKI / PKCS#8 DER -> N, e (and d, p, q, dP, dQ, qInv for private keys)
+  {
+    type: 'asymmetric-rsa-key-decode',
+    label: 'RSA Key Decoder',
+    category: 'asymmetric',
+    description: 'Extracts the RSA components (N, e, d, ...) from an SPKI public key or PKCS#8 private key (DER)',
+    inputs: [
+      { id: 'key', name: 'Key', spec: 'SPKI/PKCS#8 DER', dataType: 'bytes', required: true, description: 'RSA public key (SPKI) or private key (PKCS#8) as DER bytes. PEM and PKCS#1 are not supported.' },
+    ],
+    outputs: [
+      { id: 'n', name: 'N', dataType: 'bytes', description: 'Modulus N (big-endian, no leading zero bytes).' },
+      { id: 'e', name: 'e', dataType: 'bytes', description: 'Public exponent e (big-endian, no leading zero bytes).' },
+      ...([
+        ['d', 'd', 'Private exponent d.'],
+        ['p', 'p', 'First prime factor p of N.'],
+        ['q', 'q', 'Second prime factor q of N.'],
+        ['dp', 'dP', 'CRT exponent dP = d mod (p-1).'],
+        ['dq', 'dQ', 'CRT exponent dQ = d mod (q-1).'],
+        ['qInv', 'qInv', 'CRT coefficient qInv = q^-1 mod p.'],
+      ] as const).map(([id, name, description]) => ({
+        id, name, dataType: 'bytes' as const, description,
+        showWhen: (p: Record<string, any>) => p.keyType === 'Private',
+      })),
+    ],
+    propertySchema: [
+      {
+        id: 'keyType',
+        label: 'Key Type',
+        type: 'select',
+        options: [
+          { label: 'Public (SPKI)', value: 'Public' },
+          { label: 'Private (PKCS#8)', value: 'Private' },
+        ],
+        defaultValue: 'Public',
+      },
+    ],
+    errorProfile: fixedErrorProfile(['INVALID_KEY_FORMAT']),
+    execute: async ({ inputs, properties, log }) => {
+      const keyType = properties.keyType === 'Private' ? 'Private' : 'Public';
+      log(`Decoding RSA ${keyType} key`);
+      return { ...decodeRsaKey(inputs.key, keyType) };
     },
   },
 
@@ -189,7 +257,7 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
     category: 'asymmetric',
     description: 'Encrypts message using RSA-OAEP with recipient public key (RFC 8017)',
     inputs: [
-      { id: 'publicKey', name: 'Public Key', spec: 'PEM/DER', dataType: 'any', required: true, description: 'Recipient RSA public key; accepts either PEM text or DER bytes.' },
+      { id: 'publicKey', name: 'Public Key', spec: 'DER', dataType: 'bytes', required: true, description: 'Recipient RSA public key as DER bytes (SPKI).' },
       { id: 'plaintext', name: 'Plaintext Data', dataType: 'bytes', required: true },
       { id: 'label', name: 'OAEP Label', dataType: 'bytes', required: false, description: 'Optional OAEP label parameter (rarely used, defaults to empty).' },
     ],
@@ -221,7 +289,7 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
     category: 'asymmetric',
     description: 'Decrypts ciphertext using RSA-OAEP with private key (RFC 8017)',
     inputs: [
-      { id: 'privateKey', name: 'Private Key', spec: 'PEM/DER', dataType: 'any', required: true, description: 'RSA private key; accepts either PEM text or DER bytes.' },
+      { id: 'privateKey', name: 'Private Key', spec: 'DER', dataType: 'bytes', required: true, description: 'RSA private key as DER bytes (PKCS#8).' },
       { id: 'ciphertext', name: 'Ciphertext Data', dataType: 'bytes', required: true },
       { id: 'label', name: 'OAEP Label', dataType: 'bytes', required: false, description: 'Optional OAEP label parameter (rarely used, defaults to empty).' },
     ],
@@ -253,7 +321,7 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
     category: 'asymmetric',
     description: 'Creates digital signature using RSA-PSS or PKCS#1 v1.5 with private key',
     inputs: [
-      { id: 'privateKey', name: 'Private Key', spec: 'PEM/DER', dataType: 'any', required: true, description: 'RSA private key; accepts either PEM text or DER bytes.' },
+      { id: 'privateKey', name: 'Private Key', spec: 'DER', dataType: 'bytes', required: true, description: 'RSA private key as DER bytes (PKCS#8).' },
       { id: 'data', name: 'Message', dataType: 'bytes', required: true, description: 'Original message. It is hashed with the selected Hash Algorithm before signing.' },
     ],
     outputs: [
@@ -308,7 +376,7 @@ export const asymmetricPqcNodes: NodeDefinition[] = [
     category: 'asymmetric',
     description: 'Verifies digital signature using RSA-PSS or PKCS#1 v1.5 with public key',
     inputs: [
-      { id: 'publicKey', name: 'Public Key', spec: 'PEM/DER', dataType: 'any', required: true, description: 'Signer RSA public key; accepts either PEM text or DER bytes.' },
+      { id: 'publicKey', name: 'Public Key', spec: 'DER', dataType: 'bytes', required: true, description: 'Signer RSA public key as DER bytes (SPKI).' },
       { id: 'data', name: 'Message', dataType: 'bytes', required: true, description: 'Original message. It is hashed with the selected Hash Algorithm before verification.' },
       { id: 'signature', name: 'Signature', dataType: 'bytes', required: true },
     ],

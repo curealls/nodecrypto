@@ -17,9 +17,9 @@ NodeCrypto 워크플로우 템플릿(`.ncw`), 암호화 프로토콜 샘플 및 
 
 공개 시험 벡터로 검증한 예제이다. 이름마다 파일 셋이 한 벌이다.
 
-- `drafts/<이름>.json`: 초안 원본. 인공지능이 따라 쓸 예시이다.
+- `drafts/<이름>.json`: 초안 원본. 인공지능이 따라 쓸 예시이다. 앱에서 배치를 손본 예제(`did-auth-client`, `did-auth-keygen`, `mlkem-roundtrip`, `cmac-subkey`, `sha256-link`)는 `.ncw`가 원본이므로 초안을 두지 않는다.
 - `<이름>.ncw`: 초안을 `nodecrypto expand`로 펼친 패키지. 테스트가 초안을 펼친 결과와 같은지 확인한다.
-- `<이름>.expect.json`: `{ "source", "inputs", "outputs" }`. `source`는 시험 벡터 출처(절 번호까지), `inputs`와 `outputs`는 CLI 값 표기이다(`cli-spec.md` §5).
+- `<이름>.expect.json`: `{ "source", "inputs", "outputs" }`. `source`는 시험 벡터 출처(절 번호까지), `inputs`와 `outputs`는 CLI 값 표기이다(`cli-spec.md` §5). Workflow Input 포트의 `defaultValue`는 `inputs`와 같은 값이어야 한다(앱의 실행 대화상자가 이 값으로 채워지며, 테스트가 확인한다).
 
 ```
 nodecrypto run examples/workflows/hmac-sha256.ncw --inputs '{"Key":"4a656665","Data":"7768617420646f2079612077616e7420666f72206e6f7468696e673f"}' --expect '{"MAC":"5bdcc146bf60754e6a042426089575c75a003f089d2739839dec58b964ec3843"}'
@@ -38,6 +38,8 @@ nodecrypto run examples/workflows/hmac-sha256.ncw --inputs '{"Key":"4a656665","D
 | `x25519-hkdf` | X25519 공유 비밀 → HKDF로 세션 키 | RFC 7748 §6.1, HKDF 출력은 Node `crypto.hkdfSync`로 교차 확인 |
 | `x25519-hkdf-named` | `x25519-hkdf`와 같은 시험 벡터, 두 노드의 고정 포트에 역할 이름(`portNames`) | `x25519-hkdf`와 같음 |
 | `seed-ecb` | SEED-128 ECB 한 블록 | RFC 4269 부록 B.4, KISA SEED 128 Test Vector |
+| `rsa-components-decrypt` | N, e, d → RSA Key Encoder(`Private`, p와 q는 자동 복원) → RSA Decrypt(OAEP, SHA-256)로 암호문을 복호화해 평문 19바이트 확인. 폐기용 1024비트 시험 키 | 독립 구현 대조(Node `crypto`/OpenSSL이 같은 키로 암호화·복호화), 새로 생성한 시험 전용 키라 공개 시험 벡터 없음 |
+| `sha256-link` | SHA-256 다이제스트를 Link 노드를 거쳐 출력으로 전달(앱이 저장한 Link가 `validate`를 통과하는지 확인). 앱에서 만든 형태라 초안이 없다 | FIPS 180-4 SHA-256 예제("abc") |
 | `did-auth-keygen` | DID Auth 데모용 P-256 키쌍 두 개(서버, 클라이언트) 생성. 실행마다 값이 다르므로 비교하지 않는다. | 시험 벡터 없음(무작위) |
 | `did-auth-client` | DID Auth 클라이언트: ECDH(raw_x) → SHA-256 → AES-128-CBC → MAC 8바이트. 학습용 예제, 공개 데모 키 | 독립 구현 대조(Node `crypto`, `reference/did-auth/did-auth.mjs`), 공개 시험 벡터 없음 |
 | `did-auth-server` | DID Auth 서버: 같은 계산 체인으로 MAC을 다시 만들어 비교(`Verified`). 학습용 예제, 공개 데모 키 | `did-auth-client`와 같음 |
