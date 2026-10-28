@@ -1,0 +1,108 @@
+{
+  "draft": 1,
+  "name": "Hash",
+  "description": "Three hashes of one input.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Message \"abc\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "616263"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "h256",
+      "type": "hash-digest",
+      "label": "SHA-256",
+      "props": {
+        "algorithm": "SHA-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "h512",
+      "type": "hash-digest",
+      "label": "SHA-512",
+      "props": {
+        "algorithm": "SHA-512"
+      },
+      "position": {
+        "x": 368,
+        "y": 240
+      }
+    },
+    {
+      "id": "h3",
+      "type": "hash-digest",
+      "label": "SHA3-256",
+      "props": {
+        "algorithm": "SHA3-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 416
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Digests",
+      "inputs": [
+        {
+          "id": "a",
+          "dataType": "bytes",
+          "name": "SHA-256"
+        },
+        {
+          "id": "b",
+          "dataType": "bytes",
+          "name": "SHA-512"
+        },
+        {
+          "id": "c",
+          "dataType": "bytes",
+          "name": "SHA3-256"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 208
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "h256.data"
+    },
+    {
+      "from": "in.value",
+      "to": "h512.data"
+    },
+    {
+      "from": "in.value",
+      "to": "h3.data"
+    },
+    {
+      "from": "h256.digest",
+      "to": "out.a"
+    },
+    {
+      "from": "h512.digest",
+      "to": "out.b"
+    },
+    {
+      "from": "h3.digest",
+      "to": "out.c"
+    }
+  ]
+}

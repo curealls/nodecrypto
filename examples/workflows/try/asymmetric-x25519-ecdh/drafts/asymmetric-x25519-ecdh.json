@@ -1,0 +1,71 @@
+{
+  "draft": 1,
+  "name": "X25519 ECDH",
+  "description": "X25519 shared secret (RFC 7748 section 6.1).",
+  "nodes": [
+    {
+      "id": "priv",
+      "type": "input-static-value",
+      "label": "Alice's Private Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pub",
+      "type": "input-static-value",
+      "label": "Bob's Public Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "dh",
+      "type": "asymmetric-x25519-ecdh",
+      "position": {
+        "x": 368,
+        "y": 144
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Shared Secret",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "priv.value",
+      "to": "dh.privateKey"
+    },
+    {
+      "from": "pub.value",
+      "to": "dh.peerPublicKey"
+    },
+    {
+      "from": "dh.sharedSecret",
+      "to": "out.v"
+    }
+  ]
+}

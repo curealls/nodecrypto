@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "Int to Bytes",
+  "description": "258 written as the shortest big-endian byte string is 0102.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "int",
+        "valueInt": 258
+      },
+      "position": {
+        "x": 64,
+        "y": 80
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-int-to-bytes",
+      "props": {
+        "lengthMode": "min",
+        "endian": "big"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Bytes",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Bytes"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 80
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "op.in"
+    },
+    {
+      "from": "op.out",
+      "to": "out.v"
+    }
+  ]
+}

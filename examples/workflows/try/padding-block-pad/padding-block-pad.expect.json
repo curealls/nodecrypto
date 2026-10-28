@@ -1,0 +1,7 @@
+{
+  "source": "RFC 5652 section 6.3 (PKCS#7), checked with an independent implementation",
+  "inputs": {},
+  "outputs": {
+    "Padded": "48656c6c6f0b0b0b0b0b0b0b0b0b0b0b"
+  }
+}

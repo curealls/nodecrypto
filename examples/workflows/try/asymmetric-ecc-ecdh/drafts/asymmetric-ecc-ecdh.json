@@ -1,0 +1,122 @@
+{
+  "draft": 1,
+  "name": "ECDH",
+  "description": "Both sides derive the same secret.",
+  "nodes": [
+    {
+      "id": "a",
+      "type": "asymmetric-ecc-keygen",
+      "label": "Alice keys",
+      "props": {
+        "curve": "p256"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "b",
+      "type": "asymmetric-ecc-keygen",
+      "label": "Bob keys",
+      "props": {
+        "curve": "p256"
+      },
+      "position": {
+        "x": 64,
+        "y": 272
+      }
+    },
+    {
+      "id": "ab",
+      "type": "asymmetric-ecc-ecdh",
+      "label": "Alice computes",
+      "props": {
+        "curve": "p256"
+      },
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    },
+    {
+      "id": "ba",
+      "type": "asymmetric-ecc-ecdh",
+      "label": "Bob computes",
+      "props": {
+        "curve": "p256"
+      },
+      "position": {
+        "x": 464,
+        "y": 272
+      }
+    },
+    {
+      "id": "cmp",
+      "type": "utility-compare",
+      "label": "Same secret?",
+      "props": {
+        "operator": "=="
+      },
+      "position": {
+        "x": 864,
+        "y": 176
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "secret",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        },
+        {
+          "id": "same",
+          "dataType": "bool",
+          "name": "Same secret"
+        }
+      ],
+      "position": {
+        "x": 1264,
+        "y": 176
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "a.privateKey",
+      "to": "ab.privateKey"
+    },
+    {
+      "from": "b.publicKey",
+      "to": "ab.peerPublicKey"
+    },
+    {
+      "from": "b.privateKey",
+      "to": "ba.privateKey"
+    },
+    {
+      "from": "a.publicKey",
+      "to": "ba.peerPublicKey"
+    },
+    {
+      "from": "ab.sharedSecret",
+      "to": "cmp.a"
+    },
+    {
+      "from": "ba.sharedSecret",
+      "to": "cmp.b"
+    },
+    {
+      "from": "cmp.result",
+      "to": "out.same"
+    },
+    {
+      "from": "ab.sharedSecret",
+      "to": "out.secret"
+    }
+  ]
+}

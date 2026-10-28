@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: the ASCII bytes of \"Hello\" written as hex",
+  "inputs": {},
+  "outputs": {
+    "Hex": "48656c6c6f"
+  }
+}

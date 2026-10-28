@@ -1,0 +1,43 @@
+{
+  "draft": 1,
+  "name": "User Input Dialog",
+  "description": "Ask for a message.",
+  "nodes": [
+    {
+      "id": "ask",
+      "type": "input-dialog",
+      "label": "Message",
+      "props": {
+        "type": "string",
+        "promptMessage": "Enter a message:",
+        "defaultString": "Hello NodeCrypto"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "o",
+      "type": "workflow-output",
+      "label": "Message",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "string",
+          "name": "Message"
+        }
+      ],
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "ask.string",
+      "to": "o.v"
+    }
+  ]
+}

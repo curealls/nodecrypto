@@ -1,0 +1,7 @@
+{
+  "source": "Random keys: the check is that the rebuilt key equals the generated one",
+  "inputs": {},
+  "outputs": {
+    "Same key": true
+  }
+}

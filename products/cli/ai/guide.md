@@ -50,6 +50,7 @@ A draft is a workflow with everything optional left out. Top level: `draft` (alw
   - `position`: omit it; nodes are laid out automatically.
 - **Notes**: use `note` generously; a person opens the workflow on the canvas and reads it node by node, so the memo is where your reasoning survives. Good notes say what the step does in the protocol, where a value comes from (RFC section, test vector, standard), why a parameter was chosen, and any caveat (a zero IV that is intended, a value that is random on every run). Plain markdown, at most 20,000 characters, but keep each note short (a few lines to a short list): headings (`#`), lists (`-`, `1.`), `**bold**`, `*italic*`, `` `code` ``, code blocks, quotes (`>`) and rules (`---`). Links, tables, images and HTML are not rendered and show as written. A note never affects execution or the validation result, and an empty or blank `note` is dropped.
 - **Ports**: omit `inputs`/`outputs` for fixed-port nodes. For nodes with `dynamicInputs` / `dynamicOutputs` in the catalog (`workflow-input`, `workflow-output`, `utility-concat`, `utility-bitwise`, `utility-script`, `input-value-set`, `switch`) you must list that side: `{ "id", "dataType", "name"? }`.
+- **Typed constants.** For `input-static-value`, `input-random` and `input-dialog` the `type` property (`bytes`, `string`, `int`, `bool`) sets the data type of the first output, so `{ "type": "string", "valueString": "48656c6c6f" }` gives a `string` output with no `outputs` list. The catalog shows the default (`bytes`, or `string` for the dialog); write `outputs` only if you repeat the type that `type` selects.
 - **Port names (`portNames`)**: `{ "<port id>": "<name>" }` renames ports of a fixed side (the fixed ports of any node, the fixed side of a variable-port node). List only the ports you rename; the `id` is the key and never changes. Variable ports are named in `inputs`/`outputs` instead; a variable port's `id` here is an error. Use `inputs.<id>` / `outputs.<id>` when the same `id` exists on both sides (`symmetric-chacha20-stream` `data`).
   - Name a port by the **role** it plays in this workflow (`Session Key`, `Packet Payload`), in one consistent style (capitalised words, no abbreviations). Leave the default when it is already clear. Put length and encoding in `note`, not in the name.
   - A name must not be empty, contain `/ , ( )`, or repeat another name on the same side of that node.
@@ -142,7 +143,7 @@ Verified drafts with published test vectors (each has a `.expect.json` next to i
 
 - **Two or more values from one derivation.** `kdf-hkdf` has a single output. Set `keyLength` to the total (e.g. 44 = 32-byte key + 12-byte nonce) and cut it in one script: `key = okm[0, 32]` and `nonce = okm[32, 12]`. For an encryption key and a separate MAC key from one password, use two `kdf-pbkdf2` nodes with different salts, or one derivation and a script that cuts two keys.
 - **Encrypt-then-MAC.** `kdf-*` (keys), then `symmetric-aes-encrypt` (`mode: CBC`, `padding: PKCS7`, real IV), then `mac-hmac` over `iv + ciphertext`. Build `iv + ciphertext` with a one-line script (`out = iv + ct`). Verify the MAC before decrypting.
-- **Checksum then encrypt.** `utility-crc` outputs an `int`. One script appends it: `framed = msg + to_bytes(crc, 4)` (big endian), then encrypt `framed`. The example below does exactly this.
+- **Checksum then encrypt.** `utility-crc` outputs `bytes` (big-endian, `ceil(width/8)` bytes; set `props.outputType` to `int` for a number). One script appends it: `framed = msg + crc`, then encrypt `framed`. The example below does exactly this.
 - **X25519 public key from a private key.** There is no dedicated node (`asymmetric-x25519-keygen` is random). Use `asymmetric-x25519-ecdh` with the peer public key set to the base point `09` followed by 31 zero bytes.
 - **Hybrid KEM.** `pqc-hybridkem-*` is a ready-made X25519 + ML-KEM-768 KEM. To compose it yourself, use `pqc-mlkem-*` and `asymmetric-x25519-*`, `utility-concat` the two shared secrets and run `kdf-hkdf` (or a hash) over them. The ML-KEM secret key is the expanded 2400-byte form, not a 64-byte seed.
 - **Seeing intermediate values.** `run` prints only `workflow-output` ports. Add `--trace` to also get every successful node's outputs (`trace <node id>.<port id>: <value>` lines, or `trace` in `--json`), including when a later node fails. Trace values include secrets such as keys: do not share the log.
@@ -215,8 +216,8 @@ A checksum appended by one script instead of `utility-int-to-bytes` + `utility-c
       ] },
     { "id": "crc", "type": "utility-crc" },
     { "id": "frame", "type": "utility-script",
-      "props": { "code": "framed = msg + to_bytes(crc, 4)\n" },
-      "inputs": [ { "id": "msg", "dataType": "bytes" }, { "id": "crc", "dataType": "int" } ],
+      "props": { "code": "framed = msg + crc\n" },
+      "inputs": [ { "id": "msg", "dataType": "bytes" }, { "id": "crc", "dataType": "bytes" } ],
       "outputs": [ { "id": "framed", "dataType": "bytes" } ] },
     { "id": "seed", "type": "symmetric-seed-encrypt", "props": { "mode": "CBC", "padding": "PKCS7" } },
     { "id": "out", "type": "workflow-output", "inputs": [ { "id": "ct", "dataType": "bytes", "name": "Ciphertext" } ] }

@@ -1,0 +1,74 @@
+{
+  "draft": 1,
+  "name": "CMAC",
+  "description": "AES-CMAC (RFC 4493 example 3).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "2b7e151628aed2a6abf7158809cf4f3c"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e5130c81c46a35ce411"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "mac",
+      "type": "mac-cmac",
+      "props": {
+        "cipher": "AES"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "MAC",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "MAC"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "mac.key"
+    },
+    {
+      "from": "msg.value",
+      "to": "mac.data"
+    },
+    {
+      "from": "mac.mac",
+      "to": "out.v"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "source": "Disposable 1024-bit RSA test key made for this example (Node crypto / OpenSSL); the result is checked against OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Valid": true
+  }
+}

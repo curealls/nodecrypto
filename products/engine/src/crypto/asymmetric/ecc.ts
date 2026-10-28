@@ -103,7 +103,8 @@ export function eccGenerateKeyPair(curve: EccCurve = 'p256'): EccKeyPair {
 export function eccSign(msgHash: Uint8Array, privateKey: Uint8Array, curve: EccCurve = 'p256'): Uint8Array {
   try {
     const impl = getCurveImpl(curve);
-    return impl.sign(msgHash, privateKey);
+    // The input already is the digest (the node pre-hashes with SHA-256): sign it as is, never hash it again (node-catalog.md ND-5.5).
+    return impl.sign(msgHash, privateKey, { prehash: false });
   } catch (err) {
     throw classifyLibraryError(err);
   }
@@ -112,7 +113,8 @@ export function eccSign(msgHash: Uint8Array, privateKey: Uint8Array, curve: EccC
 export function eccVerify(signature: Uint8Array, msgHash: Uint8Array, publicKey: Uint8Array, curve: EccCurve = 'p256'): boolean {
   try {
     const impl = getCurveImpl(curve);
-    return impl.verify(signature, msgHash, publicKey);
+    // lowS: false accepts the high-S form too: both are valid ECDSA and other implementations (OpenSSL) produce either one.
+    return impl.verify(signature, msgHash, publicKey, { prehash: false, lowS: false });
   } catch {
     return false;
   }

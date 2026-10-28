@@ -1,0 +1,120 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "input-dialog",
+    "version": "",
+    "description": "Ask for a message.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Message",
+        "dataType": "string"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Ask for a message.",
+    "viewport": {
+      "x": 288,
+      "y": 274,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "ask",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "ask",
+          "type": "cryptoNode",
+          "nodeType": "input-dialog",
+          "label": "Message",
+          "category": "input",
+          "description": "Prompts user for runtime input via dialog or fallback test value, of a user-selected type",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "string",
+              "name": "Value",
+              "dataType": "string",
+              "description": "User input value"
+            }
+          ],
+          "properties": {
+            "type": "string",
+            "promptMessage": "Enter a message:",
+            "defaultBytes": "00112233445566778899AABBCCDDEEFF",
+            "defaultString": "Hello NodeCrypto",
+            "defaultInt": 0,
+            "defaultBool": false
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "o",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "o",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Message",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Message",
+              "dataType": "string",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-ask-string-o-v",
+        "source": "ask",
+        "sourceHandle": "string",
+        "target": "o",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "string"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

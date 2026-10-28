@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: bytes 4 to 7 of 00..0f",
+  "inputs": {},
+  "outputs": {
+    "Slice": "04050607"
+  }
+}

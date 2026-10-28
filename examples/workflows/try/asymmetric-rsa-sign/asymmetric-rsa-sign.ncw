@@ -1,0 +1,391 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-rsa-sign",
+    "version": "",
+    "description": "RSA PKCS#1 v1.5 signature.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "sig",
+        "name": "Signature",
+        "dataType": "bytes"
+      },
+      {
+        "id": "ok",
+        "name": "Valid",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "RSA PKCS#1 v1.5 signature.",
+    "viewport": {
+      "x": 8,
+      "y": -22.625,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "msg",
+        "type": "cryptoNode",
+        "position": {
+          "x": 48,
+          "y": 320
+        },
+        "width": 208,
+        "data": {
+          "id": "msg",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message \"Hello\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "priv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 48,
+          "y": 144
+        },
+        "width": 208,
+        "data": {
+          "id": "priv",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Private Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "30820276020100300D06092A864886F70D0101010500048202603082025C02010002818100D0A68BD50933EF03EF8769F29A767BE54B2C973AAEAC4C42CBDE7865435863AC1CF61C893E28B354DA18F7D2E630F63DE5E45ABC20EA24013B2321D8864874F77889AA227D3E54BDFA00F6C1A800DE443A18CD58DFD01373EDA3664265D71AE87BAE59D14AABEC72FE71B88A3F1856D4A5989566013CCD4A1734DB8A49AB408902030100010281801E1393DE8EA80CD12D6B00ABB6F6535FB7196367531C8515AFDB8ED15206E0BF43A17A75921F3DD28269CCF77AB51E19C814C5BB8EA711AF97BDB5B8478B1449014FD25E3065B7114E651F5F4E9ADE6B717B4C6ABF2860D103C0F29C27ACB17FE039D4528DE06461E71993905EA0AD09EA75706C2F0BA01DF504D45607C1FB8D024100EDC41F298B05D750263F244B561F0DF46F9A55A3CE1CDD5246AB60E943A4EC0536C666DB367CAD7DC862BD5BA2A199C77A92D485B4995BBE3A07AF4692B960E7024100E0A6D260781020AB8B8E11F8342D6412558B2DF88E5998E5202E81979D78B0596630E91D34298C57E4197A38B6B898D4ECD259C6C285B647926AD6EF5AB3750F02404511B9F3B97D02E537971416067892F7350C626069599D396F6A0D86F5AD8D1A9EA4D7F04A4DC1A04E7BD082342639A3E7098C4F22FD81D72AC85CB4659F107502410089BDDF69E4D3C6A447E9F11CA5295B9D5E33FB18D6771B2709875A5012EE67FA388D2EB188451D56DA75C099BB770DC627FA85AF379FF27689D0D63E65F77883024074F1461F0F9F876D1677758E265ED727C06F8415AF7C7A7216BAB383476FCEF76B1B369EC31274BB96FDF3EEDD7A6D2FD4D70F2493D5D10AF57F7BE5E554B2AF",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "pub",
+        "type": "cryptoNode",
+        "position": {
+          "x": 48,
+          "y": 496
+        },
+        "width": 208,
+        "data": {
+          "id": "pub",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Public Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "30819F300D06092A864886F70D010101050003818D0030818902818100D0A68BD50933EF03EF8769F29A767BE54B2C973AAEAC4C42CBDE7865435863AC1CF61C893E28B354DA18F7D2E630F63DE5E45ABC20EA24013B2321D8864874F77889AA227D3E54BDFA00F6C1A800DE443A18CD58DFD01373EDA3664265D71AE87BAE59D14AABEC72FE71B88A3F1856D4A5989566013CCD4A1734DB8A49AB40890203010001",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "sign",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 224
+        },
+        "width": 304,
+        "data": {
+          "id": "sign",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-sign",
+          "label": "RSA Sign",
+          "category": "asymmetric",
+          "description": "Creates digital signature using RSA-PSS or PKCS#1 v1.5 with private key",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "RSA private key as DER bytes (PKCS#8)."
+            },
+            {
+              "id": "data",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Original message. It is hashed with the selected Hash Algorithm before signing."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "signature",
+              "name": "Signature",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "scheme": "PKCS1-v1_5",
+            "hash": "SHA-256",
+            "saltLength": 32
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false
+      },
+      {
+        "id": "ver",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 384
+        },
+        "width": 304,
+        "data": {
+          "id": "ver",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-verify",
+          "label": "RSA Verify",
+          "category": "asymmetric",
+          "description": "Verifies digital signature using RSA-PSS or PKCS#1 v1.5 with public key",
+          "inputs": [
+            {
+              "id": "signature",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "data",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Original message. It is hashed with the selected Hash Algorithm before verification."
+            },
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Signer RSA public key as DER bytes (SPKI)."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "isValid",
+              "name": "Valid",
+              "dataType": "bool",
+              "description": "True if the signature verification succeeded."
+            }
+          ],
+          "properties": {
+            "scheme": "PKCS1-v1_5",
+            "hash": "SHA-256",
+            "saltLength": 32,
+            "errorOnValue": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1168,
+          "y": 224
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "sig",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "ok",
+              "name": "Valid",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-msg-value-sign-data",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "sign",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-priv-value-sign-privateKey",
+        "source": "priv",
+        "sourceHandle": "value",
+        "target": "sign",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-msg-value-ver-data",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pub-value-ver-publicKey",
+        "source": "pub",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "publicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sign-signature-ver-signature",
+        "source": "sign",
+        "sourceHandle": "signature",
+        "target": "ver",
+        "targetHandle": "signature",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sign-signature-out-sig",
+        "source": "sign",
+        "sourceHandle": "signature",
+        "target": "out",
+        "targetHandle": "sig",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ver-isValid-out-ok",
+        "source": "ver",
+        "sourceHandle": "isValid",
+        "target": "out",
+        "targetHandle": "ok",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

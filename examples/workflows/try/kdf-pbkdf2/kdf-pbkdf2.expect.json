@@ -1,0 +1,7 @@
+{
+  "source": "RFC 7914 section 11 (P=\"passwd\", S=\"salt\", c=1, dkLen=64)",
+  "inputs": {},
+  "outputs": {
+    "Derived Key": "55ac046e56e3089fec1691c22544b605f94185216dde0465e68b9d57c20dacbc49ca9cccf179b645991664b39d77ef317c71b845b1e30bd509112041d3a19783"
+  }
+}

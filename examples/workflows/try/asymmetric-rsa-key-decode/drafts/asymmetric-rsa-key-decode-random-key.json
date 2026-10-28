@@ -1,0 +1,65 @@
+{
+  "draft": 1,
+  "name": "RSA Key Decoder (random key)",
+  "description": "Read N and e from a fresh key.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "asymmetric-rsa-keygen",
+      "props": {
+        "modulusLength": 1024,
+        "publicExponent": 65537
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "dec",
+      "type": "asymmetric-rsa-key-decode",
+      "props": {
+        "keyType": "Public"
+      },
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Components",
+      "inputs": [
+        {
+          "id": "n",
+          "dataType": "bytes",
+          "name": "N"
+        },
+        {
+          "id": "e",
+          "dataType": "bytes",
+          "name": "e"
+        }
+      ],
+      "position": {
+        "x": 864,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.publicKeyDer",
+      "to": "dec.key"
+    },
+    {
+      "from": "dec.n",
+      "to": "out.n"
+    },
+    {
+      "from": "dec.e",
+      "to": "out.e"
+    }
+  ]
+}

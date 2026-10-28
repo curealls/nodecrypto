@@ -1,0 +1,106 @@
+{
+  "draft": 1,
+  "name": "AES round trip",
+  "description": "AES-128 encrypt and decrypt.",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "000102030405060708090a0b0c0d0e0f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pt",
+      "type": "input-static-value",
+      "label": "Plaintext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "00112233445566778899aabbccddeeff"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "enc",
+      "type": "symmetric-aes-encrypt",
+      "label": "AES Encrypt",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "dec",
+      "type": "symmetric-aes-decrypt",
+      "label": "AES Decrypt",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      },
+      "position": {
+        "x": 768,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        },
+        {
+          "id": "pt",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ],
+      "position": {
+        "x": 1168,
+        "y": 144
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "enc.key"
+    },
+    {
+      "from": "key.value",
+      "to": "dec.key"
+    },
+    {
+      "from": "pt.value",
+      "to": "enc.plaintext"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "out.ct"
+    },
+    {
+      "from": "dec.plaintext",
+      "to": "out.pt"
+    }
+  ]
+}

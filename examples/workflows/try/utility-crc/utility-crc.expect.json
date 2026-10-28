@@ -1,0 +1,8 @@
+{
+  "source": "CRC catalogue check values for \"123456789\" (CRC-32/ISO-HDLC cbf43926, CRC-16/CCITT-FALSE 29b1), checked with an independent implementation",
+  "inputs": {},
+  "outputs": {
+    "CRC-32": "cbf43926",
+    "CRC-16": "29b1"
+  }
+}

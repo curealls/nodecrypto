@@ -1,0 +1,76 @@
+{
+  "draft": 1,
+  "name": "PBKDF2",
+  "description": "PBKDF2-HMAC-SHA-256 (RFC 7914).",
+  "nodes": [
+    {
+      "id": "pw",
+      "type": "input-static-value",
+      "label": "Password \"passwd\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "706173737764"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "salt",
+      "type": "input-static-value",
+      "label": "Salt \"salt\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "73616c74"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "kdf",
+      "type": "kdf-pbkdf2",
+      "props": {
+        "iterations": 1,
+        "keyLength": 64,
+        "hashAlgorithm": "SHA-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Derived Key",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Derived Key"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "pw.value",
+      "to": "kdf.password"
+    },
+    {
+      "from": "salt.value",
+      "to": "kdf.salt"
+    },
+    {
+      "from": "kdf.derivedKey",
+      "to": "out.v"
+    }
+  ]
+}

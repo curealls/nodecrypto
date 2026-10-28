@@ -1,0 +1,156 @@
+{
+  "draft": 1,
+  "name": "Switch",
+  "description": "Pick one of two value sets.",
+  "nodes": [
+    {
+      "id": "a",
+      "type": "input-value-set",
+      "label": "Set A",
+      "props": {
+        "rows": {
+          "out_1": {
+            "mode": "fixed",
+            "value": "aa"
+          },
+          "out_2": {
+            "mode": "fixed",
+            "value": 1
+          }
+        }
+      },
+      "outputs": [
+        {
+          "id": "out_1",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "out_2",
+          "dataType": "int",
+          "name": "Id"
+        },
+        {
+          "id": "set",
+          "dataType": "set"
+        }
+      ],
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "b",
+      "type": "input-value-set",
+      "label": "Set B",
+      "props": {
+        "rows": {
+          "out_1": {
+            "mode": "fixed",
+            "value": "bb"
+          },
+          "out_2": {
+            "mode": "fixed",
+            "value": 2
+          }
+        }
+      },
+      "outputs": [
+        {
+          "id": "out_1",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "out_2",
+          "dataType": "int",
+          "name": "Id"
+        },
+        {
+          "id": "set",
+          "dataType": "set"
+        }
+      ],
+      "position": {
+        "x": 64,
+        "y": 272
+      }
+    },
+    {
+      "id": "sw",
+      "type": "switch",
+      "label": "Switch",
+      "props": {
+        "activeInput": "in_2"
+      },
+      "inputs": [
+        {
+          "id": "in_1",
+          "dataType": "set",
+          "name": "A"
+        },
+        {
+          "id": "in_2",
+          "dataType": "set",
+          "name": "B"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "out_1",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "out_2",
+          "dataType": "int",
+          "name": "Id"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 144
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "p0",
+          "dataType": "bytes",
+          "name": "Key"
+        },
+        {
+          "id": "p1",
+          "dataType": "int",
+          "name": "Id"
+        }
+      ],
+      "position": {
+        "x": 672,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "a.set",
+      "to": "sw.in_1"
+    },
+    {
+      "from": "b.set",
+      "to": "sw.in_2"
+    },
+    {
+      "from": "sw.out_1",
+      "to": "out.p0"
+    },
+    {
+      "from": "sw.out_2",
+      "to": "out.p1"
+    }
+  ]
+}

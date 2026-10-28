@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Endian Converter",
+  "description": "Reverses the byte order of 01020304.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "01020304"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-endian",
+      "position": {
+        "x": 368,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Swapped",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Swapped"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "op.data"
+    },
+    {
+      "from": "op.result",
+      "to": "out.v"
+    }
+  ]
+}

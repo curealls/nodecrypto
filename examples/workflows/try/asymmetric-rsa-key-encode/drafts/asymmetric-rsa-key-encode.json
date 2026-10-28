@@ -1,0 +1,91 @@
+{
+  "draft": 1,
+  "name": "RSA Key Encoder",
+  "description": "Build a private key from N, e and d.",
+  "nodes": [
+    {
+      "id": "n",
+      "type": "input-static-value",
+      "label": "N",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "d0a68bd50933ef03ef8769f29a767be54b2c973aaeac4c42cbde7865435863ac1cf61c893e28b354da18f7d2e630f63de5e45abc20ea24013b2321d8864874f77889aa227d3e54bdfa00f6c1a800de443a18cd58dfd01373eda3664265d71ae87bae59d14aabec72fe71b88a3f1856d4a5989566013ccd4a1734db8a49ab4089"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "e",
+      "type": "input-static-value",
+      "label": "e",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "010001"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "d",
+      "type": "input-static-value",
+      "label": "d",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "1e1393de8ea80cd12d6b00abb6f6535fb7196367531c8515afdb8ed15206e0bf43a17a75921f3dd28269ccf77ab51e19c814c5bb8ea711af97bdb5b8478b1449014fd25e3065b7114e651f5f4e9ade6b717b4c6abf2860d103c0f29c27acb17fe039d4528de06461e71993905ea0ad09ea75706c2f0ba01df504d45607c1fb8d"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "enc",
+      "type": "asymmetric-rsa-key-encode",
+      "props": {
+        "keyType": "Private"
+      },
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Key",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Key"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 240
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "n.value",
+      "to": "enc.n"
+    },
+    {
+      "from": "e.value",
+      "to": "enc.e"
+    },
+    {
+      "from": "d.value",
+      "to": "enc.d"
+    },
+    {
+      "from": "enc.key",
+      "to": "out.v"
+    }
+  ]
+}

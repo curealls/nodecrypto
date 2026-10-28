@@ -1,0 +1,7 @@
+{
+  "source": "Base58 of \"Hello World!\", checked with an independent implementation",
+  "inputs": {},
+  "outputs": {
+    "Base58": "2NEpo7TZRRrLZSi2U"
+  }
+}

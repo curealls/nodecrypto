@@ -1,0 +1,7 @@
+{
+  "source": "RFC 3713 appendix A (128-bit key), checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Ciphertext": "67673138549669730857065648eabe43"
+  }
+}

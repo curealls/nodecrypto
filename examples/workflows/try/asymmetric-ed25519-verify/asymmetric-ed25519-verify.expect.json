@@ -1,0 +1,7 @@
+{
+  "source": "RFC 8032 section 7.1 (TEST 2, message 0x72)",
+  "inputs": {},
+  "outputs": {
+    "Valid": true
+  }
+}

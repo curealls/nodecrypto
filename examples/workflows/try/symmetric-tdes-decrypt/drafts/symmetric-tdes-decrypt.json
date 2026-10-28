@@ -1,0 +1,75 @@
+{
+  "draft": 1,
+  "name": "Triple DES Decrypt",
+  "description": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0123456789abcdef23456789abcdef01456789abcdef0123"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "ct",
+      "type": "input-static-value",
+      "label": "Ciphertext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "314f8327fa7a09a8"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-tdes-decrypt",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Plaintext",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "ct.value",
+      "to": "c.ciphertext"
+    },
+    {
+      "from": "c.plaintext",
+      "to": "out.v"
+    }
+  ]
+}

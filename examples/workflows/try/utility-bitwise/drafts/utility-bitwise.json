@@ -1,0 +1,86 @@
+{
+  "draft": 1,
+  "name": "Bitwise Logic",
+  "description": "AND of two byte strings.",
+  "nodes": [
+    {
+      "id": "a",
+      "type": "input-static-value",
+      "label": "A",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "f0f0"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "b",
+      "type": "input-static-value",
+      "label": "B",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0fff"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-bitwise",
+      "props": {
+        "operation": "AND"
+      },
+      "inputs": [
+        {
+          "id": "in_1",
+          "dataType": "bytes",
+          "name": "A"
+        },
+        {
+          "id": "in_2",
+          "dataType": "bytes",
+          "name": "B"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Result",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Result"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "a.value",
+      "to": "op.in_1"
+    },
+    {
+      "from": "b.value",
+      "to": "op.in_2"
+    },
+    {
+      "from": "op.result",
+      "to": "out.v"
+    }
+  ]
+}

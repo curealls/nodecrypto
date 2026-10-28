@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: the default value of the dialog",
+  "inputs": {},
+  "outputs": {
+    "Message": "Hello NodeCrypto"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "source": "Disposable 1024-bit RSA test key made for this example (Node crypto / OpenSSL); the result is checked against OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Signature": "6ba32a9dbf26aaa437f343ce49922139ada99eb82978c7ae60949e2f2922f9e3aa25a9d9d49e484232533f87d5846fb9efaf92e8deaa63159b9f7690a17c3979355eb040d8715a8b5e8aa9eae908fb6a8bb9d498a0dc803fd43ab8ce71ac9eb14de5a8f295943b8ba874a414f8417a63a24e2ce8e13c8d9429c3a8091c0452c4",
+    "Valid": true
+  }
+}

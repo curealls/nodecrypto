@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: 0f shifted left by 4 bits",
+  "inputs": {},
+  "outputs": {
+    "Result": "f0"
+  }
+}

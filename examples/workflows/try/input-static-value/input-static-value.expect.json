@@ -1,0 +1,10 @@
+{
+  "source": "Plain example constants",
+  "inputs": {},
+  "outputs": {
+    "Bytes": "00112233445566778899aabbccddeeff",
+    "String": "Hello NodeCrypto!",
+    "Int": "42",
+    "Bool": true
+  }
+}

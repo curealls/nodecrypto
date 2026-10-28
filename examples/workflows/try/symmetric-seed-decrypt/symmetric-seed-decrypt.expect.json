@@ -1,0 +1,7 @@
+{
+  "source": "RFC 4269 appendix B.4 / KISA SEED 128 test vectors (vector 4)",
+  "inputs": {},
+  "outputs": {
+    "Plaintext": "b41e6be2eba84a148e2eed84593c5ec7"
+  }
+}

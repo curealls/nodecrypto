@@ -1,0 +1,94 @@
+{
+  "draft": 1,
+  "name": "X25519 + ML-KEM-768 hybrid Decapsulate",
+  "description": "X25519 + ML-KEM-768 hybrid round trip.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "pqc-hybridkem-keygen",
+      "position": {
+        "x": 64,
+        "y": 80
+      }
+    },
+    {
+      "id": "enc",
+      "type": "pqc-hybridkem-encaps",
+      "position": {
+        "x": 464,
+        "y": 80
+      }
+    },
+    {
+      "id": "dec",
+      "type": "pqc-hybridkem-decaps",
+      "position": {
+        "x": 864,
+        "y": 80
+      }
+    },
+    {
+      "id": "cmp",
+      "type": "utility-compare",
+      "label": "Same secret?",
+      "props": {
+        "operator": "=="
+      },
+      "position": {
+        "x": 1264,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "same",
+          "dataType": "bool",
+          "name": "Same secret"
+        },
+        {
+          "id": "ss",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        }
+      ],
+      "position": {
+        "x": 1664,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.publicKey",
+      "to": "enc.publicKey"
+    },
+    {
+      "from": "gen.secretKey",
+      "to": "dec.secretKey"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "enc.sharedSecret",
+      "to": "cmp.a"
+    },
+    {
+      "from": "dec.sharedSecret",
+      "to": "cmp.b"
+    },
+    {
+      "from": "cmp.result",
+      "to": "out.same"
+    },
+    {
+      "from": "dec.sharedSecret",
+      "to": "out.ss"
+    }
+  ]
+}

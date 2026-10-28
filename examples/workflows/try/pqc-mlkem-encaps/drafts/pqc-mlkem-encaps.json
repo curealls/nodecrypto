@@ -1,0 +1,64 @@
+{
+  "draft": 1,
+  "name": "ML-KEM-768 Encapsulate",
+  "description": "Encapsulate with ML-KEM-768.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "pqc-mlkem-keygen",
+      "props": {
+        "variant": 768
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "enc",
+      "type": "pqc-mlkem-encaps",
+      "props": {
+        "variant": 768
+      },
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "ss",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        },
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        }
+      ],
+      "position": {
+        "x": 864,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.publicKey",
+      "to": "enc.publicKey"
+    },
+    {
+      "from": "enc.sharedSecret",
+      "to": "out.ss"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "out.ct"
+    }
+  ]
+}

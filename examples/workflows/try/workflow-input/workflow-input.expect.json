@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: the default value of the port",
+  "inputs": {},
+  "outputs": {
+    "Message": "48656c6c6f"
+  }
+}

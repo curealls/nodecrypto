@@ -1,0 +1,180 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "workflow-output",
+    "version": "",
+    "description": "One output node with two ports.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "b",
+        "name": "Bytes",
+        "dataType": "bytes"
+      },
+      {
+        "id": "s",
+        "name": "String",
+        "dataType": "string"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "One output node with two ports.",
+    "viewport": {
+      "x": 383,
+      "y": 185.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "b",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "b",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Bytes",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "s",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "s",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "String",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "string",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "string",
+            "valueBytes": "00112233445566778899AABBCCDDEEFF",
+            "valueString": "Hello",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 144
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "b",
+              "name": "Bytes",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "s",
+              "name": "String",
+              "dataType": "string",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-b-value-out-b",
+        "source": "b",
+        "sourceHandle": "value",
+        "target": "out",
+        "targetHandle": "b",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-s-value-out-s",
+        "source": "s",
+        "sourceHandle": "value",
+        "target": "out",
+        "targetHandle": "s",
+        "type": "custom",
+        "data": {
+          "dataType": "string"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

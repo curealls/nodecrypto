@@ -1,0 +1,72 @@
+{
+  "draft": 1,
+  "name": "SLH-DSA-SHA2-128f Sign",
+  "description": "Sign with SLH-DSA-SHA2-128f.",
+  "nodes": [
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "gen",
+      "type": "pqc-slhdsa-keygen",
+      "props": {
+        "variant": "slh_dsa_sha2_128f"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "sign",
+      "type": "pqc-slhdsa-sign",
+      "props": {
+        "variant": "slh_dsa_sha2_128f"
+      },
+      "position": {
+        "x": 464,
+        "y": 160
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Signature",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Signature"
+        }
+      ],
+      "position": {
+        "x": 864,
+        "y": 176
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.secretKey",
+      "to": "sign.secretKey"
+    },
+    {
+      "from": "msg.value",
+      "to": "sign.message"
+    },
+    {
+      "from": "sign.signature",
+      "to": "out.v"
+    }
+  ]
+}

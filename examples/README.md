@@ -50,6 +50,29 @@ nodecrypto run examples/workflows/hmac-sha256.ncw --inputs '{"Key":"4a656665","D
 
 회귀 테스트는 `products/cli/tests/examples.test.ts`(CLI 실행·초안 펼침 일치)이다. 웹 앱에서 열기 시험은 내부 저장소에서 따로 수행한다.
 
+### 노드 도움말용 예제 (`workflows/try/`)
+
+노드 도움말의 "Try this node" 단추가 앱에서 여는 예제이다. 노드 하나에 예제 1~4개를 둔다.
+
+```
+workflows/try/
+├── try.json                       # 노드 타입 ID → 예제 목록(slug, 영어·한국어 title/description). 첫 항목이 주 예제
+└── <노드 타입 ID>/              # slug는 모든 예제에서 고유하다(탭 이름이 파일 이름이라서). 첫 예제는 노드 타입 ID, 이후는 <노드 타입 ID>-<이름>
+    ├── <slug>.ncw                 # 최종 원본(앱에서 배치를 확정해 저장한 파일)
+    ├── <slug>.expect.json         # 기대 출력(위 "검증된 예제"와 같은 형식)
+    └── drafts/<slug>.json         # 초안. 앱에서 확정해 .ncw를 교체하면 지운다
+```
+
+작성 기준:
+
+1. 보여 줄 값은 모두 `Workflow Output` 노드에 연결한다. 출력 포트를 눌러야만 값이 보이게 두지 않는다. `Workflow Output`은 워크플로우에 하나만 둘 수 있으므로 노드 하나에 포트를 여럿 둔다. 값을 보여 주는 것이 노드의 일인 `Output Inspector` 예제만 예외이다.
+2. 입력은 `Static Value` 등으로 미리 올바른 값을 채운다. 사용자에게 값을 묻는 `Workflow Input`은 쓰지 않는다(대상 노드가 `Workflow Input`일 때만 예외). 올바른 값을 만들기 어려운 입력(예: RSA 공개키)은 키 생성 노드에서 무작위로 만들어 잇는다.
+3. 노드는 왼쪽 입력에서 오른쪽 출력으로 열을 맞춰 배치하고 연결선이 꼬이지 않게 한다. 열 사이의 가로 간격은 모두 같게(노드 가장자리 사이 96) 두고, 같은 열의 노드는 격자 2칸(32) 간격으로 쌓아 세로 가운데를 맞춘다. 노드 이름은 역할이 드러나게 붙인다.
+4. 키와 값은 공개 시험 벡터이거나 이 용도로만 만든 폐기용 값이다. `expect.json`의 `source`에 출처를 적는다.
+5. 값이 실행마다 달라지는 예제(무작위 키 생성 등)는 값 대신 판정(`bool`, 길이)을 `Workflow Output`으로 함께 내보내고, `expect.json`은 그 판정만 비교한다.
+6. 불필요한 변환 노드를 넣지 않는다. 출력은 `Bytes to Hex`·`Bytes to String` 같은 표기 변환 없이 노드의 출력을 그대로 `Workflow Output`에 잇고, 입력도 `Static Value`의 타입을 대상 노드가 받는 타입으로 직접 골라 `String to Bytes` 같은 변환 노드를 두지 않는다. 변환 노드가 예제의 대상일 때와 흐름에 꼭 필요한 연산(비교, 복호화 왕복)만 예외이다. 같은 입력을 알고리즘이 다른 노드 여러 개에 넣어 결과를 견주는 예제(해시, CRC)는 결과마다 `Workflow Output`의 포트를 하나씩 둔다.
+7. 앱에서 배치를 고쳐 저장한 `.ncw`가 원본이다. 초안과 `.ncw`의 일치는 시험하지 않고, `.ncw`를 실행한 결과가 `expect.json`과 맞는지를 시험한다.
+
 ### 설명
 
 - `workflows/cmac-subkey.ncw`: RFC 4493 CMAC 서브키. `Static Value`(키 `2b7e151628aed2a6abf7158809cf4f3c`, 영 블록) → `AES Encrypt`(ECB, 패딩 없음) → 스크립트 노드(`builtin-script.md` §12.1)로 `L`에서 `K1`, `K2`를 만든다. 실행하면 `k1 = fbeed618357133667c85e08f7236a8de`, `k2 = f7ddac306ae266ccf90bc11ee46d513b`이다.

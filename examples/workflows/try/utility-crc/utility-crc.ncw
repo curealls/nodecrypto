@@ -1,0 +1,258 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "utility-crc",
+    "version": "",
+    "description": "Two CRC algorithms over the same bytes.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "p0",
+        "name": "CRC-32",
+        "dataType": "bytes"
+      },
+      {
+        "id": "p1",
+        "name": "CRC-16",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Two CRC algorithms over the same bytes.",
+    "viewport": {
+      "x": 120,
+      "y": 217.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Check string \"123456789\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "313233343536373839",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c32",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "c32",
+          "type": "cryptoNode",
+          "nodeType": "utility-crc",
+          "label": "CRC-32",
+          "category": "hash",
+          "description": "Universal Parametric Cyclic Redundancy Check (Rocksoft Model: 8, 16, 32, 64-bit)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "checksum",
+              "name": "Checksum",
+              "dataType": "bytes",
+              "description": "Computed CRC checksum: big-endian bytes of the value, or an int when Output Type is int."
+            }
+          ],
+          "properties": {
+            "outputType": "bytes",
+            "preset": "CRC-32/ISO-HDLC",
+            "customWidth": 32,
+            "customPoly": "04C11DB7",
+            "customInit": "FFFFFFFF",
+            "customRefIn": true,
+            "customRefOut": true,
+            "customXorOut": "FFFFFFFF"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "c16",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 240
+        },
+        "width": 304,
+        "data": {
+          "id": "c16",
+          "type": "cryptoNode",
+          "nodeType": "utility-crc",
+          "label": "CRC-16",
+          "category": "hash",
+          "description": "Universal Parametric Cyclic Redundancy Check (Rocksoft Model: 8, 16, 32, 64-bit)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "checksum",
+              "name": "Checksum",
+              "dataType": "bytes",
+              "description": "Computed CRC checksum: big-endian bytes of the value, or an int when Output Type is int."
+            }
+          ],
+          "properties": {
+            "outputType": "bytes",
+            "preset": "CRC-16/CCITT-FALSE",
+            "customWidth": 32,
+            "customPoly": "04C11DB7",
+            "customInit": "FFFFFFFF",
+            "customRefIn": true,
+            "customRefOut": true,
+            "customXorOut": "FFFFFFFF"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 144
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "p0",
+              "name": "CRC-32",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "p1",
+              "name": "CRC-16",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-c32-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "c32",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-value-c16-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "c16",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c32-checksum-out-p0",
+        "source": "c32",
+        "sourceHandle": "checksum",
+        "target": "out",
+        "targetHandle": "p0",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c16-checksum-out-p1",
+        "source": "c16",
+        "sourceHandle": "checksum",
+        "target": "out",
+        "targetHandle": "p1",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

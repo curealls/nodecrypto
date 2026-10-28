@@ -1,0 +1,7 @@
+{
+  "source": "Random key and randomized ECDSA: only the verification result is compared",
+  "inputs": {},
+  "outputs": {
+    "Valid": true
+  }
+}

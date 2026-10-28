@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Bit Inversion",
+  "description": "Every bit of 00ff0f is flipped.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "00ff0f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-bitwise-not",
+      "position": {
+        "x": 368,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Inverted",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Inverted"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "op.data"
+    },
+    {
+      "from": "op.inverted",
+      "to": "out.v"
+    }
+  ]
+}

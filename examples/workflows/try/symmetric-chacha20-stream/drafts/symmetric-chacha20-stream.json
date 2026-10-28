@@ -1,0 +1,88 @@
+{
+  "draft": 1,
+  "name": "ChaCha20",
+  "description": "ChaCha20 keystream block.",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "data",
+      "type": "input-static-value",
+      "label": "Data (zeros)",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "nonce",
+      "type": "input-static-value",
+      "label": "Nonce",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "000000000000000000000000"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-chacha20-stream",
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Keystream",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Keystream"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 240
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "data.value",
+      "to": "c.data"
+    },
+    {
+      "from": "nonce.value",
+      "to": "c.nonce"
+    },
+    {
+      "from": "c.data",
+      "to": "out.v"
+    }
+  ]
+}

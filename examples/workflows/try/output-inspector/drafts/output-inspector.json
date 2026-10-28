@@ -1,0 +1,36 @@
+{
+  "draft": 1,
+  "name": "Output Inspector",
+  "description": "Watch a value.",
+  "nodes": [
+    {
+      "id": "b",
+      "type": "input-static-value",
+      "label": "Bytes",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "insp",
+      "type": "output-inspector",
+      "label": "Inspector",
+      "note": "Select this node after Run to see the value in the data inspector panel.",
+      "position": {
+        "x": 368,
+        "y": 96
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "b.value",
+      "to": "insp.data"
+    }
+  ]
+}

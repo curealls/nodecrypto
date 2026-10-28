@@ -226,9 +226,20 @@ export const hashKdfUtilityNodes: NodeDefinition[] = [
       { id: 'data', name: 'Data', dataType: 'bytes', required: true },
     ],
     outputs: [
-      { id: 'checksum', name: 'Checksum', dataType: 'int', description: 'Computed CRC checksum value.' },
+      { id: 'checksum', name: 'Checksum', dataType: 'bytes', description: 'Computed CRC checksum: big-endian bytes of the value, or an int when Output Type is int.' },
     ],
     propertySchema: [
+      {
+        id: 'outputType',
+        label: 'Output Type',
+        type: 'select',
+        options: [
+          { label: 'Bytes (big-endian)', value: 'bytes' },
+          { label: 'Int', value: 'int' },
+        ],
+        defaultValue: 'bytes',
+        description: 'Type of the checksum output. Bytes holds the value in ceil(width / 8) bytes, big-endian.',
+      },
       {
         id: 'preset',
         label: 'CRC Algorithm Preset',
@@ -317,11 +328,10 @@ export const hashKdfUtilityNodes: NodeDefinition[] = [
       }
       log(`Calculating CRC with '${model.name || presetKey}' (width=${model.width})`);
 
-      const { crcBigInt } = computeCrc(inputs.data, model);
+      const { crcBigInt, crcBytes } = computeCrc(inputs.data, model);
 
-      return {
-        checksum: Number(crcBigInt),
-      };
+      // A saved node without the property is an old file: its output was an int (authoring.md §2.3).
+      return { checksum: (properties.outputType ?? 'int') === 'bytes' ? crcBytes : Number(crcBigInt) };
     },
   },
 

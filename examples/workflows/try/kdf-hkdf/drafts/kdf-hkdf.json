@@ -1,0 +1,92 @@
+{
+  "draft": 1,
+  "name": "HKDF",
+  "description": "HKDF-SHA-256, L = 42.",
+  "nodes": [
+    {
+      "id": "ikm",
+      "type": "input-static-value",
+      "label": "IKM",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "salt",
+      "type": "input-static-value",
+      "label": "Salt",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "000102030405060708090a0b0c"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "info",
+      "type": "input-static-value",
+      "label": "Info",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "f0f1f2f3f4f5f6f7f8f9"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "kdf",
+      "type": "kdf-hkdf",
+      "props": {
+        "keyLength": 42,
+        "hashAlgorithm": "SHA-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "OKM",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "OKM"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 240
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "ikm.value",
+      "to": "kdf.ikm"
+    },
+    {
+      "from": "salt.value",
+      "to": "kdf.salt"
+    },
+    {
+      "from": "info.value",
+      "to": "kdf.info"
+    },
+    {
+      "from": "kdf.okm",
+      "to": "out.v"
+    }
+  ]
+}

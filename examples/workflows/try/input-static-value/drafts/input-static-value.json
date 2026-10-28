@@ -1,0 +1,108 @@
+{
+  "draft": 1,
+  "name": "Static Value",
+  "description": "One constant of each type.",
+  "nodes": [
+    {
+      "id": "b",
+      "type": "input-static-value",
+      "label": "Bytes",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "00112233445566778899aabbccddeeff"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "s",
+      "type": "input-static-value",
+      "label": "String",
+      "props": {
+        "type": "string",
+        "valueString": "Hello NodeCrypto!"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "i",
+      "type": "input-static-value",
+      "label": "Int",
+      "props": {
+        "type": "int",
+        "valueInt": 42
+      },
+      "position": {
+        "x": 64,
+        "y": 432
+      }
+    },
+    {
+      "id": "t",
+      "type": "input-static-value",
+      "label": "Bool",
+      "props": {
+        "type": "bool",
+        "valueBool": true
+      },
+      "position": {
+        "x": 64,
+        "y": 608
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "p0",
+          "dataType": "bytes",
+          "name": "Bytes"
+        },
+        {
+          "id": "p1",
+          "dataType": "string",
+          "name": "String"
+        },
+        {
+          "id": "p2",
+          "dataType": "int",
+          "name": "Int"
+        },
+        {
+          "id": "p3",
+          "dataType": "bool",
+          "name": "Bool"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 288
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "b.value",
+      "to": "out.p0"
+    },
+    {
+      "from": "s.value",
+      "to": "out.p1"
+    },
+    {
+      "from": "i.value",
+      "to": "out.p2"
+    },
+    {
+      "from": "t.value",
+      "to": "out.p3"
+    }
+  ]
+}

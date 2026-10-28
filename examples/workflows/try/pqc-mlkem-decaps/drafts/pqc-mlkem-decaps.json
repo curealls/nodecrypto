@@ -1,0 +1,103 @@
+{
+  "draft": 1,
+  "name": "ML-KEM-768 Decapsulate",
+  "description": "ML-KEM-768 round trip.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "pqc-mlkem-keygen",
+      "props": {
+        "variant": 768
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "enc",
+      "type": "pqc-mlkem-encaps",
+      "props": {
+        "variant": 768
+      },
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    },
+    {
+      "id": "dec",
+      "type": "pqc-mlkem-decaps",
+      "props": {
+        "variant": 768
+      },
+      "position": {
+        "x": 864,
+        "y": 64
+      }
+    },
+    {
+      "id": "cmp",
+      "type": "utility-compare",
+      "label": "Same secret?",
+      "props": {
+        "operator": "=="
+      },
+      "position": {
+        "x": 1264,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "same",
+          "dataType": "bool",
+          "name": "Same secret"
+        },
+        {
+          "id": "ss",
+          "dataType": "bytes",
+          "name": "Shared Secret"
+        }
+      ],
+      "position": {
+        "x": 1664,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.publicKey",
+      "to": "enc.publicKey"
+    },
+    {
+      "from": "gen.secretKey",
+      "to": "dec.secretKey"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "enc.sharedSecret",
+      "to": "cmp.a"
+    },
+    {
+      "from": "dec.sharedSecret",
+      "to": "cmp.b"
+    },
+    {
+      "from": "cmp.result",
+      "to": "out.same"
+    },
+    {
+      "from": "dec.sharedSecret",
+      "to": "out.ss"
+    }
+  ]
+}

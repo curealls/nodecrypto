@@ -1,0 +1,402 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-rsa-key-encode-random-key",
+    "version": "",
+    "description": "Take a key apart and put it together again.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Same key",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "random-key",
+    "description": "Take a key apart and put it together again.",
+    "viewport": {
+      "x": 7,
+      "y": 62.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "gen",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 336
+        },
+        "width": 304,
+        "data": {
+          "id": "gen",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-keygen",
+          "label": "RSA Key Generator",
+          "category": "asymmetric",
+          "description": "Generates RSA public/private keypair (1024, 2048, 3072, 4096-bit, DER)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "publicKeyDer",
+              "name": "Public Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "description": "RSA public key as DER (SubjectPublicKeyInfo)."
+            },
+            {
+              "id": "privateKeyDer",
+              "name": "Private Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "description": "RSA private key as DER (PKCS#8). Handle with care."
+            }
+          ],
+          "properties": {
+            "modulusLength": 1024,
+            "publicExponent": 65537
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 174
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 464,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-key-decode",
+          "label": "RSA Key Decoder",
+          "category": "asymmetric",
+          "description": "Extracts the RSA components (N, e, d, ...) from an SPKI public key or PKCS#8 private key (DER)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "SPKI/PKCS#8 DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "RSA public key (SPKI) or private key (PKCS#8) as DER bytes. PEM and PKCS#1 are not supported."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "description": "Modulus N (big-endian, no leading zero bytes)."
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "description": "Public exponent e (big-endian, no leading zero bytes)."
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "description": "Private exponent d."
+            },
+            {
+              "id": "p",
+              "name": "p",
+              "dataType": "bytes",
+              "description": "First prime factor p of N."
+            },
+            {
+              "id": "q",
+              "name": "q",
+              "dataType": "bytes",
+              "description": "Second prime factor q of N."
+            },
+            {
+              "id": "dp",
+              "name": "dP",
+              "dataType": "bytes",
+              "description": "CRT exponent dP = d mod (p-1)."
+            },
+            {
+              "id": "dq",
+              "name": "dQ",
+              "dataType": "bytes",
+              "description": "CRT exponent dQ = d mod (q-1)."
+            },
+            {
+              "id": "qInv",
+              "name": "qInv",
+              "dataType": "bytes",
+              "description": "CRT coefficient qInv = q^-1 mod p."
+            }
+          ],
+          "properties": {
+            "keyType": "Private"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 357
+        },
+        "selected": false
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 896,
+          "y": 80
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-key-encode",
+          "label": "RSA Key Encoder",
+          "category": "asymmetric",
+          "description": "Builds an RSA SPKI public key or PKCS#8 private key (DER) from its components N, e and d",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Modulus N (big-endian unsigned integer)."
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Public exponent e (big-endian unsigned integer)."
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Private exponent d. p and q are computed from N, e and d."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "SPKI/PKCS#8 DER",
+              "dataType": "bytes",
+              "description": "SPKI DER for a public key, PKCS#8 DER for a private key."
+            }
+          ],
+          "properties": {
+            "keyType": "Private"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "cmp",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1296,
+          "y": 336
+        },
+        "width": 304,
+        "data": {
+          "id": "cmp",
+          "type": "cryptoNode",
+          "nodeType": "utility-compare",
+          "label": "Same key?",
+          "category": "utility",
+          "description": "Compares two values of the same type (bytes, string, int, bool) with ==, !=, >, >=, <, <=",
+          "inputs": [
+            {
+              "id": "a",
+              "name": "Value A",
+              "dataType": "any",
+              "required": true,
+              "description": "First operand to compare"
+            },
+            {
+              "id": "b",
+              "name": "Value B",
+              "dataType": "any",
+              "required": true,
+              "description": "Second operand to compare"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Result",
+              "dataType": "bool",
+              "description": "True if the comparison holds"
+            }
+          ],
+          "properties": {
+            "operator": "==",
+            "errorOnValue": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1696,
+          "y": 208
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Same key",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Same key",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-gen-privateKeyDer-dec-key",
+        "source": "gen",
+        "sourceHandle": "privateKeyDer",
+        "target": "dec",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-dec-n-enc-n",
+        "source": "dec",
+        "sourceHandle": "n",
+        "target": "enc",
+        "targetHandle": "n",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-dec-e-enc-e",
+        "source": "dec",
+        "sourceHandle": "e",
+        "target": "enc",
+        "targetHandle": "e",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-dec-d-enc-d",
+        "source": "dec",
+        "sourceHandle": "d",
+        "target": "enc",
+        "targetHandle": "d",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-cmp-result-out-v",
+        "source": "cmp",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        },
+        "selected": false
+      },
+      {
+        "interactionWidth": 14,
+        "selectable": false,
+        "source": "gen",
+        "sourceHandle": "privateKeyDer",
+        "target": "cmp",
+        "targetHandle": "b",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false,
+        "zIndex": 2000,
+        "animated": false,
+        "id": "xy-edge__genprivateKeyDer-cmpb"
+      },
+      {
+        "interactionWidth": 14,
+        "selectable": false,
+        "source": "enc",
+        "sourceHandle": "key",
+        "target": "cmp",
+        "targetHandle": "a",
+        "animated": true,
+        "style": {
+          "stroke": "#3b82f6",
+          "strokeWidth": 2
+        },
+        "id": "xy-edge__enckey-cmpa",
+        "selected": false
+      }
+    ]
+  },
+  "definitions": {}
+}

@@ -1,21 +1,13 @@
 {
   "catalogVersion": 1,
-  "engineVersion": "0.2.5",
+  "engineVersion": "0.2.6",
   "nodes": [
     {
       "type": "input-dialog",
       "label": "User Input Dialog",
       "category": "input",
       "description": "Prompts user for runtime input via dialog or fallback test value, of a user-selected type",
-      "inputs": [
-        {
-          "id": "trigger",
-          "name": "Trigger",
-          "dataType": "any",
-          "required": false,
-          "description": "Optional trigger input"
-        }
-      ],
+      "inputs": [],
       "outputs": [
         {
           "id": "string",
@@ -3548,6 +3540,7 @@
           "label": "Pre-hash with SHA-256",
           "type": "boolean",
           "defaultValue": true,
+          "description": "Turn off to treat the input as an already computed hash and sign it as is.",
           "variable": "bool"
         }
       ],
@@ -3613,6 +3606,7 @@
           "label": "Pre-hash with SHA-256",
           "type": "boolean",
           "defaultValue": true,
+          "description": "Turn off to treat the input as an already computed hash and verify it as is.",
           "variable": "bool"
         },
         {
@@ -5142,11 +5136,22 @@
         {
           "id": "checksum",
           "name": "Checksum",
-          "dataType": "int",
-          "description": "Computed CRC checksum value."
+          "dataType": "bytes",
+          "description": "Computed CRC checksum: big-endian bytes of the value, or an int when Output Type is int."
         }
       ],
       "properties": [
+        {
+          "id": "outputType",
+          "label": "Output Type",
+          "type": "select",
+          "options": [
+            "bytes",
+            "int"
+          ],
+          "defaultValue": "bytes",
+          "description": "Type of the checksum output. Bytes holds the value in ceil(width / 8) bytes, big-endian."
+        },
         {
           "id": "preset",
           "label": "CRC Algorithm Preset",

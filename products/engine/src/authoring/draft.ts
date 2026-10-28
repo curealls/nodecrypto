@@ -10,7 +10,7 @@ import { NOTE_MAX_LENGTH } from '../dag/nodeNote';
 import { LINK_NODE_TYPE, LINK_BOX_NODE_TYPE, SWITCH_NODE_TYPE } from '../dag/links';
 import { defaultNodeRegistry, type NodeRegistry } from '../registry/nodeRegistry';
 import { NODE_WIDTH_BY_SIZE } from '../types';
-import { VALUE_SET_NODE_TYPE } from '../registry/definitions/inputNodes';
+import { VALUE_SET_NODE_TYPE, isTypeDrivenOutput, typedOutputType } from '../registry/definitions/inputNodes';
 import type { NodeDefinition } from '../dag/types';
 import { autoLayout } from './layout';
 import { issue, nearest, type Issue } from './issues';
@@ -124,6 +124,9 @@ export function expandDraft(draft: unknown, registry: NodeRegistry = defaultNode
     const inst = registry.createNodeInstance(n.type, n.id, undefined);
     const data: Record<string, any> = { ...inst.data, properties: { ...inst.data.properties, ...(isObj(n.props) ? n.props : {}) } };
     delete data.executionState;
+    // A property decides the output type of Static Value, Random Value, User Input Dialog and CRC Generator (authoring.md §2.3).
+    if (isTypeDrivenOutput(n.type) && Array.isArray(data.outputs) && data.outputs.length)
+      data.outputs = data.outputs.map((p: any, k: number) => (k === 0 ? { ...p, dataType: typedOutputType(n.type, data.properties, p.dataType) } : p));
     if (n.label !== undefined) data.label = String(n.label);
     // Memo (authoring.md §2.2): markdown text for the person who reviews the workflow; blank means none
     if (n.note !== undefined) {

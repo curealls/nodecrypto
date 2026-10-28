@@ -1,0 +1,7 @@
+{
+  "source": "Random keys: only the check that both sides get the same secret is compared",
+  "inputs": {},
+  "outputs": {
+    "Same secret": true
+  }
+}

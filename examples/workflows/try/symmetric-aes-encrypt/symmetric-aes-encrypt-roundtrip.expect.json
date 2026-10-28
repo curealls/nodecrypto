@@ -1,0 +1,8 @@
+{
+  "source": "FIPS 197 appendix C.1 (AES-128), checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Ciphertext": "69c4e0d86a7b0430d8cdb78070b4c55a",
+    "Plaintext": "00112233445566778899aabbccddeeff"
+  }
+}

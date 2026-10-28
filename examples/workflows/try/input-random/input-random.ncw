@@ -1,0 +1,296 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "input-random",
+    "version": "",
+    "description": "One random value of each type.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "p0",
+        "name": "Bytes",
+        "dataType": "bytes"
+      },
+      {
+        "id": "p1",
+        "name": "String",
+        "dataType": "string"
+      },
+      {
+        "id": "p2",
+        "name": "Int",
+        "dataType": "int"
+      },
+      {
+        "id": "p3",
+        "name": "Bool",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "One random value of each type.",
+    "viewport": {
+      "x": 301,
+      "y": -1.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "b",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "b",
+          "type": "cryptoNode",
+          "nodeType": "input-random",
+          "label": "Bytes",
+          "category": "input",
+          "description": "Generates a cryptographically secure random value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "bytes",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Cryptographically random value"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "length": 16,
+            "intMin": 0,
+            "intMax": 100
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "s",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "s",
+          "type": "cryptoNode",
+          "nodeType": "input-random",
+          "label": "String",
+          "category": "input",
+          "description": "Generates a cryptographically secure random value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "bytes",
+              "name": "Value",
+              "dataType": "string",
+              "description": "Cryptographically random value"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "string",
+            "length": 12,
+            "intMin": 0,
+            "intMax": 100
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "i",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "i",
+          "type": "cryptoNode",
+          "nodeType": "input-random",
+          "label": "Int",
+          "category": "input",
+          "description": "Generates a cryptographically secure random value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "bytes",
+              "name": "Value",
+              "dataType": "int",
+              "description": "Cryptographically random value"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "int",
+            "length": 16,
+            "intMin": 0,
+            "intMax": 100
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "t",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 592
+        },
+        "width": 208,
+        "data": {
+          "id": "t",
+          "type": "cryptoNode",
+          "nodeType": "input-random",
+          "label": "Bool",
+          "category": "input",
+          "description": "Generates a cryptographically secure random value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "bytes",
+              "name": "Value",
+              "dataType": "bool",
+              "description": "Cryptographically random value"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bool",
+            "length": 16,
+            "intMin": 0,
+            "intMax": 100
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 288
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "p0",
+              "name": "Bytes",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "p1",
+              "name": "String",
+              "dataType": "string",
+              "required": true
+            },
+            {
+              "id": "p2",
+              "name": "Int",
+              "dataType": "int",
+              "required": true
+            },
+            {
+              "id": "p3",
+              "name": "Bool",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-b-bytes-out-p0",
+        "source": "b",
+        "sourceHandle": "bytes",
+        "target": "out",
+        "targetHandle": "p0",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-s-bytes-out-p1",
+        "source": "s",
+        "sourceHandle": "bytes",
+        "target": "out",
+        "targetHandle": "p1",
+        "type": "custom",
+        "data": {
+          "dataType": "string"
+        }
+      },
+      {
+        "id": "edge-i-bytes-out-p2",
+        "source": "i",
+        "sourceHandle": "bytes",
+        "target": "out",
+        "targetHandle": "p2",
+        "type": "custom",
+        "data": {
+          "dataType": "int"
+        }
+      },
+      {
+        "id": "edge-t-bytes-out-p3",
+        "source": "t",
+        "sourceHandle": "bytes",
+        "target": "out",
+        "targetHandle": "p3",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

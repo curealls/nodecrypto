@@ -1,0 +1,162 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "Bytes to Base58",
+    "version": "",
+    "description": "Writes the bytes of \"Hello World!\" as Base58 text.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Base58",
+        "dataType": "string"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-bf6f5bf0",
+    "name": "Bytes to Base58",
+    "description": "Writes the bytes of \"Hello World!\" as Base58 text.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Bytes",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656c6c6f20576f726c6421",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        }
+      },
+      {
+        "id": "conv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "conv",
+          "type": "cryptoNode",
+          "nodeType": "converter-bytes-to-base58",
+          "label": "Bytes to Base58",
+          "category": "converter",
+          "description": "Encodes raw byte array into Base58 string (Bitcoin / Flickr)",
+          "inputs": [
+            {
+              "id": "bytes",
+              "name": "Bytes In",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Raw byte array"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "string",
+              "name": "Base58 Out",
+              "dataType": "string",
+              "description": "Base58 string"
+            }
+          ],
+          "properties": {
+            "alphabet": "btc"
+          }
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Base58",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Base58",
+              "dataType": "string",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-conv-bytes",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "conv",
+        "targetHandle": "bytes",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-conv-string-out-v",
+        "source": "conv",
+        "sourceHandle": "string",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "string"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

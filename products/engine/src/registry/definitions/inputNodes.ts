@@ -118,6 +118,30 @@ export const SET_PORT = { id: SET_PORT_ID, name: 'Set', dataType: 'set' as const
 const matchesType = (type: string, v: any) =>
   type === 'bytes' ? v instanceof Uint8Array : type === 'string' ? typeof v === 'string' : type === 'int' ? typeof v === 'number' || typeof v === 'bigint' : typeof v === 'boolean';
 
+/**
+ * Nodes whose first output port takes the data type chosen by a property (authoring.md §2.3, node-catalog.md §2.2-5).
+ * The definition's own output type is only the default value of that property. `legacy` is the type of a saved node that
+ * has no such property at all (a file written before the property existed): the CRC output used to be an `int`.
+ */
+const TYPE_DRIVEN_OUTPUT: Record<string, { prop: string; legacy?: string }> = {
+  'input-static-value': { prop: 'type' },
+  'input-random': { prop: 'type' },
+  'input-dialog': { prop: 'type' },
+  'utility-crc': { prop: 'outputType', legacy: 'int' },
+};
+export const isTypeDrivenOutput = (nodeType: string): boolean => nodeType in TYPE_DRIVEN_OUTPUT;
+/** The property that sets the output type of `nodeType`, if any. */
+export const typeDrivenProp = (nodeType: string): string | undefined => TYPE_DRIVEN_OUTPUT[nodeType]?.prop;
+const VALUE_TYPE_NAMES = ['bytes', 'string', 'int', 'bool'];
+
+/** Data type of the first output of a type-driven node for the given properties; `fallback` when the property holds no value type. */
+export const typedOutputType = (nodeType: string, properties: Record<string, any>, fallback: string): string => {
+  const c = TYPE_DRIVEN_OUTPUT[nodeType];
+  const v = properties?.[c.prop];
+  if (VALUE_TYPE_NAMES.includes(v)) return v;
+  return v === undefined && c.legacy ? c.legacy : fallback;
+};
+
 export const inputNodes: NodeDefinition[] = [
   {
     type: 'input-static-value',
@@ -257,9 +281,7 @@ export const inputNodes: NodeDefinition[] = [
     label: 'User Input Dialog',
     category: 'input',
     description: 'Prompts user for runtime input via dialog or fallback test value, of a user-selected type',
-    inputs: [
-      { id: 'trigger', name: 'Trigger', dataType: 'any', required: false, description: 'Optional trigger input' },
-    ],
+    inputs: [],
     outputs: [
       // Output port id stays 'string' for backward compatibility with existing saved graphs even
       // when `type` selects bytes/int/bool — only dataType/name reflect the real value type.

@@ -1,0 +1,7 @@
+{
+  "source": "Multibase specification (base64url, prefix u), checked with an independent implementation",
+  "inputs": {},
+  "outputs": {
+    "Multibase": "ueWVzIG1hbmkgIQ"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "source": "Disposable P-256 test key made for this example (Node crypto / OpenSSL); the signature was made and verified with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Valid": true
+  }
+}

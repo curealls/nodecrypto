@@ -1,0 +1,239 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "symmetric-des-decrypt",
+    "version": "",
+    "description": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Plaintext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+    "viewport": {
+      "x": 109,
+      "y": 173.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "0123456789ABCDEF",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "ct",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "ct",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Ciphertext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "3FA40E8A984D4815",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "c",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-des-decrypt",
+          "label": "DES Decrypt",
+          "category": "symmetric",
+          "description": "Single DES (56-bit effective, 8-byte key) Decryption",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "8B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Single DES key (56-bit effective)."
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "8B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector for CBC mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "mode": "ECB",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-c-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ct-value-c-ciphertext",
+        "source": "ct",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "ciphertext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-plaintext-out-v",
+        "source": "c",
+        "sourceHandle": "plaintext",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

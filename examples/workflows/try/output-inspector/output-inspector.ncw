@@ -1,0 +1,110 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "output-inspector",
+    "version": "",
+    "description": "Watch a value.",
+    "category": "",
+    "inputs": [],
+    "outputs": []
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Watch a value.",
+    "viewport": {
+      "x": 338,
+      "y": 259.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "b",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "b",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Bytes",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "insp",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 96
+        },
+        "width": 304,
+        "data": {
+          "id": "insp",
+          "type": "cryptoNode",
+          "nodeType": "output-inspector",
+          "label": "Inspector",
+          "category": "input",
+          "description": "Captures and displays inspected values in the Output console window",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "In",
+              "dataType": "any",
+              "required": true,
+              "description": "Data of any type to inspect"
+            }
+          ],
+          "outputs": [],
+          "properties": {},
+          "note": "Select this node after Run to see the value in the data inspector panel."
+        },
+        "measured": {
+          "width": 304,
+          "height": 92
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-b-value-insp-data",
+        "source": "b",
+        "sourceHandle": "value",
+        "target": "insp",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

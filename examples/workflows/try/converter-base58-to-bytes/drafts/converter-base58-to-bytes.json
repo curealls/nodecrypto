@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Base58 to Bytes",
+  "description": "Turns the Base58 text 2NEpo7TZRRrLZSi2U into the bytes of \"Hello World!\".",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Text",
+      "props": {
+        "type": "string",
+        "valueString": "2NEpo7TZRRrLZSi2U"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "conv",
+      "type": "converter-base58-to-bytes",
+      "position": {
+        "x": 368,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Bytes",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Bytes"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 80
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "conv.string"
+    },
+    {
+      "from": "conv.bytes",
+      "to": "out.v"
+    }
+  ]
+}

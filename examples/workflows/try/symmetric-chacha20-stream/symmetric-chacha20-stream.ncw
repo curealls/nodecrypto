@@ -1,0 +1,286 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "symmetric-chacha20-stream",
+    "version": "",
+    "description": "ChaCha20 keystream block.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Keystream",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "ChaCha20 keystream block.",
+    "viewport": {
+      "x": 112,
+      "y": 92.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "0000000000000000000000000000000000000000000000000000000000000000",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "data",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "data",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Data (zeros)",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "nonce",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "nonce",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Nonce",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "000000000000000000000000",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 208
+        },
+        "width": 304,
+        "data": {
+          "id": "c",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-chacha20-stream",
+          "label": "ChaCha20 Stream",
+          "category": "symmetric",
+          "description": "Pure ChaCha20 Stream Cipher without Poly1305 MAC (RFC 8439)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "ChaCha20 256-bit symmetric key."
+            },
+            {
+              "id": "data",
+              "name": "Data In",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Defaults to 12 zero bytes if omitted."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "data",
+              "name": "Data Out",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Keystream",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Keystream",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-c-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-data-value-c-data",
+        "source": "data",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-nonce-value-c-nonce",
+        "source": "nonce",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "nonce",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-data-out-v",
+        "source": "c",
+        "sourceHandle": "data",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

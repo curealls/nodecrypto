@@ -1,0 +1,7 @@
+{
+  "source": "RFC 8017 section 9.1.1 (EMSA-PSS, SHA-256, MGF1), checked with an independent implementation (Python hashlib)",
+  "inputs": {},
+  "outputs": {
+    "Encoded": "5461d181ca04b8245926d45f0d349a5190e90cb955e6df200175f91abb966d9d6b4de159d029dad206b022b150b8d077472dadf99581d5c8f084ec7bb467798e0fcec86a289081ac20bcc607c23157913de3e71dd0077df758c88aa7c586d0f3fafa6580f36ad92f340631f3a4d18cc67aa34ad64f706021d6f1634d5b020ebc"
+  }
+}

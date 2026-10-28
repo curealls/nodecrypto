@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "Byte Slicer",
+  "description": "Cut 4 bytes at offset 4.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "000102030405060708090a0b0c0d0e0f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "cut",
+      "type": "utility-slicer",
+      "props": {
+        "offset": 4,
+        "length": "4"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Slice",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Slice"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "cut.data"
+    },
+    {
+      "from": "cut.sliced",
+      "to": "out.v"
+    }
+  ]
+}

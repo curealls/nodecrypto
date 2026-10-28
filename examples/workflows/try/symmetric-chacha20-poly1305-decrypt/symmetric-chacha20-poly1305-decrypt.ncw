@@ -1,0 +1,399 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "symmetric-chacha20-poly1305-decrypt",
+    "version": "",
+    "description": "AEAD decryption (RFC 8439 section 2.8.2).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Plaintext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "AEAD decryption (RFC 8439 section 2.8.2).",
+    "viewport": {
+      "x": 169,
+      "y": -23.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "ct",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "ct",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Ciphertext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "D31A8D34648E60DB7B86AFBC53EF7EC2A4ADED51296E08FEA9E2B5A736EE62D63DBEA45E8CA9671282FAFB69DA92728B1A71DE0A9E060B2905D6A5B67ECD3B3692DDBD7F2D778B8C9803AEE328091B58FAB324E4FAD675945585808B4831D7BC3FF4DEF08E4B7A9DE576D26586CEC64B6116",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "nonce",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "nonce",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Nonce",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "070000004041424344454647",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "tag",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 592
+        },
+        "width": 208,
+        "data": {
+          "id": "tag",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Tag",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "1AE10B594F09E26A7E902ECBD0600691",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "aad",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 768
+        },
+        "width": 208,
+        "data": {
+          "id": "aad",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Associated data",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "50515253C0C1C2C3C4C5C6C7",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 352
+        },
+        "width": 304,
+        "data": {
+          "id": "c",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-chacha20-poly1305-decrypt",
+          "label": "ChaCha20-Poly1305 Decrypt",
+          "category": "symmetric",
+          "description": "RFC 8439 Authenticated Decryption with Additional Data (AEAD)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "ChaCha20 256-bit symmetric key."
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Nonce used during encryption."
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Poly1305 authentication tag to verify."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data covered by the Poly1305 tag."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 267
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-c-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ct-value-c-ciphertext",
+        "source": "ct",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "ciphertext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-nonce-value-c-nonce",
+        "source": "nonce",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "nonce",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-tag-value-c-tag",
+        "source": "tag",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "tag",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-aad-value-c-aad",
+        "source": "aad",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "aad",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-plaintext-out-v",
+        "source": "c",
+        "sourceHandle": "plaintext",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

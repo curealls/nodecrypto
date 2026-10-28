@@ -1,0 +1,7 @@
+{
+  "source": "GB/T 32907-2016 appendix A.1 (RFC 8998), checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Ciphertext": "681edf34d206965e86b3e94f536e4246"
+  }
+}

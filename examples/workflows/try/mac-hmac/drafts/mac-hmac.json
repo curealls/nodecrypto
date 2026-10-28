@@ -1,0 +1,74 @@
+{
+  "draft": 1,
+  "name": "HMAC",
+  "description": "HMAC-SHA-256 (RFC 4231 test case 2).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "4a656665"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "7768617420646f2079612077616e7420666f72206e6f7468696e673f"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "mac",
+      "type": "mac-hmac",
+      "props": {
+        "algorithm": "SHA-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "MAC",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "MAC"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "mac.key"
+    },
+    {
+      "from": "msg.value",
+      "to": "mac.data"
+    },
+    {
+      "from": "mac.mac",
+      "to": "out.v"
+    }
+  ]
+}

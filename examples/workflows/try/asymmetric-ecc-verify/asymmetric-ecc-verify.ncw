@@ -1,0 +1,284 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-ecc-verify",
+    "version": "",
+    "description": "ECDSA verify.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Valid",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "ECDSA verify.",
+    "viewport": {
+      "x": 107,
+      "y": 97.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "msg",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "msg",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message \"Hello\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "sig",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "sig",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Signature",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "B285AE5FE2E71362BE07FD681D17288C4DCAB78DF68E3121B995AF09280AC6F0CB3FF6F6B1E9D964CCBAA01CF049157278FE3F6431E7E3D829B9FD21756BB1EE",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "pub",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "pub",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Public Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "04C3A0C656EB47D9B59B8680CEAFA4AF7AAF7E6A138B9D2EE9CBDDAE4E94D4E27FD483A6BA6C5922BB1B235501D6454AB8C012A029C64BABD500DD2861BF0C5A8E",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "ver",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 208
+        },
+        "width": 304,
+        "data": {
+          "id": "ver",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ecc-verify",
+          "label": "ECC Verify (ECDSA)",
+          "category": "asymmetric",
+          "description": "Verifies ECDSA signature against public key on specified curve",
+          "inputs": [
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "data",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Original message. If Pre-hash with SHA-256 is turned off, pass an already computed hash instead."
+            },
+            {
+              "id": "signature",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "isValid",
+              "name": "Valid",
+              "dataType": "bool",
+              "description": "True if the ECDSA signature verification succeeded."
+            }
+          ],
+          "properties": {
+            "curve": "p256",
+            "autoHash": true,
+            "errorOnValue": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Valid",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Valid",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-msg-value-ver-data",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sig-value-ver-signature",
+        "source": "sig",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "signature",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pub-value-ver-publicKey",
+        "source": "pub",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "publicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-ver-isValid-out-v",
+        "source": "ver",
+        "sourceHandle": "isValid",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

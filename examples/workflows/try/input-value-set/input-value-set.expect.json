@@ -1,0 +1,8 @@
+{
+  "source": "Plain example constants",
+  "inputs": {},
+  "outputs": {
+    "Combined": "aabbccddeeff",
+    "Length": "6"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "source": "RFC 3713 appendix A (128-bit key), checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Plaintext": "0123456789abcdeffedcba9876543210"
+  }
+}

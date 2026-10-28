@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: byte order reversed",
+  "inputs": {},
+  "outputs": {
+    "Swapped": "04030201"
+  }
+}

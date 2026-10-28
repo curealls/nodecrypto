@@ -1,0 +1,46 @@
+{
+  "draft": 1,
+  "name": "Ed25519 Key Generator",
+  "description": "A new Ed25519 key pair.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "asymmetric-ed25519-keygen",
+      "position": {
+        "x": 64,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Keys",
+      "inputs": [
+        {
+          "id": "priv",
+          "dataType": "bytes",
+          "name": "Private Key"
+        },
+        {
+          "id": "pub",
+          "dataType": "bytes",
+          "name": "Public Key"
+        }
+      ],
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.privateKey",
+      "to": "out.priv"
+    },
+    {
+      "from": "gen.publicKey",
+      "to": "out.pub"
+    }
+  ]
+}

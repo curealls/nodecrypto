@@ -1,0 +1,7 @@
+{
+  "source": "C2SP CCTV ML-KEM intermediate/ML-KEM-768.txt (dk, c, K). The vectors follow the FIPS 203 draft key generation; Decaps is the same as the final standard.",
+  "inputs": {},
+  "outputs": {
+    "Shared Secret": "4b4eba37eff0315dc6009dcffb4dfbbb680f8f2ebde8715fa3d6daf70256a2d9"
+  }
+}

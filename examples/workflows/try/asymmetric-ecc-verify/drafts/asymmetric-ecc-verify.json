@@ -1,0 +1,92 @@
+{
+  "draft": 1,
+  "name": "ECDSA Verify",
+  "description": "ECDSA verify.",
+  "nodes": [
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "sig",
+      "type": "input-static-value",
+      "label": "Signature",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "b285ae5fe2e71362be07fd681d17288c4dcab78df68e3121b995af09280ac6f0cb3ff6f6b1e9d964ccbaa01cf049157278fe3f6431e7e3d829b9fd21756bb1ee"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "pub",
+      "type": "input-static-value",
+      "label": "Public Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "04c3a0c656eb47d9b59b8680ceafa4af7aaf7e6a138b9d2ee9cbddae4e94d4e27fd483a6ba6c5922bb1b235501d6454ab8c012a029c64babd500dd2861bf0c5a8e"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "ver",
+      "type": "asymmetric-ecc-verify",
+      "props": {
+        "curve": "p256",
+        "autoHash": true
+      },
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Valid",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bool",
+          "name": "Valid"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 240
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "msg.value",
+      "to": "ver.data"
+    },
+    {
+      "from": "sig.value",
+      "to": "ver.signature"
+    },
+    {
+      "from": "pub.value",
+      "to": "ver.publicKey"
+    },
+    {
+      "from": "ver.isValid",
+      "to": "out.v"
+    }
+  ]
+}

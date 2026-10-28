@@ -1,0 +1,49 @@
+{
+  "draft": 1,
+  "name": "SLH-DSA-SHA2-128f Key Generator",
+  "description": "A new SLH-DSA-SHA2-128f key pair.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "pqc-slhdsa-keygen",
+      "props": {
+        "variant": "slh_dsa_sha2_128f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Keys",
+      "inputs": [
+        {
+          "id": "pub",
+          "dataType": "bytes",
+          "name": "Public Key"
+        },
+        {
+          "id": "sec",
+          "dataType": "bytes",
+          "name": "Secret Key"
+        }
+      ],
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.publicKey",
+      "to": "out.pub"
+    },
+    {
+      "from": "gen.secretKey",
+      "to": "out.sec"
+    }
+  ]
+}

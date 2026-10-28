@@ -1,0 +1,76 @@
+{
+  "draft": 1,
+  "name": "Asymmetric Padding (PSS)",
+  "description": "PSS encode with a fixed salt.",
+  "nodes": [
+    {
+      "id": "h",
+      "type": "input-static-value",
+      "label": "Message hash (SHA-256 of \"abc\")",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "s",
+      "type": "input-static-value",
+      "label": "Salt",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "pss",
+      "type": "padding-asymmetric",
+      "props": {
+        "scheme": "PSS-Encode",
+        "targetLength": 128,
+        "saltLength": 32
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Encoded",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Encoded"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "h.value",
+      "to": "pss.mHash"
+    },
+    {
+      "from": "s.value",
+      "to": "pss.salt"
+    },
+    {
+      "from": "pss.result",
+      "to": "out.v"
+    }
+  ]
+}

@@ -1,0 +1,324 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "padding-asymmetric",
+    "version": "",
+    "description": "OAEP encode and decode.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "em",
+        "name": "Encoded",
+        "dataType": "bytes"
+      },
+      {
+        "id": "msg",
+        "name": "Decoded",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "OAEP encode and decode.",
+    "viewport": {
+      "x": 79.5,
+      "y": 165.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 80
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message \"Hello\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "padding-asymmetric",
+          "label": "OAEP Encode",
+          "category": "utility",
+          "description": "RSA OAEP (Encoding/Decoding) and RSA PSS (Encoding) padding schemes (PKCS#1 v2.2 / RFC 8017)",
+          "inputs": [
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Message to encode with RSA-OAEP."
+            },
+            {
+              "id": "em",
+              "name": "Encoded Message",
+              "spec": "EM",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Encoded message (EM) to unpad with RSA-OAEP."
+            },
+            {
+              "id": "mHash",
+              "name": "Message Hash",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "SHA-256 hash of the message to encode with RSA-PSS."
+            },
+            {
+              "id": "label",
+              "name": "OAEP Label",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+            },
+            {
+              "id": "salt",
+              "name": "PSS Salt",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional PSS salt; if omitted, a random salt of Salt Length bytes is generated."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Result",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "scheme": "OAEP-Encode",
+            "targetLength": 128,
+            "saltLength": 32,
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 800,
+          "y": 208
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "padding-asymmetric",
+          "label": "OAEP Decode",
+          "category": "utility",
+          "description": "RSA OAEP (Encoding/Decoding) and RSA PSS (Encoding) padding schemes (PKCS#1 v2.2 / RFC 8017)",
+          "inputs": [
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Message to encode with RSA-OAEP."
+            },
+            {
+              "id": "em",
+              "name": "Encoded Message",
+              "spec": "EM",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Encoded message (EM) to unpad with RSA-OAEP."
+            },
+            {
+              "id": "mHash",
+              "name": "Message Hash",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "SHA-256 hash of the message to encode with RSA-PSS."
+            },
+            {
+              "id": "label",
+              "name": "OAEP Label",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+            },
+            {
+              "id": "salt",
+              "name": "PSS Salt",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional PSS salt; if omitted, a random salt of Salt Length bytes is generated."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Result",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "scheme": "OAEP-Decode",
+            "targetLength": 128,
+            "saltLength": 32,
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1200,
+          "y": -32
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "em",
+              "name": "Encoded",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "msg",
+              "name": "Decoded",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false,
+        "dragging": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-enc-message",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "enc",
+        "targetHandle": "message",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-enc-result-dec-em",
+        "source": "enc",
+        "sourceHandle": "result",
+        "target": "dec",
+        "targetHandle": "em",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-enc-result-out-em",
+        "source": "enc",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "em",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-dec-result-out-msg",
+        "source": "dec",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "msg",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      }
+    ]
+  },
+  "definitions": {}
+}

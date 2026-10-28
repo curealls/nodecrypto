@@ -1,0 +1,174 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "padding-block-unpad",
+    "version": "",
+    "description": "Remove PKCS#7 padding.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Message",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Remove PKCS#7 padding.",
+    "viewport": {
+      "x": 134,
+      "y": 221,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Padded",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F0B0B0B0B0B0B0B0B0B0B0B",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "unpad",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "unpad",
+          "type": "cryptoNode",
+          "nodeType": "padding-block-unpad",
+          "label": "Block Unpadding",
+          "category": "utility",
+          "description": "Removes cryptographic block padding (PKCS#7, ANSI X9.23, ISO/IEC 9797-1 Method 2/3, None)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Padded Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Data",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "paddingType": "PKCS7",
+            "blockSize": 16,
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Message",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-unpad-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "unpad",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-unpad-result-out-v",
+        "source": "unpad",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

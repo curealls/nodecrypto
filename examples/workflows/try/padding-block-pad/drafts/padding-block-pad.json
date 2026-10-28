@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "Block Pad",
+  "description": "PKCS#7 padding to 16 bytes.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Message \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pad",
+      "type": "padding-block-pad",
+      "props": {
+        "paddingType": "PKCS7",
+        "blockSize": 16
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Padded",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Padded"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "pad.data"
+    },
+    {
+      "from": "pad.result",
+      "to": "out.v"
+    }
+  ]
+}

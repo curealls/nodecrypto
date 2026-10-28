@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: f0f0 AND 0fff = 00f0",
+  "inputs": {},
+  "outputs": {
+    "Result": "00f0"
+  }
+}

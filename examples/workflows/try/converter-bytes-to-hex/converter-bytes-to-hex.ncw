@@ -1,0 +1,164 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "Bytes to Hex",
+    "version": "",
+    "description": "Writes the five bytes of \"Hello\" as the hex string 48656c6c6f.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Hex",
+        "dataType": "string"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "id": "wf-cf8be713",
+    "name": "Bytes to Hex",
+    "description": "Writes the five bytes of \"Hello\" as the hex string 48656c6c6f.",
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Bytes",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656c6c6f",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        }
+      },
+      {
+        "id": "conv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "conv",
+          "type": "cryptoNode",
+          "nodeType": "converter-bytes-to-hex",
+          "label": "Bytes to Hex",
+          "category": "converter",
+          "description": "Encodes raw byte array into hexadecimal string representation",
+          "inputs": [
+            {
+              "id": "bytes",
+              "name": "Bytes In",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Raw byte array"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "string",
+              "name": "Hex Out",
+              "dataType": "string",
+              "description": "Hexadecimal string"
+            }
+          ],
+          "properties": {
+            "case": "lower",
+            "prefix0x": false,
+            "separator": "none"
+          }
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Hex",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Hex",
+              "dataType": "string",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-conv-bytes",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "conv",
+        "targetHandle": "bytes",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-conv-string-out-v",
+        "source": "conv",
+        "sourceHandle": "string",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "string"
+        }
+      }
+    ],
+    "metadata": {}
+  },
+  "definitions": {}
+}

@@ -1,0 +1,168 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "utility-byte-length",
+    "version": "",
+    "description": "The five bytes of \"Hello\" have length 5.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Length",
+        "dataType": "int"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "The five bytes of \"Hello\" have length 5.",
+    "viewport": {
+      "x": 114,
+      "y": 284,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Input",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "op",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 80
+        },
+        "width": 304,
+        "data": {
+          "id": "op",
+          "type": "cryptoNode",
+          "nodeType": "utility-byte-length",
+          "label": "Byte Length",
+          "category": "utility",
+          "description": "Converts the input to bytes (string = UTF-8, int = minimal length, bool = 1 byte) and returns the byte count",
+          "inputs": [
+            {
+              "id": "in",
+              "name": "Value",
+              "dataType": "any",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "length",
+              "name": "Length",
+              "dataType": "int"
+            }
+          ],
+          "properties": {}
+        },
+        "measured": {
+          "width": 304,
+          "height": 119
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Length",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Length",
+              "dataType": "int",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-op-in",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "op",
+        "targetHandle": "in",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-op-length-out-v",
+        "source": "op",
+        "sourceHandle": "length",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "int"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

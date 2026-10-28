@@ -1,0 +1,228 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "kdf-pbkdf2",
+    "version": "",
+    "description": "PBKDF2-HMAC-SHA-256 (RFC 7914).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Derived Key",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "PBKDF2-HMAC-SHA-256 (RFC 7914).",
+    "viewport": {
+      "x": 134,
+      "y": 176.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "pw",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "pw",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Password \"passwd\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "706173737764",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "salt",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "salt",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Salt \"salt\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "73616C74",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "kdf",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "kdf",
+          "type": "cryptoNode",
+          "nodeType": "kdf-pbkdf2",
+          "label": "PBKDF2 Key Derivation",
+          "category": "kdf",
+          "description": "Password-Based Key Derivation Function 2 (RFC 8018)",
+          "inputs": [
+            {
+              "id": "password",
+              "name": "Password",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional salt; if omitted, defaults to 16 zero bytes (supply a random salt for real use)."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "derivedKey",
+              "name": "Derived Key",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "iterations": 1,
+            "keyLength": 64,
+            "hashAlgorithm": "SHA-256"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Derived Key",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Derived Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-pw-value-kdf-password",
+        "source": "pw",
+        "sourceHandle": "value",
+        "target": "kdf",
+        "targetHandle": "password",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-salt-value-kdf-salt",
+        "source": "salt",
+        "sourceHandle": "value",
+        "target": "kdf",
+        "targetHandle": "salt",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-kdf-derivedKey-out-v",
+        "source": "kdf",
+        "sourceHandle": "derivedKey",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

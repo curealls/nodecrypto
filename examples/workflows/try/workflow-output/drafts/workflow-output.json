@@ -1,0 +1,64 @@
+{
+  "draft": 1,
+  "name": "Workflow Output",
+  "description": "One output node with two ports.",
+  "nodes": [
+    {
+      "id": "b",
+      "type": "input-static-value",
+      "label": "Bytes",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "s",
+      "type": "input-static-value",
+      "label": "String",
+      "props": {
+        "type": "string",
+        "valueString": "Hello"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "b",
+          "dataType": "bytes",
+          "name": "Bytes"
+        },
+        {
+          "id": "s",
+          "dataType": "string",
+          "name": "String"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 144
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "b.value",
+      "to": "out.b"
+    },
+    {
+      "from": "s.value",
+      "to": "out.s"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "source": "RFC 4493 section 4 (example 3, len = 40)",
+  "inputs": {},
+  "outputs": {
+    "MAC": "dfa66747de9ae63030ca32611497c827"
+  }
+}

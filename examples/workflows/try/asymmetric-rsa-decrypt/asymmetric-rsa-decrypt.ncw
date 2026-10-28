@@ -1,0 +1,240 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-rsa-decrypt",
+    "version": "",
+    "description": "RSA-OAEP decrypt.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Plaintext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "RSA-OAEP decrypt.",
+    "viewport": {
+      "x": 161,
+      "y": 142.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "ct",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 256
+        },
+        "width": 208,
+        "data": {
+          "id": "ct",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Ciphertext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "7C58D0DEA4B1506DFAA26B533E1AA6122C8534CE141C37FE3F21DE6D33BC85286326FAAE2A7C980E1C1BF3D7E74C077B1BEE39F29E0070F547A9C3A7E7B589585A0FD7955C6B374860B243F2C3096593EB173585B5E68E4E02DE1F3E6ABB6306D851CA29F6131E80D38EE5C8965EE668DA8FC0363B76D6B2B57495A61AF52114",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "priv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "priv",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Private Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "30820276020100300D06092A864886F70D0101010500048202603082025C02010002818100D0A68BD50933EF03EF8769F29A767BE54B2C973AAEAC4C42CBDE7865435863AC1CF61C893E28B354DA18F7D2E630F63DE5E45ABC20EA24013B2321D8864874F77889AA227D3E54BDFA00F6C1A800DE443A18CD58DFD01373EDA3664265D71AE87BAE59D14AABEC72FE71B88A3F1856D4A5989566013CCD4A1734DB8A49AB408902030100010281801E1393DE8EA80CD12D6B00ABB6F6535FB7196367531C8515AFDB8ED15206E0BF43A17A75921F3DD28269CCF77AB51E19C814C5BB8EA711AF97BDB5B8478B1449014FD25E3065B7114E651F5F4E9ADE6B717B4C6ABF2860D103C0F29C27ACB17FE039D4528DE06461E71993905EA0AD09EA75706C2F0BA01DF504D45607C1FB8D024100EDC41F298B05D750263F244B561F0DF46F9A55A3CE1CDD5246AB60E943A4EC0536C666DB367CAD7DC862BD5BA2A199C77A92D485B4995BBE3A07AF4692B960E7024100E0A6D260781020AB8B8E11F8342D6412558B2DF88E5998E5202E81979D78B0596630E91D34298C57E4197A38B6B898D4ECD259C6C285B647926AD6EF5AB3750F02404511B9F3B97D02E537971416067892F7350C626069599D396F6A0D86F5AD8D1A9EA4D7F04A4DC1A04E7BD082342639A3E7098C4F22FD81D72AC85CB4659F107502410089BDDF69E4D3C6A447E9F11CA5295B9D5E33FB18D6771B2709875A5012EE67FA388D2EB188451D56DA75C099BB770DC627FA85AF379FF27689D0D63E65F77883024074F1461F0F9F876D1677758E265ED727C06F8415AF7C7A7216BAB383476FCEF76B1B369EC31274BB96FDF3EEDD7A6D2FD4D70F2493D5D10AF57F7BE5E554B2AF",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-decrypt",
+          "label": "RSA Decrypt",
+          "category": "asymmetric",
+          "description": "Decrypts ciphertext using RSA-OAEP with private key (RFC 8017)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "spec": "DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "RSA private key as DER bytes (PKCS#8)."
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext Data",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "label",
+              "name": "OAEP Label",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "hash": "SHA-256"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-ct-value-dec-ciphertext",
+        "source": "ct",
+        "sourceHandle": "value",
+        "target": "dec",
+        "targetHandle": "ciphertext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-priv-value-dec-privateKey",
+        "source": "priv",
+        "sourceHandle": "value",
+        "target": "dec",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dec-plaintext-out-v",
+        "source": "dec",
+        "sourceHandle": "plaintext",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

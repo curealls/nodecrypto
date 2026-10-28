@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "Bit Shift",
+  "description": "Shifting 0f left by 4 bits gives f0.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-bitshift",
+      "props": {
+        "operation": "SHL",
+        "bits": 4
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Result",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Result"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "op.data"
+    },
+    {
+      "from": "op.result",
+      "to": "out.v"
+    }
+  ]
+}

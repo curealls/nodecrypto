@@ -1,0 +1,264 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "input-value-set",
+    "version": "",
+    "description": "Three fixed byte strings, joined.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "p0",
+        "name": "Combined",
+        "dataType": "bytes"
+      },
+      {
+        "id": "p1",
+        "name": "Length",
+        "dataType": "int"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Three fixed byte strings, joined.",
+    "viewport": {
+      "x": 130,
+      "y": 232.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "set",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "set",
+          "type": "cryptoNode",
+          "nodeType": "input-value-set",
+          "label": "Values",
+          "category": "input",
+          "description": "A value set: each row is an output port whose value is fixed, random, or taken from its own input port",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "out_1",
+              "name": "A",
+              "dataType": "bytes"
+            },
+            {
+              "id": "out_2",
+              "name": "B",
+              "dataType": "bytes"
+            },
+            {
+              "id": "out_3",
+              "name": "C",
+              "dataType": "bytes"
+            },
+            {
+              "id": "set",
+              "name": "set",
+              "dataType": "set"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 2,
+            "defaultNamePrefix": "Value",
+            "defaultDataType": "bytes"
+          },
+          "properties": {
+            "rows": {
+              "out_1": {
+                "mode": "fixed",
+                "value": "AABB"
+              },
+              "out_2": {
+                "mode": "fixed",
+                "value": "CC"
+              },
+              "out_3": {
+                "mode": "fixed",
+                "value": "DDEEFF"
+              }
+            }
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 202
+        }
+      },
+      {
+        "id": "cat",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "cat",
+          "type": "cryptoNode",
+          "nodeType": "utility-concat",
+          "label": "Concatenator",
+          "category": "utility",
+          "description": "Concatenates bytes, string, int and bool inputs in input port order (A || B || C ...)",
+          "inputs": [
+            {
+              "id": "in_1",
+              "name": "A",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "in_2",
+              "name": "B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "in_3",
+              "name": "C",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "combined",
+              "name": "Combined",
+              "spec": "A‖B‖...",
+              "dataType": "bytes",
+              "description": "Concatenation of all connected input buffers in port order."
+            },
+            {
+              "id": "length",
+              "name": "Total Length",
+              "dataType": "int"
+            }
+          ],
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Value",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 80
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "p0",
+              "name": "Combined",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "p1",
+              "name": "Length",
+              "dataType": "int",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-set-out_1-cat-in_1",
+        "source": "set",
+        "sourceHandle": "out_1",
+        "target": "cat",
+        "targetHandle": "in_1",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-set-out_2-cat-in_2",
+        "source": "set",
+        "sourceHandle": "out_2",
+        "target": "cat",
+        "targetHandle": "in_2",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-set-out_3-cat-in_3",
+        "source": "set",
+        "sourceHandle": "out_3",
+        "target": "cat",
+        "targetHandle": "in_3",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cat-combined-out-p0",
+        "source": "cat",
+        "sourceHandle": "combined",
+        "target": "out",
+        "targetHandle": "p0",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-cat-length-out-p1",
+        "source": "cat",
+        "sourceHandle": "length",
+        "target": "out",
+        "targetHandle": "p1",
+        "type": "custom",
+        "data": {
+          "dataType": "int"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

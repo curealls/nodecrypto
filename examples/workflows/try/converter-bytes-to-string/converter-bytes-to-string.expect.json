@@ -1,0 +1,7 @@
+{
+  "source": "ASCII bytes of \"Hello, World!\"",
+  "inputs": {},
+  "outputs": {
+    "Text": "Hello, World!"
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "kdf-hkdf",
+    "version": "",
+    "description": "HKDF-SHA-256, L = 42.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "OKM",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "HKDF-SHA-256, L = 42.",
+    "viewport": {
+      "x": 162,
+      "y": 77.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "ikm",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "ikm",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "IKM",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B0B",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "salt",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "salt",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Salt",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "000102030405060708090A0B0C",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "info",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "info",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Info",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "F0F1F2F3F4F5F6F7F8F9",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "kdf",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 208
+        },
+        "width": 304,
+        "data": {
+          "id": "kdf",
+          "type": "cryptoNode",
+          "nodeType": "kdf-hkdf",
+          "label": "HKDF Key Derivation",
+          "category": "kdf",
+          "description": "HMAC-based Extract-and-Expand Key Derivation (RFC 5869)",
+          "inputs": [
+            {
+              "id": "ikm",
+              "name": "Input Keying Material",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "salt",
+              "name": "Salt",
+              "dataType": "bytes",
+              "required": false
+            },
+            {
+              "id": "info",
+              "name": "Context Info",
+              "dataType": "bytes",
+              "required": false
+            }
+          ],
+          "outputs": [
+            {
+              "id": "okm",
+              "name": "Output Key",
+              "spec": "OKM",
+              "dataType": "bytes",
+              "description": "Output Keying Material derived via HKDF-Expand."
+            }
+          ],
+          "properties": {
+            "keyLength": 42,
+            "hashAlgorithm": "SHA-256"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "OKM",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "OKM",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-ikm-value-kdf-ikm",
+        "source": "ikm",
+        "sourceHandle": "value",
+        "target": "kdf",
+        "targetHandle": "ikm",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-salt-value-kdf-salt",
+        "source": "salt",
+        "sourceHandle": "value",
+        "target": "kdf",
+        "targetHandle": "salt",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-info-value-kdf-info",
+        "source": "info",
+        "sourceHandle": "value",
+        "target": "kdf",
+        "targetHandle": "info",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-kdf-okm-out-v",
+        "source": "kdf",
+        "sourceHandle": "okm",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

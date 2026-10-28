@@ -1,0 +1,85 @@
+{
+  "draft": 1,
+  "name": "Asymmetric Padding",
+  "description": "OAEP encode and decode.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Message \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 80
+      }
+    },
+    {
+      "id": "enc",
+      "type": "padding-asymmetric",
+      "label": "OAEP Encode",
+      "props": {
+        "scheme": "OAEP-Encode",
+        "targetLength": 128
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "dec",
+      "type": "padding-asymmetric",
+      "label": "OAEP Decode",
+      "props": {
+        "scheme": "OAEP-Decode",
+        "targetLength": 128
+      },
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "em",
+          "dataType": "bytes",
+          "name": "Encoded"
+        },
+        {
+          "id": "msg",
+          "dataType": "bytes",
+          "name": "Decoded"
+        }
+      ],
+      "position": {
+        "x": 1168,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "enc.message"
+    },
+    {
+      "from": "enc.result",
+      "to": "dec.em"
+    },
+    {
+      "from": "enc.result",
+      "to": "out.em"
+    },
+    {
+      "from": "dec.result",
+      "to": "out.msg"
+    }
+  ]
+}

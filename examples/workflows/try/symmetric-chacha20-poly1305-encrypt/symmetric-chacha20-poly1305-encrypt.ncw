@@ -1,0 +1,371 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "symmetric-chacha20-poly1305-encrypt",
+    "version": "",
+    "description": "AEAD encryption (RFC 8439 section 2.8.2).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "ct",
+        "name": "Ciphertext",
+        "dataType": "bytes"
+      },
+      {
+        "id": "tag",
+        "name": "Tag",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "AEAD encryption (RFC 8439 section 2.8.2).",
+    "viewport": {
+      "x": 171,
+      "y": 12.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "808182838485868788898A8B8C8D8E8F909192939495969798999A9B9C9D9E9F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "pt",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "pt",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "4C616469657320616E642047656E746C656D656E206F662074686520636C617373206F66202739393A204966204920636F756C64206F6666657220796F75206F6E6C79206F6E652074697020666F7220746865206675747572652C2073756E73637265656E20776F756C642062652069742E",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "nonce",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "nonce",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Nonce",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "070000004041424344454647",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "aad",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 592
+        },
+        "width": 208,
+        "data": {
+          "id": "aad",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Associated data",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "50515253C0C1C2C3C4C5C6C7",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 288
+        },
+        "width": 304,
+        "data": {
+          "id": "c",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-chacha20-poly1305-encrypt",
+          "label": "ChaCha20-Poly1305 Encrypt",
+          "category": "symmetric",
+          "description": "RFC 8439 Authenticated Encryption with Additional Data (AEAD)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "ChaCha20 256-bit symmetric key."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data covered by the Poly1305 tag."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "16B",
+              "dataType": "bytes",
+              "description": "Poly1305 authentication tag."
+            }
+          ],
+          "properties": {
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 237
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 320
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "ct",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "tag",
+              "name": "Tag",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-c-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pt-value-c-plaintext",
+        "source": "pt",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-nonce-value-c-nonce",
+        "source": "nonce",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "nonce",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-aad-value-c-aad",
+        "source": "aad",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "aad",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-ciphertext-out-ct",
+        "source": "c",
+        "sourceHandle": "ciphertext",
+        "target": "out",
+        "targetHandle": "ct",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-tag-out-tag",
+        "source": "c",
+        "sourceHandle": "tag",
+        "target": "out",
+        "targetHandle": "tag",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

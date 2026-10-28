@@ -1,0 +1,115 @@
+{
+  "draft": 1,
+  "name": "RSA Encrypt",
+  "description": "RSA-OAEP encrypt and decrypt.",
+  "nodes": [
+    {
+      "id": "pt",
+      "type": "input-static-value",
+      "label": "Plaintext \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pub",
+      "type": "input-static-value",
+      "label": "Public Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "30819f300d06092a864886f70d010101050003818d0030818902818100d0a68bd50933ef03ef8769f29a767be54b2c973aaeac4c42cbde7865435863ac1cf61c893e28b354da18f7d2e630f63de5e45abc20ea24013b2321d8864874f77889aa227d3e54bdfa00f6c1a800de443a18cd58dfd01373eda3664265d71ae87bae59d14aabec72fe71b88a3f1856d4a5989566013ccd4a1734db8a49ab40890203010001"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "priv",
+      "type": "input-static-value",
+      "label": "Private Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "30820276020100300d06092a864886f70d0101010500048202603082025c02010002818100d0a68bd50933ef03ef8769f29a767be54b2c973aaeac4c42cbde7865435863ac1cf61c893e28b354da18f7d2e630f63de5e45abc20ea24013b2321d8864874f77889aa227d3e54bdfa00f6c1a800de443a18cd58dfd01373eda3664265d71ae87bae59d14aabec72fe71b88a3f1856d4a5989566013ccd4a1734db8a49ab408902030100010281801e1393de8ea80cd12d6b00abb6f6535fb7196367531c8515afdb8ed15206e0bf43a17a75921f3dd28269ccf77ab51e19c814c5bb8ea711af97bdb5b8478b1449014fd25e3065b7114e651f5f4e9ade6b717b4c6abf2860d103c0f29c27acb17fe039d4528de06461e71993905ea0ad09ea75706c2f0ba01df504d45607c1fb8d024100edc41f298b05d750263f244b561f0df46f9a55a3ce1cdd5246ab60e943a4ec0536c666db367cad7dc862bd5ba2a199c77a92d485b4995bbe3a07af4692b960e7024100e0a6d260781020ab8b8e11f8342d6412558b2df88e5998e5202e81979d78b0596630e91d34298c57e4197a38b6b898d4ecd259c6c285b647926ad6ef5ab3750f02404511b9f3b97d02e537971416067892f7350c626069599d396f6a0d86f5ad8d1a9ea4d7f04a4dc1a04e7bd082342639a3e7098c4f22fd81d72ac85cb4659f107502410089bddf69e4d3c6a447e9f11ca5295b9d5e33fb18d6771b2709875a5012ee67fa388d2eb188451d56da75c099bb770dc627fa85af379ff27689d0d63e65f77883024074f1461f0f9f876d1677758e265ed727c06f8415af7c7a7216bab383476fcef76b1b369ec31274bb96fdf3eedd7a6d2fd4d70f2493d5d10af57f7be5e554b2af"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "enc",
+      "type": "asymmetric-rsa-encrypt",
+      "props": {
+        "hash": "SHA-256"
+      },
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "dec",
+      "type": "asymmetric-rsa-decrypt",
+      "props": {
+        "hash": "SHA-256"
+      },
+      "position": {
+        "x": 768,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        },
+        {
+          "id": "pt",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ],
+      "position": {
+        "x": 1168,
+        "y": 224
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "pt.value",
+      "to": "enc.plaintext"
+    },
+    {
+      "from": "pub.value",
+      "to": "enc.publicKey"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "dec.ciphertext"
+    },
+    {
+      "from": "priv.value",
+      "to": "dec.privateKey"
+    },
+    {
+      "from": "enc.ciphertext",
+      "to": "out.ct"
+    },
+    {
+      "from": "dec.plaintext",
+      "to": "out.pt"
+    }
+  ]
+}

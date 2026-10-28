@@ -1,0 +1,58 @@
+{
+  "draft": 1,
+  "name": "Block Unpad",
+  "description": "Remove PKCS#7 padding.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Padded",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f0b0b0b0b0b0b0b0b0b0b0b"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "unpad",
+      "type": "padding-block-unpad",
+      "props": {
+        "paddingType": "PKCS7",
+        "blockSize": 16
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Message",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Message"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "unpad.data"
+    },
+    {
+      "from": "unpad.result",
+      "to": "out.v"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "draft": 1,
+  "name": "Concatenator",
+  "description": "Join three byte strings.",
+  "nodes": [
+    {
+      "id": "a",
+      "type": "input-static-value",
+      "label": "A",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "aabb"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "b",
+      "type": "input-static-value",
+      "label": "B",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "cc"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "c",
+      "type": "input-static-value",
+      "label": "C",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "ddeeff"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "cat",
+      "type": "utility-concat",
+      "inputs": [
+        {
+          "id": "in_1",
+          "dataType": "bytes",
+          "name": "A"
+        },
+        {
+          "id": "in_2",
+          "dataType": "bytes",
+          "name": "B"
+        },
+        {
+          "id": "in_3",
+          "dataType": "bytes",
+          "name": "C"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 208
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "p0",
+          "dataType": "bytes",
+          "name": "Combined"
+        },
+        {
+          "id": "p1",
+          "dataType": "int",
+          "name": "Length"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 224
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "a.value",
+      "to": "cat.in_1"
+    },
+    {
+      "from": "b.value",
+      "to": "cat.in_2"
+    },
+    {
+      "from": "c.value",
+      "to": "cat.in_3"
+    },
+    {
+      "from": "cat.combined",
+      "to": "out.p0"
+    },
+    {
+      "from": "cat.length",
+      "to": "out.p1"
+    }
+  ]
+}

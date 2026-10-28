@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Bytes to Base58",
+  "description": "Writes the bytes of \"Hello World!\" as Base58 text.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Bytes",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f20576f726c6421"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "conv",
+      "type": "converter-bytes-to-base58",
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Base58",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "string",
+          "name": "Base58"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "conv.bytes"
+    },
+    {
+      "from": "conv.string",
+      "to": "out.v"
+    }
+  ]
+}

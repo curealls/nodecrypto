@@ -1,0 +1,114 @@
+{
+  "draft": 1,
+  "name": "ChaCha20-Poly1305 Encrypt",
+  "description": "AEAD encryption (RFC 8439 section 2.8.2).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pt",
+      "type": "input-static-value",
+      "label": "Plaintext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "4c616469657320616e642047656e746c656d656e206f662074686520636c617373206f66202739393a204966204920636f756c64206f6666657220796f75206f6e6c79206f6e652074697020666f7220746865206675747572652c2073756e73637265656e20776f756c642062652069742e"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "nonce",
+      "type": "input-static-value",
+      "label": "Nonce",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "070000004041424344454647"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "aad",
+      "type": "input-static-value",
+      "label": "Associated data",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "50515253c0c1c2c3c4c5c6c7"
+      },
+      "position": {
+        "x": 64,
+        "y": 592
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-chacha20-poly1305-encrypt",
+      "position": {
+        "x": 368,
+        "y": 288
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "ct",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        },
+        {
+          "id": "tag",
+          "dataType": "bytes",
+          "name": "Tag"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 320
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "pt.value",
+      "to": "c.plaintext"
+    },
+    {
+      "from": "nonce.value",
+      "to": "c.nonce"
+    },
+    {
+      "from": "aad.value",
+      "to": "c.aad"
+    },
+    {
+      "from": "c.ciphertext",
+      "to": "out.ct"
+    },
+    {
+      "from": "c.tag",
+      "to": "out.tag"
+    }
+  ]
+}

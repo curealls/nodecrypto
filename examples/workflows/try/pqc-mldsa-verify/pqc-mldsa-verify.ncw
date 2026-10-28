@@ -1,0 +1,326 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "pqc-mldsa-verify",
+    "version": "",
+    "description": "Verify with ML-DSA-65.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Valid",
+        "dataType": "bool"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Verify with ML-DSA-65.",
+    "viewport": {
+      "x": -36,
+      "y": 168,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "msg",
+        "type": "cryptoNode",
+        "position": {
+          "x": 112,
+          "y": 352
+        },
+        "width": 208,
+        "data": {
+          "id": "msg",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message \"Hello\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "gen",
+        "type": "cryptoNode",
+        "position": {
+          "x": 48,
+          "y": -32
+        },
+        "width": 304,
+        "data": {
+          "id": "gen",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mldsa-keygen",
+          "label": "ML-DSA KeyGen (FIPS 204)",
+          "category": "pqc",
+          "description": "Post-Quantum Lattice-based Digital Signature Algorithm keypair generator",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "secretKey",
+              "name": "Secret Key",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "variant": 65
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 174
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "sign",
+        "type": "cryptoNode",
+        "position": {
+          "x": 432,
+          "y": 192
+        },
+        "width": 304,
+        "data": {
+          "id": "sign",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mldsa-sign",
+          "label": "ML-DSA Sign",
+          "category": "pqc",
+          "description": "Creates post-quantum digital signature (FIPS 204)",
+          "inputs": [
+            {
+              "id": "secretKey",
+              "name": "Secret Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "signature",
+              "name": "Signature",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "variant": 65
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "ver",
+        "type": "cryptoNode",
+        "position": {
+          "x": 816,
+          "y": -32
+        },
+        "width": 304,
+        "data": {
+          "id": "ver",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mldsa-verify",
+          "label": "ML-DSA Verify",
+          "category": "pqc",
+          "description": "Verifies post-quantum digital signature (FIPS 204)",
+          "inputs": [
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "signature",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "isValid",
+              "name": "Valid",
+              "dataType": "bool",
+              "description": "True if the ML-DSA signature verification succeeded."
+            }
+          ],
+          "properties": {
+            "variant": 65,
+            "errorOnValue": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 1216,
+          "y": 224
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Valid",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Valid",
+              "dataType": "bool",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-gen-secretKey-sign-secretKey",
+        "source": "gen",
+        "sourceHandle": "secretKey",
+        "target": "sign",
+        "targetHandle": "secretKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-msg-value-sign-message",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "sign",
+        "targetHandle": "message",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-gen-publicKey-ver-publicKey",
+        "source": "gen",
+        "sourceHandle": "publicKey",
+        "target": "ver",
+        "targetHandle": "publicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-msg-value-ver-message",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "ver",
+        "targetHandle": "message",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-sign-signature-ver-signature",
+        "source": "sign",
+        "sourceHandle": "signature",
+        "target": "ver",
+        "targetHandle": "signature",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false
+      },
+      {
+        "id": "edge-ver-isValid-out-v",
+        "source": "ver",
+        "sourceHandle": "isValid",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bool"
+        },
+        "selected": false
+      }
+    ]
+  },
+  "definitions": {}
+}

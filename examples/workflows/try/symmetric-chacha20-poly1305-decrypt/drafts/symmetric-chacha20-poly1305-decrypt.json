@@ -1,0 +1,122 @@
+{
+  "draft": 1,
+  "name": "ChaCha20-Poly1305 Decrypt",
+  "description": "AEAD decryption (RFC 8439 section 2.8.2).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "ct",
+      "type": "input-static-value",
+      "label": "Ciphertext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "d31a8d34648e60db7b86afbc53ef7ec2a4aded51296e08fea9e2b5a736ee62d63dbea45e8ca9671282fafb69da92728b1a71de0a9e060b2905d6a5b67ecd3b3692ddbd7f2d778b8c9803aee328091b58fab324e4fad675945585808b4831d7bc3ff4def08e4b7a9de576d26586cec64b6116"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "nonce",
+      "type": "input-static-value",
+      "label": "Nonce",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "070000004041424344454647"
+      },
+      "position": {
+        "x": 64,
+        "y": 416
+      }
+    },
+    {
+      "id": "tag",
+      "type": "input-static-value",
+      "label": "Tag",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "1ae10b594f09e26a7e902ecbd0600691"
+      },
+      "position": {
+        "x": 64,
+        "y": 592
+      }
+    },
+    {
+      "id": "aad",
+      "type": "input-static-value",
+      "label": "Associated data",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "50515253c0c1c2c3c4c5c6c7"
+      },
+      "position": {
+        "x": 64,
+        "y": 768
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-chacha20-poly1305-decrypt",
+      "position": {
+        "x": 368,
+        "y": 352
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Plaintext",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 416
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "ct.value",
+      "to": "c.ciphertext"
+    },
+    {
+      "from": "nonce.value",
+      "to": "c.nonce"
+    },
+    {
+      "from": "tag.value",
+      "to": "c.tag"
+    },
+    {
+      "from": "aad.value",
+      "to": "c.aad"
+    },
+    {
+      "from": "c.plaintext",
+      "to": "out.v"
+    }
+  ]
+}

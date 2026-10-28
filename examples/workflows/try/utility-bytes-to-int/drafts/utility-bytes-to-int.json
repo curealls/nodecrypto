@@ -1,0 +1,57 @@
+{
+  "draft": 1,
+  "name": "Bytes to Int",
+  "description": "0100 read as a big-endian number is 256.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Input",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0100"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "op",
+      "type": "utility-bytes-to-int",
+      "props": {
+        "endian": "big"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Number",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "int",
+          "name": "Number"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "op.in"
+    },
+    {
+      "from": "op.out",
+      "to": "out.v"
+    }
+  ]
+}

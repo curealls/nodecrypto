@@ -1,0 +1,90 @@
+{
+  "draft": 1,
+  "name": "Script",
+  "description": "Append a number to a message.",
+  "nodes": [
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "n",
+      "type": "input-static-value",
+      "label": "Number",
+      "props": {
+        "type": "int",
+        "valueInt": 258
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "sc",
+      "type": "utility-script",
+      "props": {
+        "code": "framed = msg + to_bytes(n, 2)\n"
+      },
+      "inputs": [
+        {
+          "id": "msg",
+          "dataType": "bytes"
+        },
+        {
+          "id": "n",
+          "dataType": "int"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "framed",
+          "dataType": "bytes"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Framed",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Framed"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "msg.value",
+      "to": "sc.msg"
+    },
+    {
+      "from": "n.value",
+      "to": "sc.n"
+    },
+    {
+      "from": "sc.framed",
+      "to": "out.v"
+    }
+  ]
+}

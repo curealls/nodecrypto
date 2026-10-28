@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "String to Bytes",
+  "description": "The Korean letters take three bytes each in UTF-8.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Text",
+      "props": {
+        "type": "string",
+        "valueString": "NodeCrypto 안녕"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "conv",
+      "type": "converter-string-to-bytes",
+      "position": {
+        "x": 368,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Bytes",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Bytes"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 80
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "conv.string"
+    },
+    {
+      "from": "conv.bytes",
+      "to": "out.v"
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "switch",
+    "version": "",
+    "description": "Pick one of two value sets.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "p0",
+        "name": "Key",
+        "dataType": "bytes"
+      },
+      {
+        "id": "p1",
+        "name": "Id",
+        "dataType": "int"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Pick one of two value sets.",
+    "viewport": {
+      "x": 221,
+      "y": 149.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "a",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "a",
+          "type": "cryptoNode",
+          "nodeType": "input-value-set",
+          "label": "Set A",
+          "category": "input",
+          "description": "A value set: each row is an output port whose value is fixed, random, or taken from its own input port",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "out_1",
+              "name": "Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "out_2",
+              "name": "Id",
+              "dataType": "int"
+            },
+            {
+              "id": "set",
+              "name": "set",
+              "dataType": "set"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 2,
+            "defaultNamePrefix": "Value",
+            "defaultDataType": "bytes"
+          },
+          "properties": {
+            "rows": {
+              "out_1": {
+                "mode": "fixed",
+                "value": "AA"
+              },
+              "out_2": {
+                "mode": "fixed",
+                "value": 1
+              }
+            }
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      },
+      {
+        "id": "b",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 272
+        },
+        "width": 208,
+        "data": {
+          "id": "b",
+          "type": "cryptoNode",
+          "nodeType": "input-value-set",
+          "label": "Set B",
+          "category": "input",
+          "description": "A value set: each row is an output port whose value is fixed, random, or taken from its own input port",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "out_1",
+              "name": "Key",
+              "dataType": "bytes"
+            },
+            {
+              "id": "out_2",
+              "name": "Id",
+              "dataType": "int"
+            },
+            {
+              "id": "set",
+              "name": "set",
+              "dataType": "set"
+            }
+          ],
+          "size": "small",
+          "dynamicOutputs": {
+            "min": 2,
+            "defaultNamePrefix": "Value",
+            "defaultDataType": "bytes"
+          },
+          "properties": {
+            "rows": {
+              "out_1": {
+                "mode": "fixed",
+                "value": "BB"
+              },
+              "out_2": {
+                "mode": "fixed",
+                "value": 2
+              }
+            }
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      },
+      {
+        "id": "sw",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 144
+        },
+        "width": 208,
+        "data": {
+          "id": "sw",
+          "type": "cryptoNode",
+          "nodeType": "switch",
+          "label": "Switch",
+          "category": "input",
+          "description": "Picks one of several value sets and unpacks it into individual output ports",
+          "inputs": [
+            {
+              "id": "in_1",
+              "name": "Set A",
+              "dataType": "set",
+              "required": false
+            },
+            {
+              "id": "in_2",
+              "name": "Set B",
+              "dataType": "set",
+              "required": false
+            }
+          ],
+          "outputs": [
+            {
+              "id": "out_1",
+              "name": "Key",
+              "dataType": "bytes",
+              "description": "Key output"
+            },
+            {
+              "id": "out_2",
+              "name": "Id",
+              "dataType": "int",
+              "description": "Id output"
+            }
+          ],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 1,
+            "defaultNamePrefix": "Set",
+            "defaultDataType": "set"
+          },
+          "properties": {
+            "activeInput": "in_2"
+          },
+          "baseNodeId": "a"
+        },
+        "measured": {
+          "width": 208,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 672,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "p0",
+              "name": "Key",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "p1",
+              "name": "Id",
+              "dataType": "int",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-a-set-sw-in_1",
+        "source": "a",
+        "sourceHandle": "set",
+        "target": "sw",
+        "targetHandle": "in_1",
+        "type": "custom",
+        "data": {
+          "dataType": "set"
+        }
+      },
+      {
+        "id": "edge-b-set-sw-in_2",
+        "source": "b",
+        "sourceHandle": "set",
+        "target": "sw",
+        "targetHandle": "in_2",
+        "type": "custom",
+        "data": {
+          "dataType": "set"
+        }
+      },
+      {
+        "id": "edge-sw-out_1-out-p0",
+        "source": "sw",
+        "sourceHandle": "out_1",
+        "target": "out",
+        "targetHandle": "p0",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sw-out_2-out-p1",
+        "source": "sw",
+        "sourceHandle": "out_2",
+        "target": "out",
+        "targetHandle": "p1",
+        "type": "custom",
+        "data": {
+          "dataType": "int"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

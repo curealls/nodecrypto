@@ -1,0 +1,255 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "padding-asymmetric-pss",
+    "version": "",
+    "description": "PSS encode with a fixed salt.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Encoded",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "pss",
+    "description": "PSS encode with a fixed salt.",
+    "viewport": {
+      "x": 143,
+      "y": 184.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "h",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "h",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message hash (SHA-256 of \"abc\")",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "s",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "s",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Salt",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "pss",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "pss",
+          "type": "cryptoNode",
+          "nodeType": "padding-asymmetric",
+          "label": "Asymmetric Padding",
+          "category": "utility",
+          "description": "RSA OAEP (Encoding/Decoding) and RSA PSS (Encoding) padding schemes (PKCS#1 v2.2 / RFC 8017)",
+          "inputs": [
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Message to encode with RSA-OAEP."
+            },
+            {
+              "id": "em",
+              "name": "Encoded Message",
+              "spec": "EM",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Encoded message (EM) to unpad with RSA-OAEP."
+            },
+            {
+              "id": "mHash",
+              "name": "Message Hash",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "SHA-256 hash of the message to encode with RSA-PSS."
+            },
+            {
+              "id": "label",
+              "name": "OAEP Label",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional OAEP label parameter (rarely used, defaults to empty)."
+            },
+            {
+              "id": "salt",
+              "name": "PSS Salt",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Optional PSS salt; if omitted, a random salt of Salt Length bytes is generated."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "result",
+              "name": "Result",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "scheme": "PSS-Encode",
+            "targetLength": 128,
+            "saltLength": 32,
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Encoded",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Encoded",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-h-value-pss-mHash",
+        "source": "h",
+        "sourceHandle": "value",
+        "target": "pss",
+        "targetHandle": "mHash",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-s-value-pss-salt",
+        "source": "s",
+        "sourceHandle": "value",
+        "target": "pss",
+        "targetHandle": "salt",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pss-result-out-v",
+        "source": "pss",
+        "sourceHandle": "result",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

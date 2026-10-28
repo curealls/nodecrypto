@@ -1,0 +1,7 @@
+{
+  "source": "FIPS 81 DES example (\"Now is t\"), checked with OpenSSL (3DES with three equal keys)",
+  "inputs": {},
+  "outputs": {
+    "Plaintext": "4e6f772069732074"
+  }
+}

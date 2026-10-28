@@ -1,0 +1,83 @@
+{
+  "draft": 1,
+  "name": "CRC",
+  "description": "Two CRC algorithms over the same bytes.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Check string \"123456789\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "313233343536373839"
+      },
+      "position": {
+        "x": 64,
+        "y": 160
+      }
+    },
+    {
+      "id": "c32",
+      "type": "utility-crc",
+      "label": "CRC-32",
+      "props": {
+        "preset": "CRC-32/ISO-HDLC"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "c16",
+      "type": "utility-crc",
+      "label": "CRC-16",
+      "props": {
+        "preset": "CRC-16/CCITT-FALSE"
+      },
+      "position": {
+        "x": 368,
+        "y": 240
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "p0",
+          "dataType": "bytes",
+          "name": "CRC-32"
+        },
+        {
+          "id": "p1",
+          "dataType": "bytes",
+          "name": "CRC-16"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 144
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "c32.data"
+    },
+    {
+      "from": "in.value",
+      "to": "c16.data"
+    },
+    {
+      "from": "c32.checksum",
+      "to": "out.p0"
+    },
+    {
+      "from": "c16.checksum",
+      "to": "out.p1"
+    }
+  ]
+}

@@ -1,0 +1,226 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-ed25519-sign",
+    "version": "",
+    "description": "Ed25519 signature (RFC 8032 test 2).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Signature",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Ed25519 signature (RFC 8032 test 2).",
+    "viewport": {
+      "x": 125,
+      "y": 191.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "priv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "priv",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Private Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "4CCD089B28FF96DA9DB6C346EC114E0F5B8A319F35ABA624DA8CF6ED4FB8A6FB",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "msg",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "msg",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "72",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "sign",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 144
+        },
+        "width": 304,
+        "data": {
+          "id": "sign",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-ed25519-sign",
+          "label": "Ed25519 Sign",
+          "category": "asymmetric",
+          "description": "High-speed Edwards-curve digital signature (RFC 8032)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "message",
+              "name": "Message",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "signature",
+              "name": "Signature",
+              "spec": "64B",
+              "dataType": "bytes",
+              "description": "Ed25519 signature (R || S)."
+            }
+          ],
+          "properties": {}
+        },
+        "measured": {
+          "width": 304,
+          "height": 149
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Signature",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Signature",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-priv-value-sign-privateKey",
+        "source": "priv",
+        "sourceHandle": "value",
+        "target": "sign",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-msg-value-sign-message",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "sign",
+        "targetHandle": "message",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-sign-signature-out-v",
+        "source": "sign",
+        "sourceHandle": "signature",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

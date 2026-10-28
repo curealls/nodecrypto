@@ -1,0 +1,66 @@
+{
+  "draft": 1,
+  "name": "RSA Key Decoder",
+  "description": "Read N and e from a public key.",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Public Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "30819f300d06092a864886f70d010101050003818d0030818902818100d0a68bd50933ef03ef8769f29a767be54b2c973aaeac4c42cbde7865435863ac1cf61c893e28b354da18f7d2e630f63de5e45abc20ea24013b2321d8864874f77889aa227d3e54bdfa00f6c1a800de443a18cd58dfd01373eda3664265d71ae87bae59d14aabec72fe71b88a3f1856d4a5989566013ccd4a1734db8a49ab40890203010001"
+      },
+      "position": {
+        "x": 64,
+        "y": 80
+      }
+    },
+    {
+      "id": "dec",
+      "type": "asymmetric-rsa-key-decode",
+      "props": {
+        "keyType": "Public"
+      },
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Components",
+      "inputs": [
+        {
+          "id": "n",
+          "dataType": "bytes",
+          "name": "N"
+        },
+        {
+          "id": "e",
+          "dataType": "bytes",
+          "name": "e"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "dec.key"
+    },
+    {
+      "from": "dec.n",
+      "to": "out.n"
+    },
+    {
+      "from": "dec.e",
+      "to": "out.e"
+    }
+  ]
+}

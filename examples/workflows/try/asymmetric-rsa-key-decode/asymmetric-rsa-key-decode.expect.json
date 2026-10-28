@@ -1,0 +1,8 @@
+{
+  "source": "Disposable 1024-bit RSA test key made for this example (Node crypto / OpenSSL); the result is checked against OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "N": "d0a68bd50933ef03ef8769f29a767be54b2c973aaeac4c42cbde7865435863ac1cf61c893e28b354da18f7d2e630f63de5e45abc20ea24013b2321d8864874f77889aa227d3e54bdfa00f6c1a800de443a18cd58dfd01373eda3664265d71ae87bae59d14aabec72fe71b88a3f1856d4a5989566013ccd4a1734db8a49ab4089",
+    "e": "010001"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: bitwise NOT of 00ff0f",
+  "inputs": {},
+  "outputs": {
+    "Inverted": "ff00f0"
+  }
+}

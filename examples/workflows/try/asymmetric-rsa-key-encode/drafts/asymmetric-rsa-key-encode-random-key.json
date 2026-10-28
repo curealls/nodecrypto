@@ -1,0 +1,99 @@
+{
+  "draft": 1,
+  "name": "RSA Key Encoder (random key)",
+  "description": "Take a key apart and put it together again.",
+  "nodes": [
+    {
+      "id": "gen",
+      "type": "asymmetric-rsa-keygen",
+      "props": {
+        "modulusLength": 1024,
+        "publicExponent": 65537
+      },
+      "position": {
+        "x": 64,
+        "y": 160
+      }
+    },
+    {
+      "id": "dec",
+      "type": "asymmetric-rsa-key-decode",
+      "props": {
+        "keyType": "Private"
+      },
+      "position": {
+        "x": 464,
+        "y": 64
+      }
+    },
+    {
+      "id": "enc",
+      "type": "asymmetric-rsa-key-encode",
+      "props": {
+        "keyType": "Private"
+      },
+      "position": {
+        "x": 864,
+        "y": 144
+      }
+    },
+    {
+      "id": "cmp",
+      "type": "utility-compare",
+      "label": "Same key?",
+      "props": {
+        "operator": "=="
+      },
+      "position": {
+        "x": 1264,
+        "y": 160
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Same key",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bool",
+          "name": "Same key"
+        }
+      ],
+      "position": {
+        "x": 1664,
+        "y": 176
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "gen.privateKeyDer",
+      "to": "dec.key"
+    },
+    {
+      "from": "dec.n",
+      "to": "enc.n"
+    },
+    {
+      "from": "dec.e",
+      "to": "enc.e"
+    },
+    {
+      "from": "dec.d",
+      "to": "enc.d"
+    },
+    {
+      "from": "gen.privateKeyDer",
+      "to": "cmp.a"
+    },
+    {
+      "from": "enc.key",
+      "to": "cmp.b"
+    },
+    {
+      "from": "cmp.result",
+      "to": "out.v"
+    }
+  ]
+}

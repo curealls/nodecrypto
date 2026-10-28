@@ -1,0 +1,262 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "symmetric-camellia-encrypt",
+    "version": "",
+    "description": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Ciphertext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+    "viewport": {
+      "x": 117,
+      "y": 180.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "0123456789ABCDEFFEDCBA9876543210",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "pt",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "pt",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Plaintext",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "0123456789ABCDEFFEDCBA9876543210",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "c",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "c",
+          "type": "cryptoNode",
+          "nodeType": "symmetric-camellia-encrypt",
+          "label": "Camellia Encrypt",
+          "category": "symmetric",
+          "description": "NTT & Mitsubishi Standard Camellia (128/192/256-bit) Block Cipher (RFC 3713)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "16/24/32B",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Camellia symmetric key (16/24/32B)."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "iv",
+              "name": "IV",
+              "spec": "16B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Initialization vector/counter (16B). Defaults to 16 zero bytes if omitted."
+            },
+            {
+              "id": "nonce",
+              "name": "Nonce",
+              "spec": "12B",
+              "dataType": "bytes",
+              "required": false,
+              "description": "AEAD nonce (12B), used only in GCM only mode. Defaults to 12 zero bytes if omitted."
+            },
+            {
+              "id": "aad",
+              "name": "AAD",
+              "spec": "GCM only",
+              "dataType": "bytes",
+              "required": false,
+              "description": "Additional Authenticated Data, used only in GCM only mode."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            },
+            {
+              "id": "tag",
+              "name": "Auth Tag",
+              "spec": "GCM",
+              "dataType": "bytes",
+              "description": "Authentication tag produced in GCM mode."
+            }
+          ],
+          "properties": {
+            "mode": "ECB",
+            "padding": "None",
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Ciphertext",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-c-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pt-value-c-plaintext",
+        "source": "pt",
+        "sourceHandle": "value",
+        "target": "c",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-c-ciphertext-out-v",
+        "source": "c",
+        "sourceHandle": "ciphertext",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

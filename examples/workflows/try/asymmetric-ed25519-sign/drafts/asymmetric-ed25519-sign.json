@@ -1,0 +1,71 @@
+{
+  "draft": 1,
+  "name": "Ed25519 Sign",
+  "description": "Ed25519 signature (RFC 8032 test 2).",
+  "nodes": [
+    {
+      "id": "priv",
+      "type": "input-static-value",
+      "label": "Private Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "72"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "sign",
+      "type": "asymmetric-ed25519-sign",
+      "position": {
+        "x": 368,
+        "y": 144
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Signature",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Signature"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "priv.value",
+      "to": "sign.privateKey"
+    },
+    {
+      "from": "msg.value",
+      "to": "sign.message"
+    },
+    {
+      "from": "sign.signature",
+      "to": "out.v"
+    }
+  ]
+}

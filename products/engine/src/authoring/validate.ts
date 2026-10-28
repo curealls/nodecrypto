@@ -8,6 +8,7 @@ import { designErrorFor } from '../dag/designValidation';
 import { checkDefaultValue, validateConstraint } from '../dag/portConstraint';
 import { getEffectiveEdges, LINK_NODE_TYPE } from '../dag/links';
 import { visiblePorts, type NodeDefinition } from '../dag/types';
+import { isTypeDrivenOutput, typedOutputType } from '../registry/definitions/inputNodes';
 import { validateHexInput } from '../crypto/utils/hexValidation';
 import { compile, portIdProblem } from '../script';
 import { collectRefs, isVarRef, slotsFor } from '../variables/reference';
@@ -49,6 +50,8 @@ interface CNode {
   props: Record<string, any>;
   /** keys the author wrote (draft); undefined for a package, where every key is the file's own */
   written?: string[];
+  /** a package's own properties, without defaults: a missing key marks an old file (typed output, authoring.md §2.3) */
+  saved?: Record<string, any>;
   inputs: any[];
   outputs: any[];
   /** port lists the author wrote (draft only) */
@@ -166,6 +169,8 @@ function checkPorts(n: CNode, i: number, p: Paths, nodes: Map<string, CNode>, ou
         }
         expected = ['out:' + (n.outputs[0]?.dataType ?? 'any')];
       }
+      // Static Value, Random Value, User Input Dialog, CRC Generator: a property sets the type of the first output (authoring.md §2.3).
+      if (side === 'outputs' && isTypeDrivenOutput(n.type) && expected.length) expected[0] = `${def.outputs[0].id}:${typedOutputType(n.type, n.saved ?? n.props, def.outputs[0].dataType)}`;
       const got = strictLists ? n.given?.[side] : list;
       // A package keeps the order the user chose (node-catalog.md §2.2-14); only a draft must match the definition order.
       const order = (l: string[]) => (strictLists ? l : [...l].sort());
@@ -457,6 +462,7 @@ function validatePackageFile(pkg: Record<string, any>, registry: NodeRegistry): 
         type,
         def,
         props: def ? { ...Object.fromEntries(def.propertySchema.map((f) => [f.id, f.defaultValue])), ...props } : props,
+        saved: props,
         inputs: n.data?.inputs ?? [],
         outputs: n.data?.outputs ?? [],
         node: n,

@@ -1,0 +1,122 @@
+{
+  "draft": 1,
+  "name": "ValueSet",
+  "description": "Three fixed byte strings, joined.",
+  "nodes": [
+    {
+      "id": "set",
+      "type": "input-value-set",
+      "label": "Values",
+      "props": {
+        "rows": {
+          "out_1": {
+            "mode": "fixed",
+            "value": "aabb"
+          },
+          "out_2": {
+            "mode": "fixed",
+            "value": "cc"
+          },
+          "out_3": {
+            "mode": "fixed",
+            "value": "ddeeff"
+          }
+        }
+      },
+      "outputs": [
+        {
+          "id": "out_1",
+          "dataType": "bytes",
+          "name": "A"
+        },
+        {
+          "id": "out_2",
+          "dataType": "bytes",
+          "name": "B"
+        },
+        {
+          "id": "out_3",
+          "dataType": "bytes",
+          "name": "C"
+        },
+        {
+          "id": "set",
+          "dataType": "set"
+        }
+      ],
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "cat",
+      "type": "utility-concat",
+      "label": "Concatenator",
+      "inputs": [
+        {
+          "id": "in_1",
+          "dataType": "bytes",
+          "name": "A"
+        },
+        {
+          "id": "in_2",
+          "dataType": "bytes",
+          "name": "B"
+        },
+        {
+          "id": "in_3",
+          "dataType": "bytes",
+          "name": "C"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "p0",
+          "dataType": "bytes",
+          "name": "Combined"
+        },
+        {
+          "id": "p1",
+          "dataType": "int",
+          "name": "Length"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 80
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "set.out_1",
+      "to": "cat.in_1"
+    },
+    {
+      "from": "set.out_2",
+      "to": "cat.in_2"
+    },
+    {
+      "from": "set.out_3",
+      "to": "cat.in_3"
+    },
+    {
+      "from": "cat.combined",
+      "to": "out.p0"
+    },
+    {
+      "from": "cat.length",
+      "to": "out.p1"
+    }
+  ]
+}

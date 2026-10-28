@@ -1,0 +1,7 @@
+{
+  "source": "ARIA specification (RFC 5794) test vector, checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Ciphertext": "d718fbd6ab644c739da95f3be6451778"
+  }
+}

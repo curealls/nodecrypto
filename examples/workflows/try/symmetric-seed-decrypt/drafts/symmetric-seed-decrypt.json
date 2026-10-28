@@ -1,0 +1,75 @@
+{
+  "draft": 1,
+  "name": "SEED Decrypt",
+  "description": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "28dbc3bc49ffd87dcfa509b11d422be7"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "ct",
+      "type": "input-static-value",
+      "label": "Ciphertext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "9b9b7bfcd1813cb95d0b3618f40f5122"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-seed-decrypt",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Plaintext",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Plaintext"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "ct.value",
+      "to": "c.ciphertext"
+    },
+    {
+      "from": "c.plaintext",
+      "to": "out.v"
+    }
+  ]
+}

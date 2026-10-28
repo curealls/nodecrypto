@@ -1,0 +1,106 @@
+{
+  "draft": 1,
+  "name": "ECDSA Sign",
+  "description": "ECDSA sign and verify.",
+  "nodes": [
+    {
+      "id": "msg",
+      "type": "input-static-value",
+      "label": "Message \"Hello\"",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "48656c6c6f"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "gen",
+      "type": "asymmetric-ecc-keygen",
+      "props": {
+        "curve": "p256"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "sign",
+      "type": "asymmetric-ecc-sign",
+      "props": {
+        "curve": "p256",
+        "autoHash": true
+      },
+      "position": {
+        "x": 464,
+        "y": 160
+      }
+    },
+    {
+      "id": "ver",
+      "type": "asymmetric-ecc-verify",
+      "props": {
+        "curve": "p256",
+        "autoHash": true
+      },
+      "position": {
+        "x": 864,
+        "y": 144
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Results",
+      "inputs": [
+        {
+          "id": "ok",
+          "dataType": "bool",
+          "name": "Valid"
+        },
+        {
+          "id": "sig",
+          "dataType": "bytes",
+          "name": "Signature"
+        }
+      ],
+      "position": {
+        "x": 1264,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "msg.value",
+      "to": "sign.data"
+    },
+    {
+      "from": "gen.privateKey",
+      "to": "sign.privateKey"
+    },
+    {
+      "from": "msg.value",
+      "to": "ver.data"
+    },
+    {
+      "from": "gen.publicKey",
+      "to": "ver.publicKey"
+    },
+    {
+      "from": "sign.signature",
+      "to": "ver.signature"
+    },
+    {
+      "from": "sign.signature",
+      "to": "out.sig"
+    },
+    {
+      "from": "ver.isValid",
+      "to": "out.ok"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "source": "Base58 of \"Hello World!\", checked with an independent implementation",
+  "inputs": {},
+  "outputs": {
+    "Bytes": "48656c6c6f20576f726c6421"
+  }
+}

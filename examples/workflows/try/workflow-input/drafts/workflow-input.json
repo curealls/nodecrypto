@@ -1,0 +1,51 @@
+{
+  "draft": 1,
+  "name": "Workflow Input",
+  "description": "One input with a default.",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "workflow-input",
+      "label": "Input",
+      "outputs": [
+        {
+          "id": "msg",
+          "dataType": "bytes",
+          "name": "Message",
+          "constraint": {
+            "lengths": [
+              5
+            ]
+          },
+          "defaultValue": "48656c6c6f"
+        }
+      ],
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "o",
+      "type": "workflow-output",
+      "label": "Message",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Message"
+        }
+      ],
+      "position": {
+        "x": 368,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.msg",
+      "to": "o.v"
+    }
+  ]
+}

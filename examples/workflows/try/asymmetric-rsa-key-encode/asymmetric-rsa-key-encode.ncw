@@ -1,0 +1,285 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-rsa-key-encode",
+    "version": "",
+    "description": "Build a private key from N, e and d.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Key",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Build a private key from N, e and d.",
+    "viewport": {
+      "x": 107,
+      "y": 116.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "n",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "n",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "N",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "D0A68BD50933EF03EF8769F29A767BE54B2C973AAEAC4C42CBDE7865435863AC1CF61C893E28B354DA18F7D2E630F63DE5E45ABC20EA24013B2321D8864874F77889AA227D3E54BDFA00F6C1A800DE443A18CD58DFD01373EDA3664265D71AE87BAE59D14AABEC72FE71B88A3F1856D4A5989566013CCD4A1734DB8A49AB4089",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "e",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "e",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "e",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "010001",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "d",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 416
+        },
+        "width": 208,
+        "data": {
+          "id": "d",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "d",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "1E1393DE8EA80CD12D6B00ABB6F6535FB7196367531C8515AFDB8ED15206E0BF43A17A75921F3DD28269CCF77AB51E19C814C5BB8EA711AF97BDB5B8478B1449014FD25E3065B7114E651F5F4E9ADE6B717B4C6ABF2860D103C0F29C27ACB17FE039D4528DE06461E71993905EA0AD09EA75706C2F0BA01DF504D45607C1FB8D",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 208
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-key-encode",
+          "label": "RSA Key Encoder",
+          "category": "asymmetric",
+          "description": "Builds an RSA SPKI public key or PKCS#8 private key (DER) from its components N, e and d",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Modulus N (big-endian unsigned integer)."
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Public exponent e (big-endian unsigned integer)."
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "required": true,
+              "description": "Private exponent d. p and q are computed from N, e and d."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "SPKI/PKCS#8 DER",
+              "dataType": "bytes",
+              "description": "SPKI DER for a public key, PKCS#8 DER for a private key."
+            }
+          ],
+          "properties": {
+            "keyType": "Private"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Key",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-n-value-enc-n",
+        "source": "n",
+        "sourceHandle": "value",
+        "target": "enc",
+        "targetHandle": "n",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-e-value-enc-e",
+        "source": "e",
+        "sourceHandle": "value",
+        "target": "enc",
+        "targetHandle": "e",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-d-value-enc-d",
+        "source": "d",
+        "sourceHandle": "value",
+        "target": "enc",
+        "targetHandle": "d",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-key-out-v",
+        "source": "enc",
+        "sourceHandle": "key",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

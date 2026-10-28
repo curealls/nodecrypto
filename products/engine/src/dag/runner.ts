@@ -35,6 +35,15 @@ export interface WorkflowRunnerOptions {
 
 export class DAGRunner {
   /**
+   * The input ports that exist for the node's current properties. A node read from a file carries no showWhen functions
+   * (authoring.md §2.3), so they are taken from the definition's port of the same id.
+   */
+  private static activeInputs(node: any, def: any, properties: Record<string, any>) {
+    const ports: any[] = node.inputs || def.inputs;
+    return visiblePorts(ports.map((p) => (p.showWhen ? p : { ...p, showWhen: def.inputs?.find((d: any) => d.id === p.id)?.showWhen })), properties);
+  }
+
+  /**
    * Coerces data value to match expected target port DataType.
    */
   public static coerceDataType(value: any, targetType: DataType): any {
@@ -236,7 +245,7 @@ export class DAGRunner {
             const sourceOutput = nodeOutputs[edge.source]?.[edge.sourceHandle];
             if (sourceOutput !== undefined) {
               // Lookup expected data type from node instance inputs or fallback definition
-              const activeInputs = visiblePorts(node.inputs || def.inputs, nodeStates[nodeId].properties || {});
+              const activeInputs = DAGRunner.activeInputs(node, def, nodeStates[nodeId].properties || {});
               const targetPortDef = activeInputs.find((p) => p.id === edge.targetHandle);
               const coercedValue = targetPortDef
                 ? DAGRunner.coerceDataType(sourceOutput, targetPortDef.dataType)
@@ -250,7 +259,7 @@ export class DAGRunner {
 
           // Apply default values for unsupplied optional/default ports. Ports hidden by
           // showWhen for the node's current properties (PRD §3.4-7) don't exist for this run.
-          const activeInputs = visiblePorts(node.inputs || def.inputs, nodeStates[nodeId].properties || {});
+          const activeInputs = DAGRunner.activeInputs(node, def, nodeStates[nodeId].properties || {});
           for (const port of activeInputs) {
             if (resolvedInputs[port.id] === undefined && port.defaultValue !== undefined) {
               resolvedInputs[port.id] = port.defaultValue;

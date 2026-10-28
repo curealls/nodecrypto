@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Base64 to Bytes",
+  "description": "Turns the Base64 text TWFu into the three bytes of \"Man\".",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Text",
+      "props": {
+        "type": "string",
+        "valueString": "TWFu"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "conv",
+      "type": "converter-base64-to-bytes",
+      "position": {
+        "x": 368,
+        "y": 80
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Bytes",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Bytes"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 64
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "conv.string"
+    },
+    {
+      "from": "conv.bytes",
+      "to": "out.v"
+    }
+  ]
+}

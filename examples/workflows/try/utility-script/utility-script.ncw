@@ -1,0 +1,240 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "utility-script",
+    "version": "",
+    "description": "Append a number to a message.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Framed",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Append a number to a message.",
+    "viewport": {
+      "x": 156,
+      "y": 177.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "msg",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "msg",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "48656C6C6F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "n",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "n",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Number",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "int",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "int",
+            "valueBytes": "00112233445566778899AABBCCDDEEFF",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 258,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "sc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 128
+        },
+        "width": 304,
+        "data": {
+          "id": "sc",
+          "type": "cryptoNode",
+          "nodeType": "utility-script",
+          "label": "Script",
+          "category": "utility",
+          "description": "Runs a built-in script (Python subset) over bytes/int/bool/string ports",
+          "inputs": [
+            {
+              "id": "msg",
+              "name": "msg",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "n",
+              "name": "n",
+              "dataType": "int",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "framed",
+              "name": "framed",
+              "dataType": "bytes"
+            }
+          ],
+          "size": "basic",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "in",
+            "defaultDataType": "bytes"
+          },
+          "dynamicOutputs": {
+            "min": 0,
+            "defaultNamePrefix": "out",
+            "defaultDataType": "bytes"
+          },
+          "properties": {
+            "code": "framed = msg + to_bytes(n, 2)\n",
+            "scriptVersion": 1,
+            "errorUnify": false,
+            "errorUnifyCode": "",
+            "errorUnifyMessage": ""
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 205
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Framed",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Framed",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-msg-value-sc-msg",
+        "source": "msg",
+        "sourceHandle": "value",
+        "target": "sc",
+        "targetHandle": "msg",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-n-value-sc-n",
+        "source": "n",
+        "sourceHandle": "value",
+        "target": "sc",
+        "targetHandle": "n",
+        "type": "custom",
+        "data": {
+          "dataType": "int"
+        }
+      },
+      {
+        "id": "edge-sc-framed-out-v",
+        "source": "sc",
+        "sourceHandle": "framed",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

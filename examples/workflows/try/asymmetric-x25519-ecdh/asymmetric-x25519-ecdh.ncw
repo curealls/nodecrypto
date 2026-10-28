@@ -1,0 +1,226 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-x25519-ecdh",
+    "version": "",
+    "description": "X25519 shared secret (RFC 7748 section 6.1).",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "v",
+        "name": "Shared Secret",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "X25519 shared secret (RFC 7748 section 6.1).",
+    "viewport": {
+      "x": 131,
+      "y": 154.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "priv",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "priv",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Alice's Private Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "77076D0A7318A57D3C16C17251B26645DF4C2F87EBC0992AB177FBA51DB92C2A",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "pub",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "pub",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Bob's Public Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "DE9EDB7D7B7DC1B4D35B61C2ECE435373F8343C85B78674DADFC7E146F882B4F",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "dh",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 144
+        },
+        "width": 304,
+        "data": {
+          "id": "dh",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-x25519-ecdh",
+          "label": "X25519 Key Exchange (ECDH)",
+          "category": "asymmetric",
+          "description": "Montgomery-curve Diffie-Hellman shared secret (RFC 7748)",
+          "inputs": [
+            {
+              "id": "privateKey",
+              "name": "My Private Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "peerPublicKey",
+              "name": "Peer Public Key",
+              "spec": "32B",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Secret",
+              "spec": "32B",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {}
+        },
+        "measured": {
+          "width": 304,
+          "height": 149
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 160
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Shared Secret",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "v",
+              "name": "Shared Secret",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-priv-value-dh-privateKey",
+        "source": "priv",
+        "sourceHandle": "value",
+        "target": "dh",
+        "targetHandle": "privateKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-pub-value-dh-peerPublicKey",
+        "source": "pub",
+        "sourceHandle": "value",
+        "target": "dh",
+        "targetHandle": "peerPublicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dh-sharedSecret-out-v",
+        "source": "dh",
+        "sourceHandle": "sharedSecret",
+        "target": "out",
+        "targetHandle": "v",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

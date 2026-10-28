@@ -1,6 +1,6 @@
 {
   "name": "@curealls/nodecrypto",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Headless NodeCrypto: validate, expand and run crypto workflows from the command line, or as an MCP server for AI agents.",
   "license": "Apache-2.0",
   "author": "KANG Youngho <curealls@gmail.com>",

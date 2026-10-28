@@ -1,0 +1,54 @@
+{
+  "draft": 1,
+  "name": "Multibase to Bytes",
+  "description": "The first character z says the rest is Base58 (base58btc). The result is the bytes of \"yes mani !\".",
+  "nodes": [
+    {
+      "id": "in",
+      "type": "input-static-value",
+      "label": "Text",
+      "props": {
+        "type": "string",
+        "valueString": "z7paNL19xttacUY"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "conv",
+      "type": "converter-multibase-to-bytes",
+      "position": {
+        "x": 368,
+        "y": 96
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Bytes",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Bytes"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 80
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "in.value",
+      "to": "conv.string"
+    },
+    {
+      "from": "conv.bytes",
+      "to": "out.v"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: \"Hello\" followed by 0x0102",
+  "inputs": {},
+  "outputs": {
+    "Framed": "48656c6c6f0102"
+  }
+}

@@ -1,0 +1,314 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "hash-digest",
+    "version": "",
+    "description": "Three hashes of one input.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "a",
+        "name": "SHA-256",
+        "dataType": "bytes"
+      },
+      {
+        "id": "b",
+        "name": "SHA-512",
+        "dataType": "bytes"
+      },
+      {
+        "id": "c",
+        "name": "SHA3-256",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Three hashes of one input.",
+    "viewport": {
+      "x": 139,
+      "y": 96,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "in",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 240
+        },
+        "width": 208,
+        "data": {
+          "id": "in",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Message \"abc\"",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "616263",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "h256",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "h256",
+          "type": "cryptoNode",
+          "nodeType": "hash-digest",
+          "label": "SHA-256",
+          "category": "hash",
+          "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "algorithm": "SHA-256"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "h512",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 240
+        },
+        "width": 304,
+        "data": {
+          "id": "h512",
+          "type": "cryptoNode",
+          "nodeType": "hash-digest",
+          "label": "SHA-512",
+          "category": "hash",
+          "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "algorithm": "SHA-512"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "h3",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 416
+        },
+        "width": 304,
+        "data": {
+          "id": "h3",
+          "type": "cryptoNode",
+          "nodeType": "hash-digest",
+          "label": "SHA3-256",
+          "category": "hash",
+          "description": "Computes cryptographic hash (SHA-2, SHA-3, BLAKE3)",
+          "inputs": [
+            {
+              "id": "data",
+              "name": "Data",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "digest",
+              "name": "Digest",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "algorithm": "SHA3-256"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 208
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Digests",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "a",
+              "name": "SHA-256",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "b",
+              "name": "SHA-512",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "c",
+              "name": "SHA3-256",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 202
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-in-value-h256-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "h256",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-value-h512-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "h512",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-in-value-h3-data",
+        "source": "in",
+        "sourceHandle": "value",
+        "target": "h3",
+        "targetHandle": "data",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-h256-digest-out-a",
+        "source": "h256",
+        "sourceHandle": "digest",
+        "target": "out",
+        "targetHandle": "a",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-h512-digest-out-b",
+        "source": "h512",
+        "sourceHandle": "digest",
+        "target": "out",
+        "targetHandle": "b",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-h3-digest-out-c",
+        "source": "h3",
+        "sourceHandle": "digest",
+        "target": "out",
+        "targetHandle": "c",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

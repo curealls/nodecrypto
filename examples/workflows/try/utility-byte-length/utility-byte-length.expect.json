@@ -1,0 +1,7 @@
+{
+  "source": "Plain example: the length of the five bytes of \"Hello\"",
+  "inputs": {},
+  "outputs": {
+    "Length": "5"
+  }
+}

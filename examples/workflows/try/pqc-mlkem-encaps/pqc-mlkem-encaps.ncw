@@ -1,0 +1,210 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "pqc-mlkem-encaps",
+    "version": "",
+    "description": "Encapsulate with ML-KEM-768.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "ss",
+        "name": "Shared Secret",
+        "dataType": "bytes"
+      },
+      {
+        "id": "ct",
+        "name": "Ciphertext",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Encapsulate with ML-KEM-768.",
+    "viewport": {
+      "x": 75,
+      "y": 225.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "gen",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 64
+        },
+        "width": 240,
+        "data": {
+          "id": "gen",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mlkem-keygen",
+          "label": "ML-KEM KeyGen (FIPS 203)",
+          "category": "pqc",
+          "description": "Post-Quantum Lattice-based Key Encapsulation Mechanism keypair generator",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "publicKey",
+              "name": "Public Key",
+              "spec": "Encaps",
+              "dataType": "bytes",
+              "description": "Public key used by the sender to encapsulate a shared secret."
+            },
+            {
+              "id": "secretKey",
+              "name": "Secret Key",
+              "spec": "Decaps",
+              "dataType": "bytes",
+              "description": "Secret key used by the recipient to decapsulate the shared secret."
+            }
+          ],
+          "properties": {
+            "variant": 768
+          },
+          "customWidth": 240
+        },
+        "measured": {
+          "width": 240,
+          "height": 174
+        },
+        "selected": false,
+        "resizing": false,
+        "style": {
+          "width": 240
+        }
+      },
+      {
+        "id": "enc",
+        "type": "cryptoNode",
+        "position": {
+          "x": 432,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "enc",
+          "type": "cryptoNode",
+          "nodeType": "pqc-mlkem-encaps",
+          "label": "ML-KEM Encapsulate",
+          "category": "pqc",
+          "description": "Encapsulates a shared key against recipient public key",
+          "inputs": [
+            {
+              "id": "publicKey",
+              "name": "Recipient Public Key",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [
+            {
+              "id": "sharedSecret",
+              "name": "Shared Key",
+              "spec": "32B",
+              "dataType": "bytes"
+            },
+            {
+              "id": "ciphertext",
+              "name": "Ciphertext",
+              "dataType": "bytes"
+            }
+          ],
+          "properties": {
+            "variant": 768
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 864,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Results",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "ss",
+              "name": "Shared Secret",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "ct",
+              "name": "Ciphertext",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-gen-publicKey-enc-publicKey",
+        "source": "gen",
+        "sourceHandle": "publicKey",
+        "target": "enc",
+        "targetHandle": "publicKey",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-sharedSecret-out-ss",
+        "source": "enc",
+        "sourceHandle": "sharedSecret",
+        "target": "out",
+        "targetHandle": "ss",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-enc-ciphertext-out-ct",
+        "source": "enc",
+        "sourceHandle": "ciphertext",
+        "target": "out",
+        "targetHandle": "ct",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}

@@ -1,0 +1,7 @@
+{
+  "source": "NIST three-key Triple DES example (\"Now is t\"), checked with OpenSSL",
+  "inputs": {},
+  "outputs": {
+    "Ciphertext": "314f8327fa7a09a8"
+  }
+}

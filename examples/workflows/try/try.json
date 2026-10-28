@@ -1,0 +1,1158 @@
+{
+  "asymmetric-ecc-ecdh": [
+    {
+      "slug": "asymmetric-ecc-ecdh",
+      "title": {
+        "en": "Two parties agree on the same secret",
+        "ko": "두 당사자가 같은 비밀을 합의"
+      },
+      "description": {
+        "en": "Alice and Bob each make a key pair. Each combines their own private key with the other's public key and both get the same shared secret.",
+        "ko": "앨리스와 밥이 각자 키 쌍을 만든다. 각자 자기 개인키와 상대 공개키를 합치면 같은 공유 비밀이 나온다."
+      }
+    }
+  ],
+  "asymmetric-ecc-keygen": [
+    {
+      "slug": "asymmetric-ecc-keygen",
+      "title": {
+        "en": "Generate a P-256 key pair",
+        "ko": "P-256 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new P-256 key pair on every run: a 32-byte private key and an uncompressed 65-byte public key.",
+        "ko": "실행할 때마다 새 P-256 키 쌍을 만든다. 32바이트 개인키와 65바이트 비압축 공개키이다."
+      }
+    }
+  ],
+  "asymmetric-ecc-sign": [
+    {
+      "slug": "asymmetric-ecc-sign",
+      "title": {
+        "en": "Sign and verify with ECDSA",
+        "ko": "ECDSA로 서명과 검증"
+      },
+      "description": {
+        "en": "A new P-256 key signs \"Hello\" with ECDSA (SHA-256) and the public key verifies it. The signature changes every run.",
+        "ko": "새 P-256 키로 \"Hello\"에 ECDSA(SHA-256) 서명하고 공개키로 검증한다. 서명은 실행마다 바뀐다."
+      }
+    }
+  ],
+  "asymmetric-ecc-verify": [
+    {
+      "slug": "asymmetric-ecc-verify",
+      "title": {
+        "en": "Verify an ECDSA signature",
+        "ko": "ECDSA 서명 검증"
+      },
+      "description": {
+        "en": "A signature made with OpenSSL is checked against the message and the P-256 public key.",
+        "ko": "OpenSSL로 만든 서명을 메시지와 P-256 공개키로 검증한다."
+      }
+    }
+  ],
+  "asymmetric-ed25519-keygen": [
+    {
+      "slug": "asymmetric-ed25519-keygen",
+      "title": {
+        "en": "Generate an Ed25519 key pair",
+        "ko": "Ed25519 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new Ed25519 key pair on every run: a 32-byte private key and a 32-byte public key.",
+        "ko": "실행할 때마다 새 Ed25519 키 쌍을 만든다. 32바이트 개인키와 32바이트 공개키이다."
+      }
+    }
+  ],
+  "asymmetric-ed25519-sign": [
+    {
+      "slug": "asymmetric-ed25519-sign",
+      "title": {
+        "en": "Sign a message with Ed25519",
+        "ko": "Ed25519로 메시지 서명"
+      },
+      "description": {
+        "en": "The RFC 8032 test 2: the private key signs the one-byte message 72. Ed25519 is deterministic, so the signature is always the same.",
+        "ko": "RFC 8032 시험 2: 개인키로 1바이트 메시지 72에 서명한다. Ed25519는 결정적이라 서명이 항상 같다."
+      }
+    }
+  ],
+  "asymmetric-ed25519-verify": [
+    {
+      "slug": "asymmetric-ed25519-verify",
+      "title": {
+        "en": "Verify an Ed25519 signature",
+        "ko": "Ed25519 서명 검증"
+      },
+      "description": {
+        "en": "The RFC 8032 test 2 signature is checked against the public key and the message 72.",
+        "ko": "RFC 8032 시험 2의 서명을 공개키와 메시지 72로 검증한다."
+      }
+    }
+  ],
+  "asymmetric-rsa-decrypt": [
+    {
+      "slug": "asymmetric-rsa-decrypt",
+      "title": {
+        "en": "Decrypt with a private key",
+        "ko": "개인키로 복호화"
+      },
+      "description": {
+        "en": "An RSA-OAEP (SHA-256) ciphertext made with OpenSSL is decrypted with the matching private key.",
+        "ko": "OpenSSL로 만든 RSA-OAEP(SHA-256) 암호문을 짝이 되는 개인키로 복호화한다."
+      }
+    }
+  ],
+  "asymmetric-rsa-encrypt": [
+    {
+      "slug": "asymmetric-rsa-encrypt",
+      "title": {
+        "en": "Encrypt with a public key, decrypt with the private key",
+        "ko": "공개키로 암호화하고 개인키로 복호화"
+      },
+      "description": {
+        "en": "RSA-OAEP (SHA-256) encrypts \"Hello\". The padding is random, so the ciphertext changes every run, but decrypting always gives \"Hello\" back.",
+        "ko": "RSA-OAEP(SHA-256)로 \"Hello\"를 암호화한다. 패딩이 무작위라 암호문은 실행마다 바뀌지만 복호화하면 항상 \"Hello\"가 나온다."
+      }
+    }
+  ],
+  "asymmetric-rsa-key-decode": [
+    {
+      "slug": "asymmetric-rsa-key-decode",
+      "title": {
+        "en": "Read N and e from a public key",
+        "ko": "공개키에서 N, e 읽기"
+      },
+      "description": {
+        "en": "Takes a known RSA public key (SPKI DER) apart into its modulus N and public exponent e.",
+        "ko": "알려진 RSA 공개키(SPKI DER)를 모듈러스 N과 공개 지수 e로 분해한다."
+      }
+    },
+    {
+      "slug": "asymmetric-rsa-key-decode-random-key",
+      "title": {
+        "en": "Random key every run",
+        "ko": "실행할 때마다 무작위 키"
+      },
+      "description": {
+        "en": "An RSA Key Generator makes a fresh public key and the decoder reads N and e from it.",
+        "ko": "RSA Key Generator가 새 공개키를 만들고 디코더가 N과 e를 읽는다."
+      }
+    }
+  ],
+  "asymmetric-rsa-key-encode": [
+    {
+      "slug": "asymmetric-rsa-key-encode",
+      "title": {
+        "en": "Type N, e, d yourself",
+        "ko": "N, e, d를 직접 입력"
+      },
+      "description": {
+        "en": "Builds a private key (PKCS#8 DER) from the numbers N, e and d. The primes p and q are recovered automatically.",
+        "ko": "숫자 N, e, d로 개인키(PKCS#8 DER)를 만든다. 소수 p와 q는 자동으로 복원된다."
+      }
+    },
+    {
+      "slug": "asymmetric-rsa-key-encode-random-key",
+      "title": {
+        "en": "Random key every run",
+        "ko": "실행할 때마다 무작위 키"
+      },
+      "description": {
+        "en": "A generated private key is taken apart into N, e and d, then put back together. The result matches the original.",
+        "ko": "생성한 개인키를 N, e, d로 분해한 뒤 다시 조립한다. 결과가 원래 키와 같다."
+      }
+    }
+  ],
+  "asymmetric-rsa-keygen": [
+    {
+      "slug": "asymmetric-rsa-keygen",
+      "title": {
+        "en": "Generate an RSA key pair",
+        "ko": "RSA 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new 1024-bit RSA key pair on every run (1024 bits only to keep it quick). Both keys are DER bytes.",
+        "ko": "실행할 때마다 새 1024비트 RSA 키 쌍을 만든다(빠르게 하려고 1024비트). 두 키는 DER 바이트열이다."
+      }
+    }
+  ],
+  "asymmetric-rsa-sign": [
+    {
+      "slug": "asymmetric-rsa-sign",
+      "title": {
+        "en": "Sign and verify (PKCS#1 v1.5)",
+        "ko": "서명과 검증(PKCS#1 v1.5)"
+      },
+      "description": {
+        "en": "Signs \"Hello\" with SHA-256 and RSASSA-PKCS1-v1_5, then verifies the signature with the public key. This padding is not random, so the signature is the same every run.",
+        "ko": "SHA-256과 RSASSA-PKCS1-v1_5로 \"Hello\"에 서명하고 공개키로 검증한다. 이 패딩은 무작위가 아니라 서명이 매번 같다."
+      }
+    }
+  ],
+  "asymmetric-rsa-verify": [
+    {
+      "slug": "asymmetric-rsa-verify",
+      "title": {
+        "en": "Verify a signature",
+        "ko": "서명 검증"
+      },
+      "description": {
+        "en": "A signature made with OpenSSL is checked against the message and the public key.",
+        "ko": "OpenSSL로 만든 서명을 메시지와 공개키로 검증한다."
+      }
+    }
+  ],
+  "asymmetric-x25519-ecdh": [
+    {
+      "slug": "asymmetric-x25519-ecdh",
+      "title": {
+        "en": "Compute a shared secret with X25519",
+        "ko": "X25519로 공유 비밀 계산"
+      },
+      "description": {
+        "en": "Alice's private key and Bob's public key from RFC 7748 give the shared secret both sides compute.",
+        "ko": "RFC 7748의 앨리스 개인키와 밥 공개키로 양쪽이 계산하는 공유 비밀을 구한다."
+      }
+    }
+  ],
+  "asymmetric-x25519-keygen": [
+    {
+      "slug": "asymmetric-x25519-keygen",
+      "title": {
+        "en": "Generate an X25519 key pair",
+        "ko": "X25519 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new X25519 key pair on every run: a 32-byte private key and a 32-byte public key.",
+        "ko": "실행할 때마다 새 X25519 키 쌍을 만든다. 32바이트 개인키와 32바이트 공개키이다."
+      }
+    }
+  ],
+  "converter-base58-to-bytes": [
+    {
+      "slug": "converter-base58-to-bytes",
+      "title": {
+        "en": "Decode Base58",
+        "ko": "Base58 디코딩"
+      },
+      "description": {
+        "en": "Turns the Base58 text 2NEpo7TZRRrLZSi2U into the bytes of \"Hello World!\".",
+        "ko": "Base58 문자열 2NEpo7TZRRrLZSi2U를 \"Hello World!\"의 바이트로 바꾼다."
+      }
+    }
+  ],
+  "converter-base64-to-bytes": [
+    {
+      "slug": "converter-base64-to-bytes",
+      "title": {
+        "en": "Decode Base64",
+        "ko": "Base64 디코딩"
+      },
+      "description": {
+        "en": "Turns the Base64 text TWFu into the three bytes of \"Man\".",
+        "ko": "Base64 문자열 TWFu를 \"Man\"의 3바이트로 바꾼다."
+      }
+    }
+  ],
+  "converter-bytes-to-base58": [
+    {
+      "slug": "converter-bytes-to-base58",
+      "title": {
+        "en": "Encode as Base58",
+        "ko": "Base58로 인코딩"
+      },
+      "description": {
+        "en": "Writes the bytes of \"Hello World!\" as Base58 text.",
+        "ko": "\"Hello World!\"의 바이트를 Base58 문자열로 적는다."
+      }
+    }
+  ],
+  "converter-bytes-to-base64": [
+    {
+      "slug": "converter-bytes-to-base64",
+      "title": {
+        "en": "Encode as Base64",
+        "ko": "Base64로 인코딩"
+      },
+      "description": {
+        "en": "Writes the three bytes of \"Man\" as the Base64 text TWFu.",
+        "ko": "\"Man\"의 3바이트를 Base64 문자열 TWFu로 적는다."
+      }
+    }
+  ],
+  "converter-bytes-to-hex": [
+    {
+      "slug": "converter-bytes-to-hex",
+      "title": {
+        "en": "Write bytes as hex",
+        "ko": "바이트를 16진수로 표기"
+      },
+      "description": {
+        "en": "Writes the five bytes of \"Hello\" as the hex string 48656c6c6f.",
+        "ko": "\"Hello\"의 5바이트를 16진수 문자열 48656c6c6f로 적는다."
+      }
+    }
+  ],
+  "converter-bytes-to-multibase": [
+    {
+      "slug": "converter-bytes-to-multibase",
+      "title": {
+        "en": "Encode as multibase (base58btc)",
+        "ko": "multibase(base58btc)로 인코딩"
+      },
+      "description": {
+        "en": "Writes the bytes of \"yes mani !\" as base58btc with the prefix z.",
+        "ko": "\"yes mani !\"의 바이트를 접두 z가 붙은 base58btc로 적는다."
+      }
+    },
+    {
+      "slug": "converter-bytes-to-multibase-base64url",
+      "title": {
+        "en": "Encode as multibase (base64url)",
+        "ko": "multibase(base64url)로 인코딩"
+      },
+      "description": {
+        "en": "The same bytes with base64url: only the prefix (u) and the digits change.",
+        "ko": "같은 바이트를 base64url로 적는다. 접두(u)와 자릿수만 달라진다."
+      }
+    }
+  ],
+  "converter-bytes-to-string": [
+    {
+      "slug": "converter-bytes-to-string",
+      "title": {
+        "en": "UTF-8 bytes to text",
+        "ko": "UTF-8 바이트를 문자열로"
+      },
+      "description": {
+        "en": "Turns the bytes of \"Hello, World!\" back into text.",
+        "ko": "\"Hello, World!\"의 바이트를 문자열로 되돌린다."
+      }
+    }
+  ],
+  "converter-hex-to-bytes": [
+    {
+      "slug": "converter-hex-to-bytes",
+      "title": {
+        "en": "Decode a hex string",
+        "ko": "16진수 문자열 디코딩"
+      },
+      "description": {
+        "en": "Turns the hex string 48656c6c6f into the five bytes of \"Hello\".",
+        "ko": "16진수 문자열 48656c6c6f를 \"Hello\"의 5바이트로 바꾼다."
+      }
+    }
+  ],
+  "converter-multibase-to-bytes": [
+    {
+      "slug": "converter-multibase-to-bytes",
+      "title": {
+        "en": "Decode a multibase string",
+        "ko": "multibase 문자열 디코딩"
+      },
+      "description": {
+        "en": "The first character z says the rest is Base58 (base58btc). The result is the bytes of \"yes mani !\".",
+        "ko": "첫 글자 z는 나머지가 Base58(base58btc)임을 뜻한다. 결과는 \"yes mani !\"의 바이트이다."
+      }
+    }
+  ],
+  "converter-string-to-bytes": [
+    {
+      "slug": "converter-string-to-bytes",
+      "title": {
+        "en": "Text to UTF-8 bytes",
+        "ko": "문자열을 UTF-8 바이트로"
+      },
+      "description": {
+        "en": "The Korean letters take three bytes each in UTF-8.",
+        "ko": "한글은 UTF-8에서 글자마다 3바이트이다."
+      }
+    }
+  ],
+  "hash-digest": [
+    {
+      "slug": "hash-digest",
+      "title": {
+        "en": "One input, three hashes",
+        "ko": "같은 입력의 해시 세 가지"
+      },
+      "description": {
+        "en": "The bytes of \"abc\" hashed with SHA-256, SHA-512 and SHA3-256. The same input gives a different digest for each algorithm.",
+        "ko": "\"abc\"의 바이트를 SHA-256, SHA-512, SHA3-256으로 해시한다. 같은 입력도 알고리즘마다 다이제스트가 다르다."
+      }
+    }
+  ],
+  "input-dialog": [
+    {
+      "slug": "input-dialog",
+      "title": {
+        "en": "Ask for a value",
+        "ko": "값을 물어보기"
+      },
+      "description": {
+        "en": "A dialog that asks for a message when the workflow runs. The default is filled in, so Run works as is.",
+        "ko": "실행할 때 메시지를 묻는 대화상자. 기본값이 채워져 있어 그대로 Run을 눌러도 된다."
+      }
+    }
+  ],
+  "input-random": [
+    {
+      "slug": "input-random",
+      "title": {
+        "en": "Four types of random value",
+        "ko": "네 가지 타입의 무작위 값"
+      },
+      "description": {
+        "en": "One Random Value of each type. The values change on every run.",
+        "ko": "타입별 Random Value를 하나씩 둔다. 값은 실행할 때마다 바뀐다."
+      }
+    }
+  ],
+  "input-static-value": [
+    {
+      "slug": "input-static-value",
+      "title": {
+        "en": "Four types of constant",
+        "ko": "네 가지 타입의 상수"
+      },
+      "description": {
+        "en": "One Static Value of each type (bytes, string, int, bool), each shown in its own Workflow Output.",
+        "ko": "타입별 Static Value(bytes, string, int, bool)를 하나씩 두고 각각 Workflow Output으로 보인다."
+      }
+    }
+  ],
+  "input-value-set": [
+    {
+      "slug": "input-value-set",
+      "title": {
+        "en": "Three values in one set",
+        "ko": "값 세 개를 한 세트로"
+      },
+      "description": {
+        "en": "A ValueSet holds three fixed byte strings. A Concatenator joins them and the result and its length are shown.",
+        "ko": "ValueSet에 고정 bytes 값 세 개를 담고, Concatenator로 이어 붙여 결과와 길이를 보인다."
+      }
+    }
+  ],
+  "kdf-hkdf": [
+    {
+      "slug": "kdf-hkdf",
+      "title": {
+        "en": "Derive 42 bytes with HKDF",
+        "ko": "HKDF로 42바이트 유도"
+      },
+      "description": {
+        "en": "The RFC 5869 test case 1: input keying material, salt and info give 42 bytes of output keying material.",
+        "ko": "RFC 5869 시험 1: 입력 키 재료, 솔트, info로 42바이트 출력 키 재료를 만든다."
+      }
+    }
+  ],
+  "kdf-pbkdf2": [
+    {
+      "slug": "kdf-pbkdf2",
+      "title": {
+        "en": "Derive a key from a password",
+        "ko": "비밀번호에서 키 유도"
+      },
+      "description": {
+        "en": "PBKDF2-HMAC-SHA-256 of the password \"passwd\" and the salt \"salt\" (one iteration, 64 bytes) from RFC 7914.",
+        "ko": "비밀번호 \"passwd\"와 솔트 \"salt\"의 PBKDF2-HMAC-SHA-256(반복 1회, 64바이트). RFC 7914의 값이다."
+      }
+    }
+  ],
+  "mac-cmac": [
+    {
+      "slug": "mac-cmac",
+      "title": {
+        "en": "AES-CMAC of a 40-byte message",
+        "ko": "40바이트 메시지의 AES-CMAC"
+      },
+      "description": {
+        "en": "The RFC 4493 example with a 128-bit AES key and a 40-byte message.",
+        "ko": "128비트 AES 키와 40바이트 메시지를 쓰는 RFC 4493 예제."
+      }
+    }
+  ],
+  "mac-hmac": [
+    {
+      "slug": "mac-hmac",
+      "title": {
+        "en": "HMAC-SHA-256 of a message",
+        "ko": "메시지의 HMAC-SHA-256"
+      },
+      "description": {
+        "en": "The key \"Jefe\" and the message \"what do ya want for nothing?\" give the RFC 4231 test value.",
+        "ko": "키 \"Jefe\"와 메시지 \"what do ya want for nothing?\"가 RFC 4231 시험 값을 낸다."
+      }
+    }
+  ],
+  "output-inspector": [
+    {
+      "slug": "output-inspector",
+      "title": {
+        "en": "Watch a value",
+        "ko": "값 들여다보기"
+      },
+      "description": {
+        "en": "Output Inspector shows the value that reaches it in the data inspector. It needs no Workflow Output.",
+        "ko": "Output Inspector는 도달한 값을 데이터 인스펙터에 보여 준다. Workflow Output이 필요 없다."
+      }
+    }
+  ],
+  "padding-asymmetric": [
+    {
+      "slug": "padding-asymmetric",
+      "title": {
+        "en": "RSA-OAEP encode and decode",
+        "ko": "RSA-OAEP 인코딩과 디코딩"
+      },
+      "description": {
+        "en": "Encodes \"Hello\" into a 128-byte OAEP block (random seed, so it changes every run), then decodes it back.",
+        "ko": "\"Hello\"를 128바이트 OAEP 블록으로 인코딩(무작위 시드라 실행마다 바뀐다)한 뒤 다시 디코딩한다."
+      }
+    },
+    {
+      "slug": "padding-asymmetric-pss",
+      "title": {
+        "en": "RSA-PSS encode with a fixed salt",
+        "ko": "고정 솔트를 쓰는 RSA-PSS 인코딩"
+      },
+      "description": {
+        "en": "Encodes the SHA-256 hash of \"abc\" with a fixed salt, so the 128-byte result is the same every run.",
+        "ko": "\"abc\"의 SHA-256 해시를 고정 솔트로 인코딩하므로 128바이트 결과가 매번 같다."
+      }
+    }
+  ],
+  "padding-block-pad": [
+    {
+      "slug": "padding-block-pad",
+      "title": {
+        "en": "Pad to a 16-byte block (PKCS#7)",
+        "ko": "16바이트 블록에 맞춰 패딩(PKCS#7)"
+      },
+      "description": {
+        "en": "The 5 bytes of \"Hello\" are filled up to 16 bytes with the value 0b (the number of bytes added).",
+        "ko": "\"Hello\"의 5바이트를 16바이트가 되도록 채운다. 채운 바이트 값은 추가한 개수인 0b이다."
+      }
+    }
+  ],
+  "padding-block-unpad": [
+    {
+      "slug": "padding-block-unpad",
+      "title": {
+        "en": "Remove PKCS#7 padding",
+        "ko": "PKCS#7 패딩 제거"
+      },
+      "description": {
+        "en": "The last byte 0b says 11 bytes of padding. Removing them leaves the 5 bytes of \"Hello\".",
+        "ko": "마지막 바이트 0b는 패딩이 11바이트라는 뜻이다. 제거하면 \"Hello\"의 5바이트가 남는다."
+      }
+    }
+  ],
+  "pqc-hybridkem-decaps": [
+    {
+      "slug": "pqc-hybridkem-decaps",
+      "title": {
+        "en": "Both sides get the same secret",
+        "ko": "양쪽이 같은 비밀을 얻는다"
+      },
+      "description": {
+        "en": "The sender encapsulates a secret with the public key; the receiver decapsulates the ciphertext with the secret key. The two shared secrets are compared.",
+        "ko": "보내는 쪽이 공개키로 비밀을 캡슐화하고 받는 쪽이 비밀키로 암호문을 역캡슐화한다. 두 공유 비밀을 비교한다."
+      }
+    }
+  ],
+  "pqc-hybridkem-encaps": [
+    {
+      "slug": "pqc-hybridkem-encaps",
+      "title": {
+        "en": "Encapsulate a secret with X25519 + ML-KEM-768 hybrid",
+        "ko": "X25519 + ML-KEM-768 hybrid로 비밀 캡슐화"
+      },
+      "description": {
+        "en": "The public key produces a shared secret and a ciphertext. Only the holder of the secret key can recover the same shared secret from the ciphertext.",
+        "ko": "공개키로 공유 비밀과 암호문을 만든다. 비밀키를 가진 쪽만 암호문에서 같은 공유 비밀을 되찾을 수 있다."
+      }
+    }
+  ],
+  "pqc-hybridkem-keygen": [
+    {
+      "slug": "pqc-hybridkem-keygen",
+      "title": {
+        "en": "Generate a X25519 + ML-KEM-768 hybrid key pair",
+        "ko": "X25519 + ML-KEM-768 hybrid 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new X25519 + ML-KEM-768 hybrid key pair on every run: a public (encapsulation) key and a secret (decapsulation) key.",
+        "ko": "실행할 때마다 새 X25519 + ML-KEM-768 hybrid 키 쌍을 만든다. 공개(캡슐화) 키와 비밀(역캡슐화) 키이다."
+      }
+    }
+  ],
+  "pqc-mldsa-keygen": [
+    {
+      "slug": "pqc-mldsa-keygen",
+      "title": {
+        "en": "Generate a ML-DSA-65 key pair",
+        "ko": "ML-DSA-65 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new ML-DSA-65 key pair on every run.",
+        "ko": "실행할 때마다 새 ML-DSA-65 키 쌍을 만든다."
+      }
+    }
+  ],
+  "pqc-mldsa-sign": [
+    {
+      "slug": "pqc-mldsa-sign",
+      "title": {
+        "en": "Sign a message with ML-DSA-65",
+        "ko": "ML-DSA-65로 메시지 서명"
+      },
+      "description": {
+        "en": "A new key pair signs \"Hello\". The signature is large and changes with the key.",
+        "ko": "새 키 쌍으로 \"Hello\"에 서명한다. 서명은 크고 키에 따라 달라진다."
+      }
+    }
+  ],
+  "pqc-mldsa-verify": [
+    {
+      "slug": "pqc-mldsa-verify",
+      "title": {
+        "en": "Verify a ML-DSA-65 signature",
+        "ko": "ML-DSA-65 서명 검증"
+      },
+      "description": {
+        "en": "A new key pair signs \"Hello\" and the public key verifies the signature.",
+        "ko": "새 키 쌍으로 \"Hello\"에 서명하고 공개키로 서명을 검증한다."
+      }
+    }
+  ],
+  "pqc-mlkem-decaps": [
+    {
+      "slug": "pqc-mlkem-decaps",
+      "title": {
+        "en": "Both sides get the same secret",
+        "ko": "양쪽이 같은 비밀을 얻는다"
+      },
+      "description": {
+        "en": "The sender encapsulates a secret with the public key; the receiver decapsulates the ciphertext with the secret key. The two shared secrets are compared.",
+        "ko": "보내는 쪽이 공개키로 비밀을 캡슐화하고 받는 쪽이 비밀키로 암호문을 역캡슐화한다. 두 공유 비밀을 비교한다."
+      }
+    },
+    {
+      "slug": "pqc-mlkem-decaps-cctv-vector",
+      "title": {
+        "en": "Decapsulate a published test vector",
+        "ko": "공개된 시험 벡터를 역캡슐화"
+      },
+      "description": {
+        "en": "The ML-KEM-768 decapsulation key and ciphertext of a published test vector give the published shared secret. The keys are large (2400 and 1088 bytes).",
+        "ko": "공개된 ML-KEM-768 시험 벡터의 역캡슐화 키와 암호문으로 공개된 공유 비밀을 구한다. 키가 크다(2400바이트, 1088바이트)."
+      }
+    }
+  ],
+  "pqc-mlkem-encaps": [
+    {
+      "slug": "pqc-mlkem-encaps",
+      "title": {
+        "en": "Encapsulate a secret with ML-KEM-768",
+        "ko": "ML-KEM-768로 비밀 캡슐화"
+      },
+      "description": {
+        "en": "The public key produces a shared secret and a ciphertext. Only the holder of the secret key can recover the same shared secret from the ciphertext.",
+        "ko": "공개키로 공유 비밀과 암호문을 만든다. 비밀키를 가진 쪽만 암호문에서 같은 공유 비밀을 되찾을 수 있다."
+      }
+    }
+  ],
+  "pqc-mlkem-keygen": [
+    {
+      "slug": "pqc-mlkem-keygen",
+      "title": {
+        "en": "Generate a ML-KEM-768 key pair",
+        "ko": "ML-KEM-768 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new ML-KEM-768 key pair on every run: a public (encapsulation) key and a secret (decapsulation) key.",
+        "ko": "실행할 때마다 새 ML-KEM-768 키 쌍을 만든다. 공개(캡슐화) 키와 비밀(역캡슐화) 키이다."
+      }
+    }
+  ],
+  "pqc-slhdsa-keygen": [
+    {
+      "slug": "pqc-slhdsa-keygen",
+      "title": {
+        "en": "Generate a SLH-DSA-SHA2-128f key pair",
+        "ko": "SLH-DSA-SHA2-128f 키 쌍 생성"
+      },
+      "description": {
+        "en": "Makes a new SLH-DSA-SHA2-128f key pair on every run.",
+        "ko": "실행할 때마다 새 SLH-DSA-SHA2-128f 키 쌍을 만든다."
+      }
+    }
+  ],
+  "pqc-slhdsa-sign": [
+    {
+      "slug": "pqc-slhdsa-sign",
+      "title": {
+        "en": "Sign a message with SLH-DSA-SHA2-128f",
+        "ko": "SLH-DSA-SHA2-128f로 메시지 서명"
+      },
+      "description": {
+        "en": "A new key pair signs \"Hello\". The signature is large and changes with the key.",
+        "ko": "새 키 쌍으로 \"Hello\"에 서명한다. 서명은 크고 키에 따라 달라진다."
+      }
+    }
+  ],
+  "pqc-slhdsa-verify": [
+    {
+      "slug": "pqc-slhdsa-verify",
+      "title": {
+        "en": "Verify a SLH-DSA-SHA2-128f signature",
+        "ko": "SLH-DSA-SHA2-128f 서명 검증"
+      },
+      "description": {
+        "en": "A new key pair signs \"Hello\" and the public key verifies the signature.",
+        "ko": "새 키 쌍으로 \"Hello\"에 서명하고 공개키로 서명을 검증한다."
+      }
+    }
+  ],
+  "switch": [
+    {
+      "slug": "switch",
+      "title": {
+        "en": "Pick one of two sets",
+        "ko": "두 세트 중 하나 고르기"
+      },
+      "description": {
+        "en": "Two ValueSets and a Switch. Only the active set (the second) passes through.",
+        "ko": "ValueSet 둘과 Switch. 활성화한 세트(둘째)의 값만 통과한다."
+      }
+    }
+  ],
+  "symmetric-aes-decrypt": [
+    {
+      "slug": "symmetric-aes-decrypt",
+      "title": {
+        "en": "Decrypt one block with AES-128",
+        "ko": "AES-128로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-aes-encrypt": [
+    {
+      "slug": "symmetric-aes-encrypt",
+      "title": {
+        "en": "Encrypt one block with AES-128",
+        "ko": "AES-128로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "16-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    },
+    {
+      "slug": "symmetric-aes-encrypt-roundtrip",
+      "title": {
+        "en": "Encrypt, then decrypt again",
+        "ko": "암호화한 뒤 다시 복호화"
+      },
+      "description": {
+        "en": "The same key encrypts the block and decrypts it back. Both the ciphertext and the restored plaintext are shown.",
+        "ko": "같은 키로 블록을 암호화하고 다시 복호화한다. 암호문과 복원된 평문을 함께 보인다."
+      }
+    }
+  ],
+  "symmetric-aria-decrypt": [
+    {
+      "slug": "symmetric-aria-decrypt",
+      "title": {
+        "en": "Decrypt one block with ARIA-128",
+        "ko": "ARIA-128로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-aria-encrypt": [
+    {
+      "slug": "symmetric-aria-encrypt",
+      "title": {
+        "en": "Encrypt one block with ARIA-128",
+        "ko": "ARIA-128로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "16-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "symmetric-camellia-decrypt": [
+    {
+      "slug": "symmetric-camellia-decrypt",
+      "title": {
+        "en": "Decrypt one block with Camellia-128",
+        "ko": "Camellia-128로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-camellia-encrypt": [
+    {
+      "slug": "symmetric-camellia-encrypt",
+      "title": {
+        "en": "Encrypt one block with Camellia-128",
+        "ko": "Camellia-128로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "16-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "symmetric-chacha20-poly1305-decrypt": [
+    {
+      "slug": "symmetric-chacha20-poly1305-decrypt",
+      "title": {
+        "en": "Decrypt and check with ChaCha20-Poly1305",
+        "ko": "ChaCha20-Poly1305로 복호화와 검증"
+      },
+      "description": {
+        "en": "The ciphertext and tag of the RFC 8439 example are verified and decrypted. A wrong tag would make the node fail.",
+        "ko": "RFC 8439 예제의 암호문과 태그를 검증하고 복호화한다. 태그가 틀리면 노드가 실패한다."
+      }
+    }
+  ],
+  "symmetric-chacha20-poly1305-encrypt": [
+    {
+      "slug": "symmetric-chacha20-poly1305-encrypt",
+      "title": {
+        "en": "Encrypt with ChaCha20-Poly1305",
+        "ko": "ChaCha20-Poly1305로 암호화"
+      },
+      "description": {
+        "en": "The RFC 8439 example: a 114-byte message with associated data gives the ciphertext and a 16-byte authentication tag.",
+        "ko": "RFC 8439 예제: 114바이트 메시지와 연관 데이터로 암호문과 16바이트 인증 태그를 만든다."
+      }
+    }
+  ],
+  "symmetric-chacha20-stream": [
+    {
+      "slug": "symmetric-chacha20-stream",
+      "title": {
+        "en": "The ChaCha20 keystream",
+        "ko": "ChaCha20 키스트림"
+      },
+      "description": {
+        "en": "Encrypting 64 zero bytes with an all-zero key and nonce shows the keystream itself (RFC 8439 appendix A.1).",
+        "ko": "키와 nonce가 모두 0일 때 0으로 채운 64바이트를 암호화하면 키스트림이 그대로 나온다(RFC 8439 부록 A.1)."
+      }
+    }
+  ],
+  "symmetric-des-decrypt": [
+    {
+      "slug": "symmetric-des-decrypt",
+      "title": {
+        "en": "Decrypt one block with DES",
+        "ko": "DES로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-des-encrypt": [
+    {
+      "slug": "symmetric-des-encrypt",
+      "title": {
+        "en": "Encrypt one block with DES",
+        "ko": "DES로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 8-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "8-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "symmetric-seed-decrypt": [
+    {
+      "slug": "symmetric-seed-decrypt",
+      "title": {
+        "en": "Decrypt one block with SEED",
+        "ko": "SEED로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-seed-encrypt": [
+    {
+      "slug": "symmetric-seed-encrypt",
+      "title": {
+        "en": "Encrypt one block with SEED",
+        "ko": "SEED로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "16-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "symmetric-sm4-decrypt": [
+    {
+      "slug": "symmetric-sm4-decrypt",
+      "title": {
+        "en": "Decrypt one block with SM4",
+        "ko": "SM4로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-sm4-encrypt": [
+    {
+      "slug": "symmetric-sm4-encrypt",
+      "title": {
+        "en": "Encrypt one block with SM4",
+        "ko": "SM4로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "16-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "symmetric-tdes-decrypt": [
+    {
+      "slug": "symmetric-tdes-decrypt",
+      "title": {
+        "en": "Decrypt one block with Triple DES",
+        "ko": "Triple DES로 한 블록 복호화"
+      },
+      "description": {
+        "en": "The ciphertext of the test value is decrypted back to the plaintext (ECB mode, no padding).",
+        "ko": "시험 값의 암호문을 평문으로 복호화한다(ECB 모드, 패딩 없음)."
+      }
+    }
+  ],
+  "symmetric-tdes-encrypt": [
+    {
+      "slug": "symmetric-tdes-encrypt",
+      "title": {
+        "en": "Encrypt one block with Triple DES",
+        "ko": "Triple DES로 한 블록 암호화"
+      },
+      "description": {
+        "en": "One 8-byte block in ECB mode without padding, so the result is the published test value.",
+        "ko": "8-byte 한 블록을 패딩 없이 ECB 모드로 암호화하므로 결과가 공개된 시험 값과 같다."
+      }
+    }
+  ],
+  "utility-bitshift": [
+    {
+      "slug": "utility-bitshift",
+      "title": {
+        "en": "Shift left by 4 bits",
+        "ko": "왼쪽으로 4비트 이동"
+      },
+      "description": {
+        "en": "Shifting 0f left by 4 bits gives f0.",
+        "ko": "0f를 왼쪽으로 4비트 밀면 f0이 된다."
+      }
+    }
+  ],
+  "utility-bitwise": [
+    {
+      "slug": "utility-bitwise",
+      "title": {
+        "en": "Bitwise AND of two values",
+        "ko": "두 값의 비트 AND"
+      },
+      "description": {
+        "en": "f0f0 AND 0fff leaves only the bits set in both.",
+        "ko": "f0f0 AND 0fff는 둘 다 1인 비트만 남긴다."
+      }
+    }
+  ],
+  "utility-bitwise-not": [
+    {
+      "slug": "utility-bitwise-not",
+      "title": {
+        "en": "Flip every bit",
+        "ko": "모든 비트 뒤집기"
+      },
+      "description": {
+        "en": "Every bit of 00ff0f is flipped.",
+        "ko": "00ff0f의 모든 비트를 뒤집는다."
+      }
+    }
+  ],
+  "utility-byte-length": [
+    {
+      "slug": "utility-byte-length",
+      "title": {
+        "en": "Count the bytes",
+        "ko": "바이트 수 세기"
+      },
+      "description": {
+        "en": "The five bytes of \"Hello\" have length 5.",
+        "ko": "\"Hello\"의 5바이트는 길이가 5이다."
+      }
+    }
+  ],
+  "utility-bytes-to-int": [
+    {
+      "slug": "utility-bytes-to-int",
+      "title": {
+        "en": "Bytes to an integer",
+        "ko": "바이트를 정수로"
+      },
+      "description": {
+        "en": "0100 read as a big-endian number is 256.",
+        "ko": "0100을 big-endian 정수로 읽으면 256이다."
+      }
+    }
+  ],
+  "utility-compare": [
+    {
+      "slug": "utility-compare",
+      "title": {
+        "en": "Two equal values",
+        "ko": "같은 두 값"
+      },
+      "description": {
+        "en": "Both values are the bytes of \"Hello\", so == gives true.",
+        "ko": "두 값이 모두 \"Hello\"의 바이트라 ==가 true를 낸다."
+      }
+    },
+    {
+      "slug": "utility-compare-mismatch",
+      "title": {
+        "en": "Two different values",
+        "ko": "다른 두 값"
+      },
+      "description": {
+        "en": "The last byte differs, so == gives false.",
+        "ko": "마지막 바이트가 달라 ==가 false를 낸다."
+      }
+    }
+  ],
+  "utility-concat": [
+    {
+      "slug": "utility-concat",
+      "title": {
+        "en": "Join three values",
+        "ko": "세 값 이어 붙이기"
+      },
+      "description": {
+        "en": "Joins aabb, cc and ddeeff in order and also gives the total length.",
+        "ko": "aabb, cc, ddeeff를 순서대로 이어 붙이고 전체 길이도 낸다."
+      }
+    }
+  ],
+  "utility-crc": [
+    {
+      "slug": "utility-crc",
+      "title": {
+        "en": "Two checksums of one input",
+        "ko": "같은 입력의 두 체크섬"
+      },
+      "description": {
+        "en": "The check string 123456789 gives different values with CRC-32 and CRC-16/CCITT-FALSE.",
+        "ko": "체크 문자열 123456789는 CRC-32와 CRC-16/CCITT-FALSE에서 값이 서로 다르다."
+      }
+    }
+  ],
+  "utility-endian": [
+    {
+      "slug": "utility-endian",
+      "title": {
+        "en": "Swap the byte order",
+        "ko": "바이트 순서 뒤집기"
+      },
+      "description": {
+        "en": "Reverses the byte order of 01020304.",
+        "ko": "01020304의 바이트 순서를 뒤집는다."
+      }
+    }
+  ],
+  "utility-int-to-bytes": [
+    {
+      "slug": "utility-int-to-bytes",
+      "title": {
+        "en": "An integer to bytes",
+        "ko": "정수를 바이트로"
+      },
+      "description": {
+        "en": "258 written as the shortest big-endian byte string is 0102.",
+        "ko": "258을 가장 짧은 big-endian 바이트열로 적으면 0102이다."
+      }
+    }
+  ],
+  "utility-script": [
+    {
+      "slug": "utility-script",
+      "title": {
+        "en": "A small script",
+        "ko": "짧은 스크립트"
+      },
+      "description": {
+        "en": "A script that appends the number 258 as two bytes to a message.",
+        "ko": "메시지 뒤에 숫자 258을 2바이트로 붙이는 스크립트."
+      }
+    }
+  ],
+  "utility-slicer": [
+    {
+      "slug": "utility-slicer",
+      "title": {
+        "en": "Cut out part of a value",
+        "ko": "값의 일부 잘라내기"
+      },
+      "description": {
+        "en": "Takes 4 bytes starting at offset 4 from the 16 bytes 00 01 02 … 0f.",
+        "ko": "00 01 02 … 0f의 16바이트에서 오프셋 4부터 4바이트를 잘라낸다."
+      }
+    }
+  ],
+  "workflow-input": [
+    {
+      "slug": "workflow-input",
+      "title": {
+        "en": "An input with a default",
+        "ko": "기본값이 있는 입력"
+      },
+      "description": {
+        "en": "A Workflow Input port with a length constraint and a default value. It passes the value on to the output.",
+        "ko": "길이 제약과 기본값이 있는 Workflow Input 포트. 받은 값을 그대로 출력으로 넘긴다."
+      }
+    }
+  ],
+  "workflow-output": [
+    {
+      "slug": "workflow-output",
+      "title": {
+        "en": "Several outputs in one node",
+        "ko": "출력 하나에 포트 여러 개"
+      },
+      "description": {
+        "en": "One Workflow Output node with two ports, one for bytes and one for a string.",
+        "ko": "Workflow Output 노드 하나에 bytes 포트와 string 포트를 두었다."
+      }
+    }
+  ]
+}

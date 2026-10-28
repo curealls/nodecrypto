@@ -1,0 +1,75 @@
+{
+  "draft": 1,
+  "name": "Camellia-128 Encrypt",
+  "description": "One 16-byte block in ECB mode without padding, so the result is the published test value.",
+  "nodes": [
+    {
+      "id": "key",
+      "type": "input-static-value",
+      "label": "Key",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0123456789abcdeffedcba9876543210"
+      },
+      "position": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "id": "pt",
+      "type": "input-static-value",
+      "label": "Plaintext",
+      "props": {
+        "type": "bytes",
+        "valueBytes": "0123456789abcdeffedcba9876543210"
+      },
+      "position": {
+        "x": 64,
+        "y": 240
+      }
+    },
+    {
+      "id": "c",
+      "type": "symmetric-camellia-encrypt",
+      "props": {
+        "mode": "ECB",
+        "padding": "None"
+      },
+      "position": {
+        "x": 368,
+        "y": 128
+      }
+    },
+    {
+      "id": "out",
+      "type": "workflow-output",
+      "label": "Ciphertext",
+      "inputs": [
+        {
+          "id": "v",
+          "dataType": "bytes",
+          "name": "Ciphertext"
+        }
+      ],
+      "position": {
+        "x": 768,
+        "y": 160
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "key.value",
+      "to": "c.key"
+    },
+    {
+      "from": "pt.value",
+      "to": "c.plaintext"
+    },
+    {
+      "from": "c.ciphertext",
+      "to": "out.v"
+    }
+  ]
+}

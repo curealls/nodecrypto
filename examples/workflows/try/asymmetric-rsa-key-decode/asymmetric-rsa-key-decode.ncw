@@ -1,0 +1,237 @@
+{
+  "format": "nodecrypto",
+  "formatVersion": 1,
+  "protection": "public",
+  "manifest": {
+    "label": "asymmetric-rsa-key-decode",
+    "version": "",
+    "description": "Read N and e from a public key.",
+    "category": "",
+    "inputs": [],
+    "outputs": [
+      {
+        "id": "n",
+        "name": "N",
+        "dataType": "bytes"
+      },
+      {
+        "id": "e",
+        "name": "e",
+        "dataType": "bytes"
+      }
+    ]
+  },
+  "requires": [],
+  "workflow": {
+    "name": "default",
+    "description": "Read N and e from a public key.",
+    "viewport": {
+      "x": 89,
+      "y": 237.5,
+      "zoom": 1
+    },
+    "nodes": [
+      {
+        "id": "key",
+        "type": "cryptoNode",
+        "position": {
+          "x": 64,
+          "y": 80
+        },
+        "width": 208,
+        "data": {
+          "id": "key",
+          "type": "cryptoNode",
+          "nodeType": "input-static-value",
+          "label": "Public Key",
+          "category": "input",
+          "description": "Provides a constant value of a user-selected type (bytes/string/int/bool)",
+          "inputs": [],
+          "outputs": [
+            {
+              "id": "value",
+              "name": "Value",
+              "dataType": "bytes",
+              "description": "Constant value of the selected type"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "type": "bytes",
+            "valueBytes": "30819F300D06092A864886F70D010101050003818D0030818902818100D0A68BD50933EF03EF8769F29A767BE54B2C973AAEAC4C42CBDE7865435863AC1CF61C893E28B354DA18F7D2E630F63DE5E45ABC20EA24013B2321D8864874F77889AA227D3E54BDFA00F6C1A800DE443A18CD58DFD01373EDA3664265D71AE87BAE59D14AABEC72FE71B88A3F1856D4A5989566013CCD4A1734DB8A49AB40890203010001",
+            "valueString": "Hello NodeCrypto!",
+            "valueInt": 0,
+            "valueBool": false
+          }
+        },
+        "measured": {
+          "width": 208,
+          "height": 144
+        }
+      },
+      {
+        "id": "dec",
+        "type": "cryptoNode",
+        "position": {
+          "x": 368,
+          "y": 64
+        },
+        "width": 304,
+        "data": {
+          "id": "dec",
+          "type": "cryptoNode",
+          "nodeType": "asymmetric-rsa-key-decode",
+          "label": "RSA Key Decoder",
+          "category": "asymmetric",
+          "description": "Extracts the RSA components (N, e, d, ...) from an SPKI public key or PKCS#8 private key (DER)",
+          "inputs": [
+            {
+              "id": "key",
+              "name": "Key",
+              "spec": "SPKI/PKCS#8 DER",
+              "dataType": "bytes",
+              "required": true,
+              "description": "RSA public key (SPKI) or private key (PKCS#8) as DER bytes. PEM and PKCS#1 are not supported."
+            }
+          ],
+          "outputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "description": "Modulus N (big-endian, no leading zero bytes)."
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "description": "Public exponent e (big-endian, no leading zero bytes)."
+            },
+            {
+              "id": "d",
+              "name": "d",
+              "dataType": "bytes",
+              "description": "Private exponent d."
+            },
+            {
+              "id": "p",
+              "name": "p",
+              "dataType": "bytes",
+              "description": "First prime factor p of N."
+            },
+            {
+              "id": "q",
+              "name": "q",
+              "dataType": "bytes",
+              "description": "Second prime factor q of N."
+            },
+            {
+              "id": "dp",
+              "name": "dP",
+              "dataType": "bytes",
+              "description": "CRT exponent dP = d mod (p-1)."
+            },
+            {
+              "id": "dq",
+              "name": "dQ",
+              "dataType": "bytes",
+              "description": "CRT exponent dQ = d mod (q-1)."
+            },
+            {
+              "id": "qInv",
+              "name": "qInv",
+              "dataType": "bytes",
+              "description": "CRT coefficient qInv = q^-1 mod p."
+            }
+          ],
+          "properties": {
+            "keyType": "Public"
+          }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
+      },
+      {
+        "id": "out",
+        "type": "cryptoNode",
+        "position": {
+          "x": 768,
+          "y": 64
+        },
+        "width": 208,
+        "data": {
+          "id": "out",
+          "type": "cryptoNode",
+          "nodeType": "workflow-output",
+          "label": "Components",
+          "category": "input",
+          "description": "Workflow egress interface. Gathers final pipeline results for API response or caller return.",
+          "inputs": [
+            {
+              "id": "n",
+              "name": "N",
+              "dataType": "bytes",
+              "required": true
+            },
+            {
+              "id": "e",
+              "name": "e",
+              "dataType": "bytes",
+              "required": true
+            }
+          ],
+          "outputs": [],
+          "size": "small",
+          "dynamicInputs": {
+            "min": 0,
+            "defaultNamePrefix": "Return",
+            "defaultDataType": "bytes"
+          },
+          "properties": {}
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge-key-value-dec-key",
+        "source": "key",
+        "sourceHandle": "value",
+        "target": "dec",
+        "targetHandle": "key",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dec-n-out-n",
+        "source": "dec",
+        "sourceHandle": "n",
+        "target": "out",
+        "targetHandle": "n",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      },
+      {
+        "id": "edge-dec-e-out-e",
+        "source": "dec",
+        "sourceHandle": "e",
+        "target": "out",
+        "targetHandle": "e",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        }
+      }
+    ]
+  },
+  "definitions": {}
+}
