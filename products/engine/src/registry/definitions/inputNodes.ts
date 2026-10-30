@@ -556,4 +556,19 @@ export const inputNodes: NodeDefinition[] = [
     errorProfile: NONE_PROFILE,
     execute: async () => ({}),
   },
+  {
+    // Document: explanation text on the canvas (workflow-spec.md §5.1). Like Link Box it has no ports and is skipped by
+    // the runner and validators (dag/documentNode.ts); registered hidden so the CLI catalog never offers it to drafts,
+    // the web palette lists it explicitly under "misc".
+    type: 'document',
+    label: 'Document',
+    category: 'input',
+    description: 'Explanation text shown on the canvas. Not executed.',
+    hidden: true,
+    inputs: [],
+    outputs: [],
+    propertySchema: [],
+    errorProfile: NONE_PROFILE,
+    execute: async () => ({}),
+  },
 ];

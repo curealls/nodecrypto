@@ -53,6 +53,27 @@ memo`;
   });
 });
 
+describe('Document node is skipped by validate and run, kept by expand', () => {
+  const withDoc = () => {
+    const pkg = JSON.parse(cmac);
+    pkg.workflow.nodes.push({ id: 'doc-1', type: 'documentNode', position: { x: 0, y: 0 }, data: { label: 'Document', note: '# hi', scale: 'xl', width: 500, height: 200 } });
+    return JSON.stringify(pkg);
+  };
+
+  it('validate passes and run matches the file without it', async () => {
+    expect((await validateCmd({ file: 'd.ncw' }, files({ 'd.ncw': withDoc() }))).exitCode).toBe(0);
+    const a = await run({ file: 'a.ncw', json: true }, files({ 'a.ncw': cmac }));
+    const b = await run({ file: 'd.ncw', json: true }, files({ 'd.ncw': withDoc() }));
+    expect(b.exitCode).toBe(0);
+    expect(b.data).toEqual(a.data);
+  });
+
+  it('expand writes the Document node back unchanged', async () => {
+    const r = await expand({ file: 'd.ncw' }, files({ 'd.ncw': withDoc() }));
+    expect(JSON.parse(r.text)).toEqual(JSON.parse(withDoc()));
+  });
+});
+
 describe('validate', () => {
   it('a good draft passes', async () => {
     const r = await validateCmd({ file: 'd.json' }, files({ 'd.json': JSON.stringify(draft()) }));

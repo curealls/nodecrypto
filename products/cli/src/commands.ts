@@ -20,6 +20,7 @@ import {
 import { nearest } from 'nodecrypto-engine/authoring/issues';
 import { bytesToHex, hexToBytes } from 'nodecrypto-engine/crypto/utils/encoding';
 import { WORKFLOW_INPUT, WORKFLOW_OUTPUT, nodeTypeOf, registerCustomNodes } from 'nodecrypto-engine/dag/customNode';
+import { withoutDocuments } from 'nodecrypto-engine/dag/documentNode';
 import { SHARE_MAX_LENGTH, SHARE_WARN_LENGTH, encodeShare } from 'nodecrypto-engine/dag/shareLink';
 import { inlineReferences, workflowHasRefs } from 'nodecrypto-engine/variables/exportWorkflow';
 import { toVariableMap, type VariableMap } from 'nodecrypto-engine/variables/reference';
@@ -323,7 +324,7 @@ export async function run(args: Args, deps: Deps): Promise<CommandResult> {
   }
 
   // input values
-  const wf = pkg.workflow;
+  const wf = { ...pkg.workflow, nodes: withoutDocuments(pkg.workflow.nodes) };
   const inPorts = portsOf(wf.nodes, WORKFLOW_INPUT, 'outputs');
   let given: Record<string, unknown> = {};
   if (args.inputs) {

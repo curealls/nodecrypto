@@ -4,6 +4,7 @@
  */
 import { validatePackage } from '../dag/package';
 import { DAGScheduler } from '../dag/scheduler';
+import { isDocumentNode } from '../dag/documentNode';
 import { designErrorFor } from '../dag/designValidation';
 import { checkDefaultValue, validateConstraint } from '../dag/portConstraint';
 import { getEffectiveEdges, LINK_NODE_TYPE } from '../dag/links';
@@ -453,7 +454,10 @@ function validatePackageFile(pkg: Record<string, any>, registry: NodeRegistry): 
 
   const issues: Issue[] = [];
   const run = (w: { nodes: any[]; edges: any[] }, prefix: string, variables?: Record<string, { type: string }>) => {
-    const nodes: CNode[] = w.nodes.map((n) => {
+    // Document nodes are skipped; `at` keeps the paths pointing at the original array index.
+    const at: number[] = [];
+    w.nodes.forEach((n, i) => { if (!isDocumentNode(n)) at.push(i); });
+    const nodes: CNode[] = at.map((i) => w.nodes[i]).map((n) => {
       const type = n.data?.nodeType ?? n.data?.type;
       const def = registry.get(type);
       const props = n.data?.properties ?? {};
@@ -469,9 +473,9 @@ function validatePackageFile(pkg: Record<string, any>, registry: NodeRegistry): 
       };
     });
     const paths: Paths = {
-      node: (i) => `${prefix}.nodes[${i}]`,
-      prop: (i, k) => `${prefix}.nodes[${i}].data.properties.${k}`,
-      ports: (i, side) => `${prefix}.nodes[${i}].data.${side}`,
+      node: (i) => `${prefix}.nodes[${at[i]}]`,
+      prop: (i, k) => `${prefix}.nodes[${at[i]}].data.properties.${k}`,
+      ports: (i, side) => `${prefix}.nodes[${at[i]}].data.${side}`,
       edge: (j, end, part) => `${prefix}.edges[${j}].${end === 'from' ? 'source' : 'target'}${part === 'port' ? 'Handle' : ''}`,
     };
     const edges: Edge[] = w.edges.map((e) => ({ source: e.source, sourceHandle: e.sourceHandle, target: e.target, targetHandle: e.targetHandle }));

@@ -25,6 +25,8 @@ import { VariableMap, hasRefs, resolveProperties, slotsFor } from '../variables/
 export interface WorkflowRunnerOptions {
   /** Called once with the ids this run will process (target node and its upstream, or all), before anything runs. */
   onStart?: (nodeIds: string[]) => void;
+  /** Awaited right after a node is reported `running` and before its computation starts (execution-semantics.md §4.5), so a host can paint it. */
+  beforeNodeExecute?: (nodeId: string) => void | Promise<void>;
   onNodeStatusChange?: (nodeId: string, state: DAGNodeState) => void;
   onEdgeDataChange?: (edgeId: string, value: any) => void;
   onLog?: (log: DAGExecutionLog) => void;
@@ -320,6 +322,7 @@ export class DAGRunner {
           nodeStates[nodeId].inputs = resolvedInputs;
           nodeStates[nodeId].status = 'running';
           options.onNodeStatusChange?.(nodeId, nodeStates[nodeId]);
+          await options.beforeNodeExecute?.(nodeId);
 
           const nodeStartTime = performance.now();
           try {

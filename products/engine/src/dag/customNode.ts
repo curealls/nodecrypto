@@ -14,6 +14,7 @@ import { SCRIPT_NODE_TYPE } from '../registry/definitions/scriptNode';
 import { constraintSpec } from './portConstraint';
 import { fixedErrorProfile } from '../registry/errorProfile';
 import { definitionHasRef } from '../variables/reference';
+import { withoutDocuments } from './documentNode';
 
 export const WORKFLOW_INPUT = 'workflow-input';
 export const WORKFLOW_OUTPUT = 'workflow-output';
@@ -83,7 +84,7 @@ export function computeDefinitionId(def: CustomNodeDefinition): string {
   const hashInput = {
     inputs: plain.manifest.inputs,
     outputs: plain.manifest.outputs,
-    nodes: plain.workflow.nodes.map(toEngineNode).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
+    nodes: withoutDocuments(plain.workflow.nodes).map(toEngineNode).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)),
     edges: plain.workflow.edges.map((e) => canonicalize(toEngineEdge(e))).sort().map((s) => JSON.parse(s)),
   };
   return CUSTOM_NODE_PREFIX + bytesToHex(sha256(utf8ToBytes(canonicalize(hashInput))));
@@ -133,7 +134,7 @@ export function createCustomNodeDefinition(id: string, def: CustomNodeDefinition
     // The sub-DAG's representative error is re-thrown as-is (node-catalog.md ND-8.2).
     errorProfile: fixedErrorProfile(['SUBTASK_ERROR']),
     execute: async ({ inputs, log }) => {
-      const subNodes = structuredClone(def.workflow.nodes).map(toEngineNode);
+      const subNodes = withoutDocuments(structuredClone(def.workflow.nodes)).map(toEngineNode);
       const entry = subNodes.find((n) => n.type === WORKFLOW_INPUT);
       if (entry) entry.properties = { ...(entry.properties || {}), ...inputs, injectedValues: inputs };
 

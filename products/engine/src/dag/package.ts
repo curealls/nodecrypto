@@ -17,6 +17,7 @@ import {
   shortId,
 } from './customNode';
 import { defaultNodeRegistry } from '../registry/nodeRegistry';
+import { withoutDocuments } from './documentNode';
 import { VariableEntry, findPathConflict, normalizeEntry, parsePath } from '../variables/registry';
 import { collectRefs, definitionHasRef } from '../variables/reference';
 import { Msg, formatMsg, tmsg } from '../messages';
@@ -175,7 +176,7 @@ export function validatePackage(json: any, knownTypes: ReadonlySet<string>): Pac
 
   // 7. standard node types are known
   for (const [owner, w] of [[tmsg('errors:package.ownerBody'), json.workflow] as const, ...Object.keys(defs).map((id) => [named(id), defs[id].workflow] as const)]) {
-    const bad = w.nodes.find((n: any) => {
+    const bad = withoutDocuments<any>(w.nodes).find((n: any) => {
       const t = nodeTypeOf(n);
       return typeof t !== 'string' || (!t.startsWith(CUSTOM_NODE_PREFIX) && !knownTypes.has(t));
     });
