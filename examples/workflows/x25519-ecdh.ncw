@@ -31,12 +31,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-cd6352ad",
     "name": "x25519-ecdh",
     "description": "X25519 shared secret from one side private key and the peer public key.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 64,
+      "y": 250.5,
       "zoom": 1
     },
     "nodes": [
@@ -77,13 +76,18 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       },
       {
         "id": "dh",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -120,7 +124,13 @@
           ],
           "properties": {},
           "note": "# X25519 key agreement\n- Test vector: RFC 7748 section 6.1 (Alice's private key, Bob's public key)\n- The shared secret is the raw X25519 output; feed it to a KDF before using it as a key."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 149
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
@@ -153,7 +163,12 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false
       }
     ],
     "edges": [
@@ -190,8 +205,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

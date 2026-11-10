@@ -7,6 +7,7 @@
  */
 
 import type { DAGEdgeConnection } from './types';
+import { GROUP_BAND, bodyOf, frameOf, isGroupNode, normalizeGroupData } from './groupNode';
 
 export const SWITCH_NODE_TYPE = 'switch';
 
@@ -53,6 +54,7 @@ interface StoreNodeLike {
   parentId?: string;
   position?: { x: number; y: number };
   style?: any;
+  measured?: { width?: number; height?: number };
   // React Flow renders `node.width ?? node.style?.width` -- a stale top-level width left over from
   // an earlier resize would silently shadow a fresh `style.width`, so every place here that sets a
   // link/box's `style.width` also clears these to let `style` be the single source of truth.
@@ -75,9 +77,47 @@ export interface LinkRef {
 export const isLinkNode = (n: StoreNodeLike): boolean => (n.data?.nodeType || n.data?.type) === LINK_NODE_TYPE;
 export const isLinkBoxNode = (n: StoreNodeLike): boolean => (n.data?.nodeType || n.data?.type) === LINK_BOX_NODE_TYPE;
 
-/** React Flow requires a parent node to appear before its children in the nodes array. */
+/** Ancestor chain length (0 = top level). A missing parent ends the chain; a cycle can't loop forever. */
+const depthOf = (byId: Map<string, StoreNodeLike>, n: StoreNodeLike): number => {
+  let d = 0;
+  for (let p = n.parentId && byId.get(n.parentId); p && d < byId.size; p = p.parentId && byId.get(p.parentId)) d++;
+  return d;
+};
+
+/** React Flow requires every parent to appear before its children: stable sort by nesting depth. */
 export function sortParentsFirst<N extends StoreNodeLike>(nodes: N[]): N[] {
-  return [...nodes.filter((n) => !n.parentId), ...nodes.filter((n) => n.parentId)];
+  const byId = new Map<string, StoreNodeLike>(nodes.map((n) => [n.id, n]));
+  const depth = new Map(nodes.map((n) => [n.id, depthOf(byId, n)]));
+  return [...nodes].sort((a, b) => depth.get(a.id)! - depth.get(b.id)!);
+}
+
+/** Canvas position of a node: its `position` plus every ancestor's (positions are parent-relative). */
+export function absolutePosition(nodes: StoreNodeLike[] | Map<string, StoreNodeLike>, n: StoreNodeLike): { x: number; y: number } {
+  const byId = nodes instanceof Map ? nodes : new Map(nodes.map((m) => [m.id, m]));
+  let x = n.position?.x ?? 0;
+  let y = n.position?.y ?? 0;
+  const seen = new Set([n.id]);
+  for (let p = n.parentId && byId.get(n.parentId); p && !seen.has(p.id); p = p.parentId && byId.get(p.parentId)) {
+    seen.add(p.id);
+    x += p.position?.x ?? 0;
+    y += p.position?.y ?? 0;
+  }
+  return { x, y };
+}
+
+/** The given ids plus all their descendants (children, grandchildren, ...). */
+export function withDescendants(nodes: StoreNodeLike[], ids: Iterable<string>): Set<string> {
+  const out = new Set(ids);
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const n of nodes) {
+      if (n.parentId && out.has(n.parentId) && !out.has(n.id)) {
+        out.add(n.id);
+        grew = true;
+      }
+    }
+  }
+  return out;
 }
 
 /**
@@ -107,60 +147,134 @@ export function layoutLinkBoxRows<N extends StoreNodeLike>(nodes: N[], boxId: st
   });
 }
 
+/** Rendered size of a node: measured by React Flow, else what the node itself records. */
+export const sizeOf = (n: StoreNodeLike): { w: number; h: number } => ({
+  w: n.measured?.width ?? n.width ?? n.style?.width ?? n.data?.width ?? n.data?.customWidth ?? 0,
+  h: n.measured?.height ?? n.height ?? n.style?.height ?? n.data?.height ?? 0,
+});
+
+type Rect = { x: number; y: number; width: number; height: number };
+/** A Group's body (frame minus caption band) on the canvas. */
+const groupBody = (group: StoreNodeLike, at: { x: number; y: number }): Rect => {
+  const g = normalizeGroupData(group.data);
+  return bodyOf({ ...at, width: g.width, height: g.height }, g.captionSide, GROUP_BAND[g.captionScale]);
+};
+
 /**
- * Recomputes Link Box membership for links that just finished being dragged, then re-lays-out every
- * touched box. No ReactFlow instance needed: a link's `position` is always relative to its current
- * parentId (or absolute if none), so old-parent-position + relative-position = absolute position —
- * that's all "is this link's center inside a box's bounds now" needs.
+ * Widens a Group so the given children (already its children) lie inside its body. Growing left/up moves the
+ * Group's position and shifts every child's relative position back, so nothing moves on screen.
+ */
+function growGroup<N extends StoreNodeLike>(nodes: N[], groupId: string, childIds: Set<string>): N[] {
+  const group = nodes.find((n) => n.id === groupId);
+  if (!group) return nodes;
+  const g = normalizeGroupData(group.data);
+  const band = GROUP_BAND[g.captionScale];
+  const body = bodyOf({ x: 0, y: 0, width: g.width, height: g.height }, g.captionSide, band);
+  let [x0, y0, x1, y1] = [body.x, body.y, body.x + body.width, body.y + body.height];
+  for (const c of nodes) {
+    if (!childIds.has(c.id) || c.parentId !== groupId) continue;
+    const { w, h } = sizeOf(c);
+    x0 = Math.min(x0, c.position?.x ?? 0);
+    y0 = Math.min(y0, c.position?.y ?? 0);
+    x1 = Math.max(x1, (c.position?.x ?? 0) + w);
+    y1 = Math.max(y1, (c.position?.y ?? 0) + h);
+  }
+  const f = frameOf({ x: x0, y: y0, width: x1 - x0, height: y1 - y0 }, g.captionSide, band);
+  if (f.x === 0 && f.y === 0 && f.width === g.width && f.height === g.height) return nodes;
+  return nodes.map((n) => {
+    if (n.id === groupId) {
+      const { width, height } = f;
+      return { ...n, position: { x: (n.position?.x ?? 0) + f.x, y: (n.position?.y ?? 0) + f.y }, width, height, style: { ...n.style, width, height }, data: { ...n.data, width, height } };
+    }
+    return n.parentId === groupId ? { ...n, position: { x: (n.position?.x ?? 0) - f.x, y: (n.position?.y ?? 0) - f.y } } : n;
+  });
+}
+
+/** Moves a top-level node into `group`, keeping its canvas position. */
+const attachToGroup = <N extends StoreNodeLike>(n: N, group: StoreNodeLike, a: { x: number; y: number }, groupAbs: { x: number; y: number }): N => ({
+  ...n,
+  parentId: group.id,
+  position: { x: a.x - groupAbs.x, y: a.y - groupAbs.y },
+});
+
+/**
+ * Recomputes membership for objects that were just placed (dragged, added, pasted), then re-lays-out
+ * every touched Link Box. No ReactFlow instance needed: positions are parent-relative, so summing up
+ * the ancestor chain (absolutePosition) gives the canvas position the hit test needs.
+ *
+ * Only top-level placed objects are judged (a child follows its parent). A Link goes to a Link Box first,
+ * then to a Group; everything else goes to the Group whose body holds its center, or out of its Group when
+ * none does. A Group is never judged (it is not put in a Group, and moving one absorbs nothing).
+ * Only `parentId` and positions change, so edges are untouched and canvas positions stay the same.
  */
 export function settleLinkMembership<N extends StoreNodeLike>(nodes: N[], draggedIds: string[]): N[] {
-  const byId = new Map(nodes.map((n) => [n.id, n]));
-  const abs = (n: N): { x: number; y: number } => {
-    const pos = n.position || { x: 0, y: 0 };
-    const parent = n.parentId && byId.get(n.parentId);
-    return parent ? { x: (parent.position?.x ?? 0) + pos.x, y: (parent.position?.y ?? 0) + pos.y } : pos;
-  };
+  const byId = new Map<string, StoreNodeLike>(nodes.map((n) => [n.id, n]));
+  const abs = (n: StoreNodeLike) => absolutePosition(byId, n);
   const boxes = nodes.filter(isLinkBoxNode);
+  const groups = nodes.filter(isGroupNode).reverse(); // later in the array is drawn on top, so it wins
+  const dropped = new Set(draggedIds);
   const touchedBoxes = new Set<string>();
+  const grownGroups = new Map<string, Set<string>>();
   const updates = new Map<string, N>();
 
   for (const id of draggedIds) {
-    const link = byId.get(id);
-    if (!link || !isLinkNode(link)) continue;
-    if (link.parentId) touchedBoxes.add(link.parentId);
+    const node = byId.get(id) as N | undefined;
+    if (!node || isGroupNode(node) || (node.parentId && dropped.has(node.parentId))) continue;
+    const link = isLinkNode(node);
+    const a = abs(node);
+    const oldParent = node.parentId ? byId.get(node.parentId) : undefined;
+    if (link && oldParent && isLinkBoxNode(oldParent)) touchedBoxes.add(oldParent.id);
 
-    const a = abs(link);
-    const oldParentBox = link.parentId ? byId.get(link.parentId) : undefined;
-    const w = link.parentId ? rowWidthOf(oldParentBox) : currentNodeWidth(link, LINK_NODE_SIZE.width);
+    const { w, h } = link ? { w: oldParent && isLinkBoxNode(oldParent) ? rowWidthOf(oldParent) : currentNodeWidth(node, LINK_NODE_SIZE.width), h: LINK_ROW_HEIGHT } : sizeOf(node);
     const cx = a.x + w / 2;
-    const cy = a.y + LINK_ROW_HEIGHT / 2;
-    const box = boxes.find((b) => {
-      const p = b.position!;
-      const boxW = currentNodeWidth(b, LINK_BOX_WIDTH);
-      const kidCount = nodes.filter((n) => n.parentId === b.id).length;
-      return cx >= p.x && cx <= p.x + boxW && cy >= p.y && cy <= p.y + linkBoxHeight(kidCount);
-    });
+    const cy = a.y + h / 2;
+    const box = link
+      ? boxes.find((b) => {
+          const p = abs(b);
+          const boxW = currentNodeWidth(b, LINK_BOX_WIDTH);
+          const kidCount = nodes.filter((n) => n.parentId === b.id).length;
+          return cx >= p.x && cx <= p.x + boxW && cy >= p.y && cy <= p.y + linkBoxHeight(kidCount);
+        })
+      : undefined;
+
+    if (!box) {
+      const target = groups.find((gr) => {
+        const b = groupBody(gr, abs(gr));
+        return cx >= b.x && cx <= b.x + b.width && cy >= b.y && cy <= b.y + b.height;
+      });
+      if (target) {
+        updates.set(id, { ...attachToGroup(node, target, a, abs(target)), ...(link ? { width: undefined, height: undefined, style: { width: currentNodeWidth(node, LINK_NODE_SIZE.width), height: LINK_NODE_SIZE.height } } : {}) });
+        grownGroups.set(target.id, (grownGroups.get(target.id) ?? new Set()).add(id));
+        continue;
+      }
+      if (!link) {
+        // out of a Group (a Link Box child that isn't a Link can't exist, so only a Group parent matters)
+        if (oldParent && isGroupNode(oldParent)) updates.set(id, { ...node, parentId: undefined, position: a });
+        continue;
+      }
+    }
 
     if (box) {
       touchedBoxes.add(box.id);
       // width/height are cleared here too (not just below in layoutLinkBoxRows) so a link that
       // carried a stale top-level width from an earlier standalone resize can't shadow the row
       // width `style` is about to set (React Flow renders `node.width ?? node.style?.width`).
+      const boxAbs = abs(box);
       updates.set(id, {
-        ...link,
+        ...node,
         parentId: box.id,
-        position: { x: a.x - box.position!.x, y: a.y - box.position!.y },
+        position: { x: a.x - boxAbs.x, y: a.y - boxAbs.y },
         width: undefined,
         height: undefined,
       });
     } else {
       updates.set(id, {
-        ...link,
+        ...node,
         parentId: undefined,
         position: a,
         width: undefined,
         height: undefined,
-        style: { width: currentNodeWidth(link, LINK_NODE_SIZE.width), height: LINK_NODE_SIZE.height },
+        style: { width: currentNodeWidth(node, LINK_NODE_SIZE.width), height: LINK_NODE_SIZE.height },
       });
     }
   }
@@ -169,7 +283,48 @@ export function settleLinkMembership<N extends StoreNodeLike>(nodes: N[], dragge
   for (const boxId of touchedBoxes) {
     if (result.some((n) => n.id === boxId)) result = layoutLinkBoxRows(result, boxId);
   }
+  for (const [groupId, ids] of grownGroups) result = growGroup(result, groupId, ids);
   return sortParentsFirst(result);
+}
+
+/**
+ * What dropping the objects right now would do to Groups, for the drag-time hint: Groups that would take an
+ * object in ('join') and Groups an object would leave ('leave'). Same judgement as settleLinkMembership; changes nothing.
+ */
+export function previewGroupDrop(nodes: StoreNodeLike[], placedIds: string[]): Record<string, 'join' | 'leave'> {
+  const after = new Map(settleLinkMembership(nodes, placedIds).map((n) => [n.id, n]));
+  const before = new Map(nodes.map((n) => [n.id, n]));
+  const out: Record<string, 'join' | 'leave'> = {};
+  for (const id of placedIds) {
+    const was = before.get(id)?.parentId;
+    const now = after.get(id)?.parentId;
+    if (was === now) continue;
+    if (now && isGroupNode(before.get(now))) out[now] = 'join';
+    if (was && isGroupNode(before.get(was)) && out[was] !== 'join') out[was] = 'leave';
+  }
+  return out;
+}
+
+/**
+ * After a Group was resized: takes in every top-level object (not a Group, not already inside anything)
+ * whose whole body now lies inside the Group's body.
+ */
+export function absorbIntoGroup<N extends StoreNodeLike>(nodes: N[], groupId: string): N[] {
+  const group = nodes.find((n) => n.id === groupId);
+  if (!group || !isGroupNode(group)) return nodes;
+  const byId = new Map<string, StoreNodeLike>(nodes.map((n) => [n.id, n]));
+  const groupAbs = absolutePosition(byId, group);
+  const body = groupBody(group, groupAbs);
+  const taken = new Set<string>();
+  const result = nodes.map((n) => {
+    if (n.id === groupId || n.parentId || isGroupNode(n)) return n;
+    const a = absolutePosition(byId, n);
+    const { w, h } = sizeOf(n);
+    if (a.x < body.x || a.y < body.y || a.x + w > body.x + body.width || a.y + h > body.y + body.height) return n;
+    taken.add(n.id);
+    return attachToGroup(n, group, a, groupAbs);
+  });
+  return taken.size ? sortParentsFirst(result) : nodes;
 }
 
 export const linkRefOf = (n: StoreNodeLike): LinkRef | null => {
@@ -267,11 +422,8 @@ export function cascadeLinks<N extends StoreNodeLike, E extends { source: string
   edges: E[],
   { removedNodeIds = [], removedPorts = [] }: CascadeOptions
 ): CascadeResult<N, E> {
-  const removed = new Set(removedNodeIds);
-  // A removed node's children (e.g. a deleted Link Box's links) go with it. One level of nesting exists.
-  for (const n of nodes) {
-    if (n.parentId && removed.has(n.parentId)) removed.add(n.id);
-  }
+  // A removed node's descendants (e.g. a deleted Link Box's links) go with it, however deep.
+  const removed = withDescendants(nodes, removedNodeIds);
   const existing = new Set(nodes.map((n) => n.id));
   const linkIds = new Set<string>();
   for (const n of nodes) {
@@ -292,9 +444,10 @@ export function cascadeLinks<N extends StoreNodeLike, E extends { source: string
   );
   const removedLinkEdgeCount = edges.filter((e) => linkIds.has(e.source) && !removedNodeIds.includes(e.target)).length;
 
-  // A box that survives but lost a child link needs its rows/height recomputed.
+  // A box that survives but lost a child link needs its rows/height recomputed (only Link Boxes have rows).
+  const boxIds = new Set(nodes.filter(isLinkBoxNode).map((n) => n.id));
   const affectedBoxes = new Set(
-    nodes.filter((n) => removed.has(n.id) && n.parentId && !removed.has(n.parentId)).map((n) => n.parentId!)
+    nodes.filter((n) => removed.has(n.id) && n.parentId && !removed.has(n.parentId) && boxIds.has(n.parentId)).map((n) => n.parentId!)
   );
   let keptNodes = nodes.filter((n) => !removed.has(n.id));
   for (const boxId of affectedBoxes) keptNodes = layoutLinkBoxRows(keptNodes, boxId);

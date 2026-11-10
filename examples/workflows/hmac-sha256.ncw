@@ -31,12 +31,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-e3ba33f2",
     "name": "hmac-sha256",
     "description": "HMAC-SHA-256 of a message under a key.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 7,
+      "y": 199.5,
       "zoom": 1
     },
     "nodes": [
@@ -76,14 +75,20 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       },
       {
         "id": "hmac",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -118,15 +123,22 @@
           "properties": {
             "algorithm": "SHA-256"
           },
-          "note": "# HMAC-SHA-256\n- Test vector: RFC 4231 section 4.3 (test case 2)\n- The vector uses the 4-byte key \"Jefe\" and the message \"what do ya want for nothing?\"."
-        }
+          "note": "# HMAC-SHA-256\n- Test vector: RFC 4231 section 4.3 (test case 2)\n- The vector uses the 4-byte key \"Jefe\" and the message \"what do ya want for nothing?\".",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
           "x": 864,
-          "y": 64
+          "y": 80
         },
         "width": 208,
         "data": {
@@ -151,8 +163,15 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -189,8 +208,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

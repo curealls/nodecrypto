@@ -37,12 +37,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-7b947004",
     "name": "hkdf-sha256",
     "description": "HKDF-SHA-256 extract-and-expand to 42 bytes.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 28,
+      "y": 199.5,
       "zoom": 1
     },
     "nodes": [
@@ -88,14 +87,20 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 202
+        },
+        "selected": false
       },
       {
         "id": "hkdf",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -139,15 +144,22 @@
             "keyLength": 42,
             "hashAlgorithm": "SHA-256"
           },
-          "note": "# HKDF-SHA-256, 42 bytes\n- Test vector: RFC 5869 appendix A.1 (test case 1)\n- Extract with `salt`, then expand with `info`; `keyLength` 42 matches L=42."
-        }
+          "note": "# HKDF-SHA-256, 42 bytes\n- Test vector: RFC 5869 appendix A.1 (test case 1)\n- Extract with `salt`, then expand with `info`; `keyLength` 42 matches L=42.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
           "x": 864,
-          "y": 64
+          "y": 80
         },
         "width": 208,
         "data": {
@@ -172,8 +184,15 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": true,
+        "dragging": false
       }
     ],
     "edges": [
@@ -221,8 +240,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

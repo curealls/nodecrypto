@@ -25,12 +25,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-fff96b04",
     "name": "sha256-link",
     "description": "SHA-256 digest passed to the output through a Link.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 105,
+      "y": 261.5,
       "zoom": 1
     },
     "nodes": [
@@ -38,7 +37,7 @@
         "id": "in",
         "type": "cryptoNode",
         "position": {
-          "x": 64,
+          "x": 32,
           "y": 64
         },
         "width": 208,
@@ -64,14 +63,21 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "hash",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 368,
           "y": 64
         },
         "width": 304,
@@ -99,15 +105,22 @@
           ],
           "properties": {
             "algorithm": "SHA-256"
-          }
-        }
+          },
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 64,
-          "y": 384
+          "x": 992,
+          "y": 64
         },
         "width": 208,
         "data": {
@@ -132,15 +145,22 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "link-1",
         "type": "linkNode",
         "position": {
-          "x": 700,
-          "y": 64
+          "x": 720,
+          "y": 128
         },
         "data": {
           "id": "link-1",
@@ -170,8 +190,7 @@
           "properties": {
             "sourceNodeId": "hash",
             "sourcePortId": "digest"
-          },
-          "executionState": "idle"
+          }
         },
         "style": {
           "width": 160,
@@ -189,7 +208,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-link-1-out-out-digest",
@@ -202,8 +222,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

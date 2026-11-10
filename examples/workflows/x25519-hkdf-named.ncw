@@ -43,12 +43,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-4e893f0e",
     "name": "x25519-hkdf-named",
     "description": "X25519 then HKDF of x25519-hkdf with role names on the fixed ports of both nodes (portNames).",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 97.38019930675898,
+      "y": 200.43760831889074,
       "zoom": 1
     },
     "nodes": [
@@ -57,7 +56,7 @@
         "type": "cryptoNode",
         "position": {
           "x": 64,
-          "y": 64
+          "y": 96
         },
         "width": 208,
         "data": {
@@ -100,15 +99,22 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "dh",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
-          "y": 64
+          "x": 448,
+          "y": 0
         },
         "width": 304,
         "data": {
@@ -143,15 +149,22 @@
             }
           ],
           "properties": {},
-          "note": "# X25519 shared secret\n- Test vector: RFC 7748 section 6.1\n- Raw output: do not use it directly as a key."
-        }
+          "note": "# X25519 shared secret\n- Test vector: RFC 7748 section 6.1\n- Raw output: do not use it directly as a key.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 149
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "hkdf",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 448,
+          "y": 224
         },
         "width": 304,
         "data": {
@@ -194,15 +207,22 @@
             "keyLength": 32,
             "hashAlgorithm": "SHA-256"
           },
-          "note": "# Session key\nHKDF-SHA-256 turns the shared secret into a 32-byte key. No salt or info is given, so the RFC 5869 defaults apply."
-        }
+          "note": "# Session key\nHKDF-SHA-256 turns the shared secret into a 32-byte key. No salt or info is given, so the RFC 5869 defaults apply.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
-          "y": 64
+          "x": 880,
+          "y": 208
         },
         "width": 208,
         "data": {
@@ -227,8 +247,15 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -241,7 +268,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-in-peer-dh-peerPublicKey",
@@ -252,7 +280,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-dh-sharedSecret-hkdf-ikm",
@@ -261,8 +290,13 @@
         "target": "hkdf",
         "targetHandle": "ikm",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 96
+          }
         }
       },
       {
@@ -274,7 +308,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-in-info-hkdf-info",
@@ -285,7 +320,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-hkdf-okm-out-key",
@@ -296,10 +332,10 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

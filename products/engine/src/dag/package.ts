@@ -17,7 +17,7 @@ import {
   shortId,
 } from './customNode';
 import { defaultNodeRegistry } from '../registry/nodeRegistry';
-import { withoutDocuments } from './documentNode';
+import { withoutNonExecuting } from './groupNode';
 import { VariableEntry, findPathConflict, normalizeEntry, parsePath } from '../variables/registry';
 import { collectRefs, definitionHasRef } from '../variables/reference';
 import { Msg, formatMsg, tmsg } from '../messages';
@@ -73,7 +73,7 @@ function computeRequires(workflows: { nodes: any[] }[]): string[] {
 export const canRegisterAsNode = (pkg: NodePackage): boolean =>
   pkg.workflow.nodes.some((n) => [WORKFLOW_INPUT, WORKFLOW_OUTPUT].includes(nodeTypeOf(n)));
 
-const RUN_STATE_KEYS = new Set(['inputValues', 'outputValues', 'executionState', 'errorMessage', 'errorCode', 'executionDurationMs']);
+const RUN_STATE_KEYS = new Set(['inputValues', 'outputValues', 'executionState', 'errorMessage', 'errorCode', 'executionDurationMs', 'pending']);
 
 /** Run results are not saved (D-08); also keeps out values JSON can't carry (a script's bigint int output). */
 const dropRunState = <T>(v: T): T => JSON.parse(JSON.stringify(v, (k, x) => (RUN_STATE_KEYS.has(k) ? undefined : x)));
@@ -176,7 +176,7 @@ export function validatePackage(json: any, knownTypes: ReadonlySet<string>): Pac
 
   // 7. standard node types are known
   for (const [owner, w] of [[tmsg('errors:package.ownerBody'), json.workflow] as const, ...Object.keys(defs).map((id) => [named(id), defs[id].workflow] as const)]) {
-    const bad = withoutDocuments<any>(w.nodes).find((n: any) => {
+    const bad = withoutNonExecuting<any>(w.nodes).find((n: any) => {
       const t = nodeTypeOf(n);
       return typeof t !== 'string' || (!t.startsWith(CUSTOM_NODE_PREFIX) && !knownTypes.has(t));
     });

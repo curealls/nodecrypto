@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { normalizeDocumentData, withoutDocuments } from 'nodecrypto-engine/dag/documentNode';
+import { normalizeDocumentData } from 'nodecrypto-engine/dag/documentNode';
+import { withoutNonExecuting } from 'nodecrypto-engine/dag/groupNode';
 import { computeDefinitionId } from 'nodecrypto-engine/dag/customNode';
 import { validatePackage } from 'nodecrypto-engine/dag/package';
 import { validate } from 'nodecrypto-engine/authoring/validate';
@@ -24,7 +25,7 @@ describe('Document node', () => {
     expect(validatePackage(pkg, known)).toBeNull();
     expect(validate(pkg).ok).toBe(true);
     expect(JSON.stringify(pkg)).toBe(before);
-    expect(withoutDocuments(pkg.workflow.nodes)).toHaveLength(pkg.workflow.nodes.length - 1);
+    expect(withoutNonExecuting(pkg.workflow.nodes)).toHaveLength(pkg.workflow.nodes.length - 1);
   });
 
   it('keeps validator paths pointing at the original node index', () => {

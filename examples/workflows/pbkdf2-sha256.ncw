@@ -31,12 +31,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-723cd9dd",
     "name": "pbkdf2-sha256",
     "description": "PBKDF2-HMAC-SHA-256 with one iteration, 64 output bytes.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 80,
+      "y": 220.5,
       "zoom": 1
     },
     "nodes": [
@@ -77,13 +76,18 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       },
       {
         "id": "kdf",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -122,14 +126,20 @@
             "hashAlgorithm": "SHA-256"
           },
           "note": "# PBKDF2-HMAC-SHA-256\n- Test vector: RFC 7914 section 11 (P=\"passwd\", S=\"salt\", c=1, dkLen=64)\n- `iterations` is 1 only because this is a published vector. Real password hashing needs far more."
-        }
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
           "x": 864,
-          "y": 64
+          "y": 80
         },
         "width": 208,
         "data": {
@@ -155,7 +165,13 @@
             "defaultDataType": "bytes"
           },
           "properties": {}
-        }
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -192,8 +208,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

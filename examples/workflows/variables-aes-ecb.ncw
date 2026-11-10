@@ -15,8 +15,8 @@
     "name": "variables-aes-ecb",
     "description": "FIPS-197 AES-128 example using variables: key $example.aes.key, plaintext $example.aes.plaintext. Ciphertext = 69c4e0d86a7b0430d8cdb78070b4c55a",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 254,
+      "y": 185.5,
       "zoom": 1
     },
     "nodes": [
@@ -54,14 +54,18 @@
             "valueBool": false
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 208,
+          "height": 168
+        }
       },
       {
         "id": "node-1791034725443-thzy",
         "type": "cryptoNode",
         "position": {
           "x": 0,
-          "y": 224
+          "y": 192
         },
         "data": {
           "id": "node-1791034725443-thzy",
@@ -90,7 +94,12 @@
             "valueBool": false
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 208,
+          "height": 168
+        },
+        "dragging": false
       },
       {
         "id": "node-1791034725444-0rm7",
@@ -108,18 +117,18 @@
           "description": "Encrypts plaintext using NIST AES (128/192/256-bit)",
           "inputs": [
             {
-              "id": "plaintext",
-              "name": "Plaintext",
-              "dataType": "bytes",
-              "required": true
-            },
-            {
               "id": "key",
               "name": "Key",
               "spec": "16/24/32B",
               "dataType": "bytes",
               "required": true,
               "description": "AES symmetric key. Length selects AES-128/192/256."
+            },
+            {
+              "id": "plaintext",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "required": true
             },
             {
               "id": "iv",
@@ -168,7 +177,11 @@
             "errorUnifyMessage": ""
           }
         },
-        "selected": false
+        "selected": false,
+        "measured": {
+          "width": 304,
+          "height": 177
+        }
       }
     ],
     "edges": [

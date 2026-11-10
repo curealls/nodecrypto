@@ -6,7 +6,7 @@
     "label": "did-auth-demo",
     "version": "",
     "description": "학습용, 공개 데모 키, 매 실행마다 키쌍과 nonce가 새로 생성됨.",
-    "category": "User Protocol",
+    "category": "",
     "inputs": [],
     "outputs": [
       {
@@ -21,8 +21,8 @@
     "name": "did-auth-demo",
     "description": "학습용, 공개 데모 키, 매 실행마다 키쌍과 nonce가 새로 생성됨.",
     "viewport": {
-      "x": 372,
-      "y": 96,
+      "x": 225.69150779896017,
+      "y": 96.24826689774704,
       "zoom": 1
     },
     "nodes": [
@@ -30,8 +30,8 @@
         "id": "node-1792549010824-p91k",
         "type": "cryptoNode",
         "position": {
-          "x": 704,
-          "y": 192
+          "x": 608,
+          "y": 176
         },
         "data": {
           "id": "node-1792549010824-p91k",
@@ -49,13 +49,6 @@
               "required": true
             },
             {
-              "id": "prv",
-              "name": "Server Private Key",
-              "dataType": "bytes",
-              "spec": "32 B",
-              "required": true
-            },
-            {
               "id": "cpub",
               "name": "Client Public Key",
               "dataType": "bytes",
@@ -68,6 +61,13 @@
               "dataType": "bytes",
               "spec": "8 B",
               "required": true
+            },
+            {
+              "id": "prv",
+              "name": "Server Private Key",
+              "dataType": "bytes",
+              "spec": "32 B",
+              "required": true
             }
           ],
           "outputs": [
@@ -78,7 +78,8 @@
             }
           ],
           "properties": {},
-          "customWidth": 352
+          "customWidth": 352,
+          "pending": false
         },
         "measured": {
           "width": 352,
@@ -97,7 +98,7 @@
         "type": "cryptoNode",
         "position": {
           "x": -160,
-          "y": 448
+          "y": 400
         },
         "data": {
           "id": "node-1792549047067-5x2i",
@@ -109,22 +110,23 @@
           "inputs": [],
           "outputs": [
             {
-              "id": "privateKey",
-              "name": "Private Key",
-              "dataType": "bytes"
-            },
-            {
               "id": "publicKey",
               "name": "Public Key",
               "spec": "Uncompressed",
               "dataType": "bytes",
               "description": "Uncompressed EC point (0x04 prefix + X + Y coordinates)."
+            },
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "dataType": "bytes"
             }
           ],
           "properties": {
             "curve": "p256"
           },
-          "customWidth": 208
+          "customWidth": 208,
+          "pending": false
         },
         "measured": {
           "width": 208,
@@ -143,7 +145,7 @@
         "type": "cryptoNode",
         "position": {
           "x": -160,
-          "y": 208
+          "y": 192
         },
         "data": {
           "id": "asymmetric-ecc-keygen-mvhhfkg9-j5sb",
@@ -155,22 +157,23 @@
           "inputs": [],
           "outputs": [
             {
-              "id": "privateKey",
-              "name": "Private Key",
-              "dataType": "bytes"
-            },
-            {
               "id": "publicKey",
               "name": "Public Key",
               "spec": "Uncompressed",
               "dataType": "bytes",
               "description": "Uncompressed EC point (0x04 prefix + X + Y coordinates)."
+            },
+            {
+              "id": "privateKey",
+              "name": "Private Key",
+              "dataType": "bytes"
             }
           ],
           "properties": {
             "curve": "p256"
           },
-          "customWidth": 208
+          "customWidth": 208,
+          "pending": false
         },
         "measured": {
           "width": 208,
@@ -189,7 +192,7 @@
         "type": "cryptoNode",
         "position": {
           "x": -160,
-          "y": -16
+          "y": 16
         },
         "data": {
           "id": "node-1792549090801-9jxf",
@@ -213,7 +216,8 @@
             "length": 32,
             "intMin": 0,
             "intMax": 100
-          }
+          },
+          "pending": false
         },
         "measured": {
           "width": 208,
@@ -226,8 +230,8 @@
         "id": "node-1792549869185-16wd",
         "type": "cryptoNode",
         "position": {
-          "x": 1184,
-          "y": 192
+          "x": 704,
+          "y": 432
         },
         "data": {
           "id": "node-1792549869185-16wd",
@@ -251,7 +255,8 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
+          "properties": {},
+          "pending": false
         },
         "measured": {
           "width": 208,
@@ -264,7 +269,7 @@
         "id": "node-1792549974143-vfn8",
         "type": "cryptoNode",
         "position": {
-          "x": 224,
+          "x": 144,
           "y": 192
         },
         "data": {
@@ -283,17 +288,17 @@
               "required": true
             },
             {
-              "id": "prv",
-              "name": "Client Private Key",
-              "dataType": "bytes",
-              "spec": "32 B",
-              "required": true
-            },
-            {
               "id": "pub",
               "name": "Client Public Key",
               "dataType": "bytes",
               "spec": "65 B",
+              "required": true
+            },
+            {
+              "id": "prv",
+              "name": "Client Private Key",
+              "dataType": "bytes",
+              "spec": "32 B",
               "required": true
             },
             {
@@ -317,7 +322,8 @@
             }
           ],
           "properties": {},
-          "customWidth": 352
+          "customWidth": 352,
+          "pending": false
         },
         "measured": {
           "width": 352,
@@ -346,7 +352,13 @@
           "strokeWidth": 2
         },
         "id": "xy-edge__node-1792549010824-p91kok-node-1792549869185-16wdin_mvhhwt5n_hzn",
-        "selected": false
+        "selected": false,
+        "data": {
+          "lineType": "orthogonal",
+          "route": {
+            "m": 136
+          }
+        }
       },
       {
         "interactionWidth": 14,
@@ -363,7 +375,13 @@
         "selected": false,
         "type": "custom",
         "zIndex": 2000,
-        "id": "xy-edge__node-1792549090801-9jxfbytes-node-1792549010824-p91knonce"
+        "id": "xy-edge__node-1792549090801-9jxfbytes-node-1792549010824-p91knonce",
+        "data": {
+          "lineType": "orthogonal",
+          "route": {
+            "a": 598.9999518265656
+          }
+        }
       },
       {
         "interactionWidth": 14,
@@ -380,7 +398,13 @@
         "selected": false,
         "type": "custom",
         "zIndex": 2000,
-        "id": "xy-edge__node-1792549047067-5x2iprivateKey-node-1792549010824-p91kprv"
+        "id": "xy-edge__node-1792549047067-5x2iprivateKey-node-1792549010824-p91kprv",
+        "data": {
+          "lineType": "orthogonal",
+          "route": {
+            "a": 599
+          }
+        }
       },
       {
         "interactionWidth": 14,
@@ -394,7 +418,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1792549974143-vfn8pub-node-1792549010824-p91kcpub"
+        "id": "xy-edge__node-1792549974143-vfn8pub-node-1792549010824-p91kcpub",
+        "selected": false
       },
       {
         "interactionWidth": 14,
@@ -408,7 +433,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1792549974143-vfn8mac-node-1792549010824-p91krmac"
+        "id": "xy-edge__node-1792549974143-vfn8mac-node-1792549010824-p91krmac",
+        "selected": false
       },
       {
         "interactionWidth": 14,
@@ -422,7 +448,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__asymmetric-ecc-keygen-mvhhfkg9-j5sbprivateKey-node-1792549974143-vfn8prv"
+        "id": "xy-edge__asymmetric-ecc-keygen-mvhhfkg9-j5sbprivateKey-node-1792549974143-vfn8prv",
+        "selected": false
       },
       {
         "interactionWidth": 14,
@@ -436,7 +463,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__asymmetric-ecc-keygen-mvhhfkg9-j5sbpublicKey-node-1792549974143-vfn8pub"
+        "id": "xy-edge__asymmetric-ecc-keygen-mvhhfkg9-j5sbpublicKey-node-1792549974143-vfn8pub",
+        "selected": false
       },
       {
         "interactionWidth": 14,
@@ -450,7 +478,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1792549047067-5x2ipublicKey-node-1792549974143-vfn8spub"
+        "id": "xy-edge__node-1792549047067-5x2ipublicKey-node-1792549974143-vfn8spub",
+        "selected": false
       },
       {
         "interactionWidth": 14,
@@ -464,7 +493,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1792549090801-9jxfbytes-node-1792549974143-vfn8nonce"
+        "id": "xy-edge__node-1792549090801-9jxfbytes-node-1792549974143-vfn8nonce",
+        "selected": false
       }
     ]
   },

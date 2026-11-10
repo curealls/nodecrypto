@@ -47,12 +47,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-acf787e2",
     "name": "did-auth-server",
     "description": "DID Auth, server side: recomputes the MAC from its own private key and compares it with the client MAC. Learning example, public demo keys.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 50.375,
+      "y": -26.375,
       "zoom": 1
     },
     "nodes": [
@@ -125,17 +124,23 @@
             "defaultDataType": "bytes"
           },
           "properties": {},
-          "note": "# Server inputs\nThe nonce is the one the server issued. `Received MAC` defaults to the client workflow output for the default demo values. Change one bit to see `false`.\n\n> Learning example that explains the protocol. Do not use it in a real service. The keys are public demo keys."
-        }
+          "note": "# Server inputs\nThe nonce is the one the server issued. `Received MAC` defaults to the client workflow output for the default demo values. Change one bit to see `false`.\n\n> Learning example that explains the protocol. Do not use it in a real service. The keys are public demo keys.",
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": false
       },
       {
         "id": "ecdh",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
-          "y": 64
+          "x": 400,
+          "y": 80
         },
-        "width": 304,
+        "width": 320,
         "data": {
           "id": "ecdh",
           "type": "cryptoNode",
@@ -175,17 +180,29 @@
             "curve": "p256",
             "format": "raw_x"
           },
-          "note": "# 1. Shared secret\n`secret = ECDH(prvServer, pubClient)`\n- P-256, output format `raw_x`: the 32-byte X coordinate (the DIDAuth text does not name the format, this is an assumption)\n- Public keys are uncompressed 65-byte points (assumption)"
+          "note": "# 1. Shared secret\n`secret = ECDH(prvServer, pubClient)`\n- P-256, output format `raw_x`: the 32-byte X coordinate (the DIDAuth text does not name the format, this is an assumption)\n- Public keys are uncompressed 65-byte points (assumption)",
+          "pending": false,
+          "customWidth": 320
+        },
+        "measured": {
+          "width": 320,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 320
         }
       },
       {
         "id": "sha",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 832,
+          "y": 80
         },
-        "width": 304,
+        "width": 256,
         "data": {
           "id": "sha",
           "type": "cryptoNode",
@@ -211,15 +228,27 @@
           "properties": {
             "algorithm": "SHA-256"
           },
-          "note": "# 2. Hash\n`hash = SHA2-256(secret)`"
+          "note": "# 2. Hash\n`hash = SHA2-256(secret)`",
+          "pending": false,
+          "customWidth": 256
+        },
+        "measured": {
+          "width": 256,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 256
         }
       },
       {
         "id": "ks",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
-          "y": 64
+          "x": 64,
+          "y": 352
         },
         "width": 304,
         "data": {
@@ -248,15 +277,22 @@
             "offset": 0,
             "length": "16"
           },
-          "note": "# 2. Key\n`key = hash[0,16]`: the left 16 bytes (AES-128 key)"
-        }
+          "note": "# 2. Key\n`key = hash[0,16]`: the left 16 bytes (AES-128 key)",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "ivs",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
-          "y": 384
+          "x": 64,
+          "y": 560
         },
         "width": 304,
         "data": {
@@ -285,15 +321,22 @@
             "offset": 16,
             "length": "16"
           },
-          "note": "# 2. IV\n`iv = hash[16,16]`: the right 16 bytes"
-        }
+          "note": "# 2. IV\n`iv = hash[16,16]`: the right 16 bytes",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "cbc",
         "type": "cryptoNode",
         "position": {
-          "x": 1664,
-          "y": 64
+          "x": 464,
+          "y": 400
         },
         "width": 304,
         "data": {
@@ -364,17 +407,24 @@
             "errorUnifyCode": "",
             "errorUnifyMessage": ""
           },
-          "note": "# 3. full_mac\n`full_mac = AES_ENC_CBC(key, nonce, iv)`\n- The 32-byte nonce is exactly two blocks, so no padding."
-        }
+          "note": "# 3. full_mac\n`full_mac = AES_ENC_CBC(key, nonce, iv)`\n- The 32-byte nonce is exactly two blocks, so no padding.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "cut",
         "type": "cryptoNode",
         "position": {
-          "x": 2064,
-          "y": 64
+          "x": 864,
+          "y": 416
         },
-        "width": 304,
+        "width": 272,
         "data": {
           "id": "cut",
           "type": "cryptoNode",
@@ -401,15 +451,27 @@
             "offset": -16,
             "length": "8"
           },
-          "note": "# 3. mac\n`mac = full_mac[-16,8]`: the first 8 bytes of the last block (offset 16 bytes back from the end, length 8)."
+          "note": "# 3. mac\n`mac = full_mac[-16,8]`: the first 8 bytes of the last block (offset 16 bytes back from the end, length 8).",
+          "pending": false,
+          "customWidth": 272
+        },
+        "measured": {
+          "width": 272,
+          "height": 147
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 272
         }
       },
       {
         "id": "cmp",
         "type": "cryptoNode",
         "position": {
-          "x": 2464,
-          "y": 64
+          "x": 528,
+          "y": 672
         },
         "width": 304,
         "data": {
@@ -447,15 +509,22 @@
             "operator": "==",
             "errorOnValue": ""
           },
-          "note": "# Verify\nCompares the recomputed mac with the client mac. Not constant time: acceptable for a learning example, use `ct_equals` in a script for a real comparison."
-        }
+          "note": "# Verify\nCompares the recomputed mac with the client mac. Not constant time: acceptable for a learning example, use `ct_equals` in a script for a real comparison.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 2864,
-          "y": 64
+          "x": 928,
+          "y": 672
         },
         "width": 208,
         "data": {
@@ -480,8 +549,117 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "link-mw02sq9y-u002",
+        "type": "linkNode",
+        "position": {
+          "x": 272,
+          "y": 800
+        },
+        "data": {
+          "id": "link-mw02sq9y-u002",
+          "type": "cryptoNode",
+          "nodeType": "link",
+          "label": "Received MAC",
+          "category": "input",
+          "description": "Symbolic link to an output port. Copy freely to avoid tangled connection lines.",
+          "inputs": [
+            {
+              "id": "in",
+              "name": "In",
+              "dataType": "any",
+              "required": true,
+              "description": "Value of the linked output port"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "out",
+              "name": "Out",
+              "dataType": "bytes",
+              "description": "Same value as the linked output port"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "sourceNodeId": "in",
+            "sourcePortId": "rmac"
+          },
+          "pending": false
+        },
+        "style": {
+          "width": 160,
+          "height": 32
+        },
+        "measured": {
+          "width": 160,
+          "height": 32
+        },
+        "selected": false,
+        "dragging": false
+      },
+      {
+        "id": "link-mw02tbhn-tcfu",
+        "type": "linkNode",
+        "position": {
+          "x": 240,
+          "y": 512
+        },
+        "data": {
+          "id": "link-mw02tbhn-tcfu",
+          "type": "cryptoNode",
+          "nodeType": "link",
+          "label": "Nonce",
+          "category": "input",
+          "description": "Symbolic link to an output port. Copy freely to avoid tangled connection lines.",
+          "inputs": [
+            {
+              "id": "in",
+              "name": "In",
+              "dataType": "any",
+              "required": true,
+              "description": "Value of the linked output port"
+            }
+          ],
+          "outputs": [
+            {
+              "id": "out",
+              "name": "Out",
+              "dataType": "bytes",
+              "description": "Same value as the linked output port"
+            }
+          ],
+          "size": "small",
+          "properties": {
+            "sourceNodeId": "in",
+            "sourcePortId": "nonce"
+          },
+          "pending": false,
+          "customWidth": 128
+        },
+        "style": {
+          "width": 128,
+          "height": 32
+        },
+        "width": 128,
+        "height": 32,
+        "measured": {
+          "width": 128,
+          "height": 32
+        },
+        "selected": false,
+        "dragging": false,
+        "resizing": false
       }
     ],
     "edges": [
@@ -494,7 +672,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-in-cpub-ecdh-peerPublicKey",
@@ -505,7 +684,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-ecdh-sharedSecret-sha-data",
@@ -516,7 +696,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-sha-digest-ks-data",
@@ -525,8 +706,13 @@
         "target": "ks",
         "targetHandle": "data",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 116.5
+          }
         }
       },
       {
@@ -536,8 +722,13 @@
         "target": "ivs",
         "targetHandle": "data",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 116.5
+          }
         }
       },
       {
@@ -549,7 +740,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-ivs-sliced-cbc-iv",
@@ -560,18 +752,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
-      },
-      {
-        "id": "edge-in-nonce-cbc-plaintext",
-        "source": "in",
-        "sourceHandle": "nonce",
-        "target": "cbc",
-        "targetHandle": "plaintext",
-        "type": "custom",
-        "data": {
-          "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-cbc-ciphertext-cut-data",
@@ -582,7 +764,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-cut-sliced-cmp-a",
@@ -591,19 +774,13 @@
         "target": "cmp",
         "targetHandle": "a",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
-        }
-      },
-      {
-        "id": "edge-in-rmac-cmp-b",
-        "source": "in",
-        "sourceHandle": "rmac",
-        "target": "cmp",
-        "targetHandle": "b",
-        "type": "custom",
-        "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 92.5
+          }
         }
       },
       {
@@ -615,10 +792,42 @@
         "type": "custom",
         "data": {
           "dataType": "bool"
-        }
+        },
+        "selected": false
+      },
+      {
+        "interactionWidth": 14,
+        "selectable": false,
+        "source": "link-mw02sq9y-u002",
+        "sourceHandle": "out",
+        "target": "cmp",
+        "targetHandle": "b",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false,
+        "zIndex": 2000,
+        "animated": false,
+        "id": "xy-edge__link-mw02sq9y-u002out-cmpb"
+      },
+      {
+        "interactionWidth": 14,
+        "selectable": false,
+        "source": "link-mw02tbhn-tcfu",
+        "sourceHandle": "out",
+        "target": "cbc",
+        "targetHandle": "plaintext",
+        "type": "custom",
+        "data": {
+          "dataType": "bytes"
+        },
+        "selected": false,
+        "zIndex": 2000,
+        "animated": false,
+        "id": "xy-edge__link-mw02tbhn-tcfuout-cbcplaintext"
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

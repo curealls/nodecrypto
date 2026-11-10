@@ -74,6 +74,32 @@ describe('Document node is skipped by validate and run, kept by expand', () => {
   });
 });
 
+describe('Group node is skipped by validate and run, kept by expand', () => {
+  const withGroup = () => {
+    const pkg = JSON.parse(cmac);
+    const [a, ...rest] = pkg.workflow.nodes;
+    const group = { id: 'group-1', type: 'groupNode', position: { x: -50, y: -50 }, data: { nodeType: 'group', label: 'Group', width: 900, height: 600, captionSide: 'right' } };
+    pkg.workflow.nodes = [group, { ...a, parentId: 'group-1', position: { x: 50, y: 50 } }, ...rest];
+    return JSON.stringify(pkg);
+  };
+
+  it('validate passes with the same node count, and run matches the file without it', async () => {
+    const plain = await validateCmd({ file: 'a.ncw' }, files({ 'a.ncw': cmac }));
+    const v = await validateCmd({ file: 'g.ncw' }, files({ 'g.ncw': withGroup() }));
+    expect(v.exitCode).toBe(0);
+    expect(v.text).toBe(plain.text);
+    const a = await run({ file: 'a.ncw', json: true }, files({ 'a.ncw': cmac }));
+    const b = await run({ file: 'g.ncw', json: true }, files({ 'g.ncw': withGroup() }));
+    expect(b.exitCode).toBe(0);
+    expect(b.data).toEqual(a.data);
+  });
+
+  it('expand writes the group and its child back unchanged', async () => {
+    const r = await expand({ file: 'g.ncw' }, files({ 'g.ncw': withGroup() }));
+    expect(JSON.parse(r.text)).toEqual(JSON.parse(withGroup()));
+  });
+});
+
 describe('validate', () => {
   it('a good draft passes', async () => {
     const r = await validateCmd({ file: 'd.json' }, files({ 'd.json': JSON.stringify(draft()) }));

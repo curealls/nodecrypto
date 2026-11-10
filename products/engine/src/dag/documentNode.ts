@@ -18,8 +18,7 @@ export const DOCUMENT_MAX_SIZE = { width: 2048, height: 2048 } as const;
 
 export const isDocumentNode = (n: any): boolean => n?.type === DOCUMENT_NODE_TYPE;
 
-/** 실행·검증·해시가 보는 노드에서 Document를 뺀다. */
-export const withoutDocuments = <T>(nodes: T[]): T[] => nodes.filter((n) => !isDocumentNode(n));
+// 실행·검증·해시에서 Document를 빼는 함수는 Group과 함께 groupNode.ts의 withoutNonExecuting이다.
 
 /** 사용자가 조절한 카드 크기를 범위 안으로(격자 맞춤이면 격자 단위로). */
 export const clampDocumentSize = (w: number, h: number, grid = 0) => {

@@ -4,7 +4,7 @@
  */
 import { validatePackage } from '../dag/package';
 import { DAGScheduler } from '../dag/scheduler';
-import { isDocumentNode } from '../dag/documentNode';
+import { isNonExecutingNode } from '../dag/groupNode';
 import { designErrorFor } from '../dag/designValidation';
 import { checkDefaultValue, validateConstraint } from '../dag/portConstraint';
 import { getEffectiveEdges, LINK_NODE_TYPE } from '../dag/links';
@@ -454,9 +454,9 @@ function validatePackageFile(pkg: Record<string, any>, registry: NodeRegistry): 
 
   const issues: Issue[] = [];
   const run = (w: { nodes: any[]; edges: any[] }, prefix: string, variables?: Record<string, { type: string }>) => {
-    // Document nodes are skipped; `at` keeps the paths pointing at the original array index.
+    // Document and Group nodes are skipped; `at` keeps the paths pointing at the original array index.
     const at: number[] = [];
-    w.nodes.forEach((n, i) => { if (!isDocumentNode(n)) at.push(i); });
+    w.nodes.forEach((n, i) => { if (!isNonExecutingNode(n)) at.push(i); });
     const nodes: CNode[] = at.map((i) => w.nodes[i]).map((n) => {
       const type = n.data?.nodeType ?? n.data?.type;
       const def = registry.get(type);

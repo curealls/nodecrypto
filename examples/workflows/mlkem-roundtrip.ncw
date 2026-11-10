@@ -21,8 +21,8 @@
     "name": "mlkem-roundtrip",
     "description": "ML-KEM-768 key generation, encapsulation and decapsulation. The result is true when both sides derive the same shared secret.",
     "viewport": {
-      "x": -97,
-      "y": -6.5,
+      "x": -26.2894280762564,
+      "y": 195.94844020797234,
       "zoom": 1
     },
     "nodes": [
@@ -30,10 +30,10 @@
         "id": "gen",
         "type": "cryptoNode",
         "position": {
-          "x": 96,
-          "y": 288
+          "x": 64,
+          "y": 192
         },
-        "width": 304,
+        "width": 288,
         "data": {
           "id": "gen",
           "type": "cryptoNode",
@@ -61,23 +61,29 @@
           "properties": {
             "variant": 768
           },
-          "note": "Key generation is random: every run gives a different key pair."
+          "note": "Key generation is random: every run gives a different key pair.",
+          "pending": false,
+          "customWidth": 288
         },
         "measured": {
-          "width": 304,
+          "width": 288,
           "height": 174
         },
         "selected": false,
-        "dragging": false
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 288
+        }
       },
       {
         "id": "enc",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 496,
           "y": 64
         },
-        "width": 304,
+        "width": 368,
         "data": {
           "id": "enc",
           "type": "cryptoNode",
@@ -108,22 +114,29 @@
           ],
           "properties": {
             "variant": 768
-          }
+          },
+          "pending": false,
+          "customWidth": 368
         },
         "measured": {
-          "width": 304,
+          "width": 368,
           "height": 177
         },
-        "selected": false
+        "selected": false,
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 368
+        }
       },
       {
         "id": "dec",
         "type": "cryptoNode",
         "position": {
-          "x": 816,
-          "y": 288
+          "x": 496,
+          "y": 336
         },
-        "width": 304,
+        "width": 368,
         "data": {
           "id": "dec",
           "type": "cryptoNode",
@@ -155,23 +168,29 @@
           ],
           "properties": {
             "variant": 768
-          }
+          },
+          "pending": false,
+          "customWidth": 368
         },
         "measured": {
-          "width": 304,
+          "width": 368,
           "height": 177
         },
         "selected": false,
-        "dragging": false
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 368
+        }
       },
       {
         "id": "cmp",
         "type": "cryptoNode",
         "position": {
-          "x": 1184,
+          "x": 992,
           "y": 64
         },
-        "width": 304,
+        "width": 240,
         "data": {
           "id": "cmp",
           "type": "cryptoNode",
@@ -207,21 +226,27 @@
             "operator": "==",
             "errorOnValue": ""
           },
+          "customWidth": 240,
+          "pending": false,
           "note": "# Verdict\nBoth shared secrets are random per run, so only this `bool` is compared (`true` means encaps and decaps agree)."
         },
         "measured": {
-          "width": 304,
+          "width": 240,
           "height": 177
         },
         "selected": false,
-        "dragging": false
+        "dragging": false,
+        "resizing": false,
+        "style": {
+          "width": 240
+        }
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 1584,
-          "y": 96
+          "x": 1024,
+          "y": 352
         },
         "width": 208,
         "data": {
@@ -246,14 +271,52 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
+          "properties": {},
+          "pending": false
         },
         "measured": {
           "width": 208,
           "height": 142
         },
-        "selected": true,
+        "selected": false,
         "dragging": false
+      },
+      {
+        "id": "node-1793673880219-uxdq",
+        "type": "documentNode",
+        "position": {
+          "x": 64,
+          "y": -128
+        },
+        "data": {
+          "id": "node-1793673880219-uxdq",
+          "type": "cryptoNode",
+          "nodeType": "document",
+          "label": "Document",
+          "category": "input",
+          "description": "Explanation text shown on the canvas. Not executed.",
+          "inputs": [],
+          "outputs": [],
+          "properties": {},
+          "scale": "md",
+          "width": 1168,
+          "height": 160,
+          "note": "# Caution\n\nThe ML-KEM Encapsulate process is probabilistic: it injects fresh internal randomness on every run, producing a completely unique `Shared Key` and `Ciphertext` each time, even with the same public key. \n\nThis dynamically generated secret cannot be statically predicted; only a recipient holding the corresponding `Secret Key` can process the `Ciphertext` via ML-KEM Decapsulate to accurately recover the matching `Shared Key` for that specific session.",
+          "bg": "yellow"
+        },
+        "measured": {
+          "width": 1168,
+          "height": 160
+        },
+        "selected": false,
+        "dragging": false,
+        "width": 1168,
+        "height": 160,
+        "resizing": false,
+        "style": {
+          "width": 1168,
+          "height": 160
+        }
       }
     ],
     "edges": [
@@ -264,8 +327,10 @@
         "target": "enc",
         "targetHandle": "publicKey",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal"
         }
       },
       {
@@ -275,8 +340,13 @@
         "target": "dec",
         "targetHandle": "ciphertext",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 78.50004933922278
+          }
         }
       },
       {
@@ -286,8 +356,10 @@
         "target": "dec",
         "targetHandle": "secretKey",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal"
         }
       },
       {
@@ -299,7 +371,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-dec-sharedSecret-cmp-b",
@@ -308,8 +381,10 @@
         "target": "cmp",
         "targetHandle": "b",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal"
         }
       },
       {
@@ -319,8 +394,13 @@
         "target": "out",
         "targetHandle": "same",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bool"
+          "dataType": "bool",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 100.50001525878906
+          }
         }
       }
     ]

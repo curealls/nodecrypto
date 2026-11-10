@@ -15,8 +15,8 @@
     "name": "cmac-subkey",
     "description": "RFC 4493 CMAC subkeys K1/K2: AES-128-ECB(key, 0^128) -> built-in script (builtin-script.md §12.1)",
     "viewport": {
-      "x": 45,
-      "y": 230.5,
+      "x": 122,
+      "y": 239.5,
       "zoom": 1
     },
     "nodes": [
@@ -50,7 +50,8 @@
             "valueString": "Hello NodeCrypto!",
             "valueInt": 0,
             "valueBool": false
-          }
+          },
+          "pending": false
         },
         "selected": false,
         "measured": {
@@ -88,7 +89,8 @@
             "valueString": "Hello NodeCrypto!",
             "valueInt": 0,
             "valueBool": false
-          }
+          },
+          "pending": false
         },
         "selected": false,
         "measured": {
@@ -100,7 +102,7 @@
         "id": "node-1791034725444-0rm7",
         "type": "cryptoNode",
         "position": {
-          "x": 336,
+          "x": 320,
           "y": 64
         },
         "data": {
@@ -170,12 +172,20 @@
             "errorUnify": false,
             "errorUnifyCode": "",
             "errorUnifyMessage": ""
-          }
+          },
+          "pending": false,
+          "customWidth": 288
         },
         "selected": false,
         "measured": {
-          "width": 304,
+          "width": 288,
           "height": 177
+        },
+        "dragging": false,
+        "width": 288,
+        "resizing": false,
+        "style": {
+          "width": 288
         }
       },
       {
@@ -230,12 +240,19 @@
             "errorUnify": false,
             "errorUnifyCode": "",
             "errorUnifyMessage": ""
-          }
+          },
+          "pending": false,
+          "customWidth": 240
         },
         "selected": false,
         "measured": {
-          "width": 304,
+          "width": 240,
           "height": 205
+        },
+        "width": 240,
+        "resizing": false,
+        "style": {
+          "width": 240
         }
       }
     ],
@@ -250,7 +267,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1791034725443-thzyvalue-node-1791034725444-0rm7plaintext"
+        "id": "xy-edge__node-1791034725443-thzyvalue-node-1791034725444-0rm7plaintext",
+        "selected": false
       },
       {
         "source": "node-1791034725443-vjew",
@@ -262,7 +280,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1791034725443-vjewvalue-node-1791034725444-0rm7key"
+        "id": "xy-edge__node-1791034725443-vjewvalue-node-1791034725444-0rm7key",
+        "selected": false
       },
       {
         "source": "node-1791034725444-0rm7",
@@ -274,7 +293,8 @@
           "stroke": "#3b82f6",
           "strokeWidth": 2
         },
-        "id": "xy-edge__node-1791034725444-0rm7ciphertext-node-1791034725445-1efhl"
+        "id": "xy-edge__node-1791034725444-0rm7ciphertext-node-1791034725445-1efhl",
+        "selected": false
       }
     ]
   },

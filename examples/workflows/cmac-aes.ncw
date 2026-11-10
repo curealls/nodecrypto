@@ -31,12 +31,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-95d92c7c",
     "name": "cmac-aes",
     "description": "AES-CMAC of a 40-byte message.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 53,
+      "y": 247.5,
       "zoom": 1
     },
     "nodes": [
@@ -76,14 +75,20 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       },
       {
         "id": "cmac",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -118,8 +123,15 @@
           "properties": {
             "cipher": "AES"
           },
-          "note": "# AES-CMAC\n- Test vector: RFC 4493 section 4, example 3 (40-byte message)\n- Deterministic: the same key and message always give the same 16-byte tag."
-        }
+          "note": "# AES-CMAC\n- Test vector: RFC 4493 section 4, example 3 (40-byte message)\n- Deterministic: the same key and message always give the same 16-byte tag.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 177
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
@@ -151,8 +163,14 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false
       }
     ],
     "edges": [
@@ -189,8 +207,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

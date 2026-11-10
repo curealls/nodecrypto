@@ -15,6 +15,12 @@
         "required": true
       },
       {
+        "id": "pt",
+        "name": "Plaintext",
+        "dataType": "bytes",
+        "required": true
+      },
+      {
         "id": "nonce",
         "name": "Nonce",
         "dataType": "bytes",
@@ -23,12 +29,6 @@
       {
         "id": "aad",
         "name": "AAD",
-        "dataType": "bytes",
-        "required": true
-      },
-      {
-        "id": "pt",
-        "name": "Plaintext",
         "dataType": "bytes",
         "required": true
       }
@@ -48,12 +48,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-2bbc85a8",
     "name": "aes-gcm-named",
     "description": "AES-128-GCM encryption of aes-gcm with role names for the fixed ports of the AES node (portNames).",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 73,
+      "y": 196.5,
       "zoom": 1
     },
     "nodes": [
@@ -81,6 +80,12 @@
               "defaultValue": "000102030405060708090a0b0c0d0e0f"
             },
             {
+              "id": "pt",
+              "name": "Plaintext",
+              "dataType": "bytes",
+              "defaultValue": "47616c6c696120657374206f6d6e69732064697669736120696e207061727465732074726573"
+            },
+            {
               "id": "nonce",
               "name": "Nonce",
               "dataType": "bytes",
@@ -91,12 +96,6 @@
               "name": "AAD",
               "dataType": "bytes",
               "defaultValue": "8040f17b8041f8d35501a0b2"
-            },
-            {
-              "id": "pt",
-              "name": "Plaintext",
-              "dataType": "bytes",
-              "defaultValue": "47616c6c696120657374206f6d6e69732064697669736120696e207061727465732074726573"
             }
           ],
           "size": "small",
@@ -105,14 +104,21 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "aes",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 416,
           "y": 64
         },
         "width": 304,
@@ -184,15 +190,22 @@
             "errorUnifyCode": "",
             "errorUnifyMessage": ""
           },
-          "note": "# AES-128-GCM\n- Test vector: RFC 7714 section 16.1.1 (SRTP packet)\n- 96-bit nonce, the size GCM is designed for. Never reuse a nonce under the same key.\n- `aad` is authenticated but not encrypted; `tag` is the 128-bit authentication tag (this port exists only because `mode` is `GCM`)."
-        }
+          "note": "# AES-128-GCM\n- Test vector: RFC 7714 section 16.1.1 (SRTP packet)\n- 96-bit nonce, the size GCM is designed for. Never reuse a nonce under the same key.\n- `aad` is authenticated but not encrypted; `tag` is the 128-bit authentication tag (this port exists only because `mode` is `GCM`).",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 237
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 832,
+          "y": 96
         },
         "width": 208,
         "data": {
@@ -223,8 +236,15 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -294,8 +314,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

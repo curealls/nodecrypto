@@ -31,12 +31,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-ed3726e4",
     "name": "ed25519-sign",
     "description": "Ed25519 signature of a message with a 32-byte secret key.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 37,
+      "y": 230.5,
       "zoom": 1
     },
     "nodes": [
@@ -76,14 +75,20 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 172
+        },
+        "selected": false
       },
       {
         "id": "sign",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -119,8 +124,15 @@
             }
           ],
           "properties": {},
-          "note": "# Ed25519 signature\n- Test vector: RFC 8032 section 7.1, TEST 2 (message `72`)\n- Deterministic: Ed25519 has no per-signature randomness, so the signature can be compared directly."
-        }
+          "note": "# Ed25519 signature\n- Test vector: RFC 8032 section 7.1, TEST 2 (message `72`)\n- Deterministic: Ed25519 has no per-signature randomness, so the signature can be compared directly.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 149
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
@@ -152,8 +164,14 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false
       }
     ],
     "edges": [
@@ -190,8 +208,7 @@
           "dataType": "bytes"
         }
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }

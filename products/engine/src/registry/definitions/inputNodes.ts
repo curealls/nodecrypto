@@ -571,4 +571,18 @@ export const inputNodes: NodeDefinition[] = [
     errorProfile: NONE_PROFILE,
     execute: async () => ({}),
   },
+  {
+    // Group: a frame that holds nodes, links, link boxes and documents (children via parentId). Skipped by the
+    // runner and validators like Document (dag/groupNode.ts); hidden so drafts never see it.
+    type: 'group',
+    label: 'Group',
+    category: 'input',
+    description: 'A frame that holds nodes on the canvas so they move together. Not executed.',
+    hidden: true,
+    inputs: [],
+    outputs: [],
+    propertySchema: [],
+    errorProfile: NONE_PROFILE,
+    execute: async () => ({}),
+  },
 ];

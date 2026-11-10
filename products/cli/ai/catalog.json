@@ -1,6 +1,6 @@
 {
   "catalogVersion": 1,
-  "engineVersion": "0.2.7",
+  "engineVersion": "0.2.8",
   "nodes": [
     {
       "type": "input-dialog",

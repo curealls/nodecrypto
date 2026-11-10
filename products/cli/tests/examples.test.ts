@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync } from 'node:fs';
+import { computeDefinitionId } from 'nodecrypto-engine/dag/customNode';
 import { expand, run, validateCmd, type Deps } from '../src/commands';
 
 // examples/workflows: every .ncw has an .expect.json (D-15); the CLI runs it the way a user would.
@@ -33,10 +34,14 @@ describe('examples/workflows', () => {
     expect(Object.fromEntries(ports.map((p) => [p.name, p.defaultValue])), 'default values the Run dialog starts with').toEqual(e.inputs);
   });
 
-  it.each(drafts)('draft %s expands to the committed .ncw', async (name) => {
+  // The committed .ncw files are laid out by hand in the app, so only the meaning has to match the draft:
+  // the definition identifier covers interface, nodes, properties, ports (in order) and edges, not layout.
+  // did-auth-server.ncw uses Link nodes to untangle its lines, which drafts cannot express.
+  const LAYOUT_ONLY_LINKS = new Set(['did-auth-server']);
+  it.each(drafts.filter((n) => !LAYOUT_ONLY_LINKS.has(n)))('draft %s expands to a workflow equivalent to the committed .ncw', async (name) => {
     const r = await expand({ file: path(`drafts/${name}.json`) }, deps);
     expect(r.exitCode).toBe(0);
-    expect(r.data).toEqual(JSON.parse(readFileSync(path(`${name}.ncw`), 'utf8')));
+    expect(computeDefinitionId(r.data as any)).toBe(computeDefinitionId(JSON.parse(readFileSync(path(`${name}.ncw`), 'utf8'))));
   });
 
   it('sha256-link keeps its Link node through validate (B11)', async () => {

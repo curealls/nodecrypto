@@ -43,12 +43,11 @@
   },
   "requires": [],
   "workflow": {
-    "id": "wf-6a447df8",
     "name": "rsa-components-decrypt",
     "description": "RSA-OAEP decryption with a private key built from its components N, e and d.",
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 106,
+      "y": 85.5,
       "zoom": 1
     },
     "nodes": [
@@ -57,7 +56,7 @@
         "type": "cryptoNode",
         "position": {
           "x": 64,
-          "y": 64
+          "y": 176
         },
         "width": 208,
         "data": {
@@ -100,14 +99,21 @@
             "defaultNamePrefix": "Arg",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 232
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "enc",
         "type": "cryptoNode",
         "position": {
-          "x": 464,
+          "x": 432,
           "y": 64
         },
         "width": 304,
@@ -153,15 +159,22 @@
           "properties": {
             "keyType": "Private"
           },
-          "note": "# RSA Key Encoder\n- Builds the PKCS#8 private key from N, e and d. The prime factors p and q are computed from them.\n- The values are a throw-away 1024-bit test key generated for this example; never use it for real data."
-        }
+          "note": "# RSA Key Encoder\n- Builds the PKCS#8 private key from N, e and d. The prime factors p and q are computed from them.\n- The values are a throw-away 1024-bit test key generated for this example; never use it for real data.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "dec",
         "type": "cryptoNode",
         "position": {
-          "x": 864,
-          "y": 64
+          "x": 432,
+          "y": 320
         },
         "width": 304,
         "data": {
@@ -204,15 +217,22 @@
           "properties": {
             "hash": "SHA-256"
           },
-          "note": "# RSA Decrypt\n- RSA-OAEP with SHA-256 and an empty label.\n- The ciphertext was produced with Node crypto (OpenSSL), an independent implementation."
-        }
+          "note": "# RSA Decrypt\n- RSA-OAEP with SHA-256 and an empty label.\n- The ciphertext was produced with Node crypto (OpenSSL), an independent implementation.",
+          "pending": false
+        },
+        "measured": {
+          "width": 304,
+          "height": 207
+        },
+        "selected": false,
+        "dragging": false
       },
       {
         "id": "out",
         "type": "cryptoNode",
         "position": {
-          "x": 1264,
-          "y": 64
+          "x": 848,
+          "y": 240
         },
         "width": 208,
         "data": {
@@ -237,8 +257,15 @@
             "defaultNamePrefix": "Return",
             "defaultDataType": "bytes"
           },
-          "properties": {}
-        }
+          "properties": {},
+          "pending": false
+        },
+        "measured": {
+          "width": 208,
+          "height": 142
+        },
+        "selected": false,
+        "dragging": false
       }
     ],
     "edges": [
@@ -251,7 +278,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-in-e-enc-e",
@@ -262,7 +290,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-in-d-enc-d",
@@ -273,7 +302,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-enc-key-dec-privateKey",
@@ -282,8 +312,13 @@
         "target": "dec",
         "targetHandle": "privateKey",
         "type": "custom",
+        "selected": false,
         "data": {
-          "dataType": "bytes"
+          "dataType": "bytes",
+          "lineType": "orthogonal",
+          "route": {
+            "m": 108.5
+          }
         }
       },
       {
@@ -295,7 +330,8 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       },
       {
         "id": "edge-dec-plaintext-out-plaintext",
@@ -306,10 +342,10 @@
         "type": "custom",
         "data": {
           "dataType": "bytes"
-        }
+        },
+        "selected": false
       }
-    ],
-    "metadata": {}
+    ]
   },
   "definitions": {}
 }
